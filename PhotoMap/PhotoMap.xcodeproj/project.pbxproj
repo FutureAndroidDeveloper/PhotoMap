@@ -8,8 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */; };
+		590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B675322F0FD0B00D439B0 /* TimelineViewController.swift */; };
+		590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B675522F0FD1E00D439B0 /* MoreViewController.swift */; };
+		590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B675B22F0FE9100D439B0 /* TabBarCoordinator.swift */; };
+		590B675E22F102DF00D439B0 /* MapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B675D22F102DF00D439B0 /* MapCoordinator.swift */; };
+		590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B675F22F103C400D439B0 /* TimelineCoordinator.swift */; };
+		590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676122F1040A00D439B0 /* MoreCoordinator.swift */; };
+		590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676322F1053400D439B0 /* AppCoordinator.swift */; };
 		5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4522F0B6450089947C /* AppDelegate.swift */; };
-		5929CC4822F0B6450089947C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4722F0B6450089947C /* ViewController.swift */; };
+		5929CC4822F0B6450089947C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4722F0B6450089947C /* MapViewController.swift */; };
 		5929CC4B22F0B6450089947C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4922F0B6450089947C /* Main.storyboard */; };
 		5929CC4D22F0B6460089947C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4C22F0B6460089947C /* Assets.xcassets */; };
 		5929CC5022F0B6460089947C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4E22F0B6460089947C /* LaunchScreen.storyboard */; };
@@ -22,9 +29,16 @@
 		1080D7247CEDCAB46288F2A3 /* Pods-PhotoMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.release.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.release.xcconfig"; sourceTree = "<group>"; };
 		236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardInitializable.swift; sourceTree = "<group>"; };
+		590B675322F0FD0B00D439B0 /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
+		590B675522F0FD1E00D439B0 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		590B675B22F0FE9100D439B0 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
+		590B675D22F102DF00D439B0 /* MapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCoordinator.swift; sourceTree = "<group>"; };
+		590B675F22F103C400D439B0 /* TimelineCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineCoordinator.swift; sourceTree = "<group>"; };
+		590B676122F1040A00D439B0 /* MoreCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCoordinator.swift; sourceTree = "<group>"; };
+		590B676322F1053400D439B0 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		5929CC4222F0B6450089947C /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5929CC4522F0B6450089947C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5929CC4722F0B6450089947C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5929CC4722F0B6450089947C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		5929CC4A22F0B6450089947C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5929CC4C22F0B6460089947C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5929CC4F22F0B6460089947C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -59,8 +73,47 @@
 			isa = PBXGroup;
 			children = (
 				5929CC4522F0B6450089947C /* AppDelegate.swift */,
+				590B676322F1053400D439B0 /* AppCoordinator.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		590B675722F0FD2500D439B0 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				590B675B22F0FE9100D439B0 /* TabBarCoordinator.swift */,
+				590B675822F0FD9F00D439B0 /* Map */,
+				590B675922F0FDA600D439B0 /* Timeline */,
+				590B675A22F0FDAE00D439B0 /* More */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		590B675822F0FD9F00D439B0 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				5929CC4722F0B6450089947C /* MapViewController.swift */,
+				590B675D22F102DF00D439B0 /* MapCoordinator.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		590B675922F0FDA600D439B0 /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				590B675322F0FD0B00D439B0 /* TimelineViewController.swift */,
+				590B675F22F103C400D439B0 /* TimelineCoordinator.swift */,
+			);
+			path = Timeline;
+			sourceTree = "<group>";
+		};
+		590B675A22F0FDAE00D439B0 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				590B675522F0FD1E00D439B0 /* MoreViewController.swift */,
+				590B676122F1040A00D439B0 /* MoreCoordinator.swift */,
+			);
+			path = More;
 			sourceTree = "<group>";
 		};
 		5929CC3922F0B6450089947C = {
@@ -86,7 +139,7 @@
 			children = (
 				590B671C22F0DC5E00D439B0 /* Application */,
 				59EC38C422F0CD910034DFF4 /* Library */,
-				5929CC4722F0B6450089947C /* ViewController.swift */,
+				590B675722F0FD2500D439B0 /* Classes */,
 				5929CC4922F0B6450089947C /* Main.storyboard */,
 				5929CC4C22F0B6460089947C /* Assets.xcassets */,
 				5929CC4E22F0B6460089947C /* LaunchScreen.storyboard */,
@@ -247,10 +300,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5929CC4822F0B6450089947C /* ViewController.swift in Sources */,
+				590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */,
+				5929CC4822F0B6450089947C /* MapViewController.swift in Sources */,
+				590B675E22F102DF00D439B0 /* MapCoordinator.swift in Sources */,
 				59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */,
 				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
+				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
+				590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */,
+				590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */,
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
+				590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */,
+				590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
