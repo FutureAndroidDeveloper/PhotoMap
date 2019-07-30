@@ -3,22 +3,25 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */; };
 		5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4522F0B6450089947C /* AppDelegate.swift */; };
 		5929CC4822F0B6450089947C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4722F0B6450089947C /* ViewController.swift */; };
 		5929CC4B22F0B6450089947C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4922F0B6450089947C /* Main.storyboard */; };
 		5929CC4D22F0B6460089947C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4C22F0B6460089947C /* Assets.xcassets */; };
 		5929CC5022F0B6460089947C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4E22F0B6460089947C /* LaunchScreen.storyboard */; };
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
+		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		6D1EA8D621E01ABA6C7FC786 /* Pods_PhotoMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1080D7247CEDCAB46288F2A3 /* Pods-PhotoMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.release.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.release.xcconfig"; sourceTree = "<group>"; };
 		236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardInitializable.swift; sourceTree = "<group>"; };
 		5929CC4222F0B6450089947C /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5929CC4522F0B6450089947C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5929CC4722F0B6450089947C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -27,6 +30,7 @@
 		5929CC4F22F0B6460089947C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5929CC5122F0B6460089947C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		CFD69C4753C329D6D88A1504 /* Pods-PhotoMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.debug.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -48,8 +52,15 @@
 				CFD69C4753C329D6D88A1504 /* Pods-PhotoMap.debug.xcconfig */,
 				1080D7247CEDCAB46288F2A3 /* Pods-PhotoMap.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		590B671C22F0DC5E00D439B0 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				5929CC4522F0B6450089947C /* AppDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 		5929CC3922F0B6450089947C = {
@@ -73,7 +84,8 @@
 		5929CC4422F0B6450089947C /* PhotoMap */ = {
 			isa = PBXGroup;
 			children = (
-				5929CC4522F0B6450089947C /* AppDelegate.swift */,
+				590B671C22F0DC5E00D439B0 /* Application */,
+				59EC38C422F0CD910034DFF4 /* Library */,
 				5929CC4722F0B6450089947C /* ViewController.swift */,
 				5929CC4922F0B6450089947C /* Main.storyboard */,
 				5929CC4C22F0B6460089947C /* Assets.xcassets */,
@@ -82,6 +94,15 @@
 				5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */,
 			);
 			path = PhotoMap;
+			sourceTree = "<group>";
+		};
+		59EC38C422F0CD910034DFF4 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */,
+				590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 		6EE61FC1DBF8B2A9FD5E4B03 /* Frameworks */ = {
@@ -227,6 +248,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5929CC4822F0B6450089947C /* ViewController.swift in Sources */,
+				59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */,
+				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
