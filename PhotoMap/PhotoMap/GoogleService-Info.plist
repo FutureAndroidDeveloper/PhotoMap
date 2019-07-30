@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>776491416891-9trftdskcdiqsaftefb7vsp8jfvqqds0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.776491416891-9trftdskcdiqsaftefb7vsp8jfvqqds0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCTguVqbzJ6somDwlJ9F0VkK_IBBdYHgyU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>776491416891</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>student.PhotoMap</string>
+	<key>PROJECT_ID</key>
+	<string>photomap-3ddfd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>photomap-3ddfd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:776491416891:ios:59d6006cbea02aab</string>
+	<key>DATABASE_URL</key>
+	<string>https://photomap-3ddfd.firebaseio.com</string>
+</dict>
+</plist>
