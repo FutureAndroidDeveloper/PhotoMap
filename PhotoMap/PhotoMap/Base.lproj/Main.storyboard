@@ -17,13 +17,39 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BbE-t8-Taz">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KTx-Ye-sNq">
+                                <rect key="frame" x="291" y="50" width="44" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="Tfg-if-cTM"/>
+                                    <constraint firstAttribute="height" constant="43" id="fOI-vI-vOp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" image="locationInactive"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="BbE-t8-Taz" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="4Ze-rS-UC6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KTx-Ye-sNq" secondAttribute="trailing" constant="40" id="Oga-yq-zwf"/>
+                            <constraint firstItem="BbE-t8-Taz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="S3y-DP-Lle"/>
+                            <constraint firstItem="KTx-Ye-sNq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="iak-HT-rSA"/>
+                            <constraint firstItem="BbE-t8-Taz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="sUi-NR-Fo5"/>
+                            <constraint firstItem="BbE-t8-Taz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="uD3-xD-fd8"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="locationButton" destination="KTx-Ye-sNq" id="14j-4S-7mG"/>
+                        <outlet property="mapView" destination="BbE-t8-Taz" id="jM1-Y4-8SY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-278" y="-9"/>
+            <point key="canvasLocation" x="-279.19999999999999" y="-9.4452773613193415"/>
         </scene>
         <!--Timeline View Controller-->
         <scene sceneID="coU-Gd-8Nv">
@@ -56,4 +82,7 @@
             <point key="canvasLocation" x="1105" y="-9"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="locationInactive" width="50" height="50"/>
+    </resources>
 </document>

@@ -20,13 +20,13 @@ class TabBarCoordinator: BaseCoordinator<Void> {
         // Setup NavigationControlles
         let mapNavigation = UINavigationController()
         mapNavigation.isNavigationBarHidden = true
-        mapNavigation.tabBarItem = UITabBarItem(title: "Map", image: nil, selectedImage: nil)
+        mapNavigation.tabBarItem = UITabBarItem(title: "Map", image: UIImage(named: "compass"), selectedImage: nil)
         
         let timelineNavigation = UINavigationController()
-        timelineNavigation.tabBarItem = UITabBarItem(title: "Timeline", image: nil, selectedImage: nil)
+        timelineNavigation.tabBarItem = UITabBarItem(title: "Timeline", image: UIImage(named: "timeline"), selectedImage: nil)
         
         let moreNavigation = UINavigationController()
-        moreNavigation.tabBarItem = UITabBarItem(title: "More", image: nil, selectedImage: nil)
+        moreNavigation.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
         
         // Setup TabBarViewController
         let tabBarController = UITabBarController()
