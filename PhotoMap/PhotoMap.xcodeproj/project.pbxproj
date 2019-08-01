@@ -21,9 +21,14 @@
 		5929CC4B22F0B6450089947C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4922F0B6450089947C /* Main.storyboard */; };
 		5929CC4D22F0B6460089947C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4C22F0B6460089947C /* Assets.xcassets */; };
 		5929CC5022F0B6460089947C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4E22F0B6460089947C /* LaunchScreen.storyboard */; };
+		593A055622F363D900FCD118 /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593A055522F363D900FCD118 /* PhotoLibraryService.swift */; };
+		593A055822F39F5500FCD118 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593A055722F39F5500FCD118 /* LocationService.swift */; };
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
 		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		59FEEF8B22F215E1004178AC /* MKMapView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8A22F215E1004178AC /* MKMapView+Rx.swift */; };
+		59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */; };
+		59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */; };
+		59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF9122F27BD0004178AC /* MapViewModel.swift */; };
 		6D1EA8D621E01ABA6C7FC786 /* Pods_PhotoMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,9 +51,14 @@
 		5929CC4C22F0B6460089947C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5929CC4F22F0B6460089947C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5929CC5122F0B6460089947C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		593A055522F363D900FCD118 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		593A055722F39F5500FCD118 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		59FEEF8A22F215E1004178AC /* MKMapView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Rx.swift"; sourceTree = "<group>"; };
+		59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+RxCreate.swift"; sourceTree = "<group>"; };
+		59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Rx.swift"; sourceTree = "<group>"; };
+		59FEEF9122F27BD0004178AC /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		CFD69C4753C329D6D88A1504 /* Pods-PhotoMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.debug.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +108,7 @@
 			children = (
 				5929CC4722F0B6450089947C /* MapViewController.swift */,
 				590B675D22F102DF00D439B0 /* MapCoordinator.swift */,
+				59FEEF9122F27BD0004178AC /* MapViewModel.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -125,6 +136,8 @@
 			children = (
 				590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */,
 				59FEEF8A22F215E1004178AC /* MKMapView+Rx.swift */,
+				59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */,
+				59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -162,9 +175,19 @@
 			path = PhotoMap;
 			sourceTree = "<group>";
 		};
+		593A055422F363B500FCD118 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				593A055722F39F5500FCD118 /* LocationService.swift */,
+				593A055522F363D900FCD118 /* PhotoLibraryService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		59EC38C422F0CD910034DFF4 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				593A055422F363B500FCD118 /* Services */,
 				590B676522F115C500D439B0 /* Extensions */,
 				59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */,
 				590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */,
@@ -317,8 +340,13 @@
 				590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */,
 				5929CC4822F0B6450089947C /* MapViewController.swift in Sources */,
 				590B675E22F102DF00D439B0 /* MapCoordinator.swift in Sources */,
+				59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */,
+				593A055822F39F5500FCD118 /* LocationService.swift in Sources */,
 				59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */,
 				59FEEF8B22F215E1004178AC /* MKMapView+Rx.swift in Sources */,
+				59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */,
+				59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */,
+				593A055622F363D900FCD118 /* PhotoLibraryService.swift in Sources */,
 				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
 				590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */,
