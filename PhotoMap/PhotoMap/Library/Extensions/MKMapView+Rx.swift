@@ -46,6 +46,7 @@ extension Reactive where Base: MKMapView {
         return delegate.methodInvoked(#selector(MKMapViewDelegate.mapView(_:didChange:animated:)))
             .map { parameters in
                 let mapView = parameters[0] as! MKMapView
+                
                 return mapView.userTrackingMode
             }
     }

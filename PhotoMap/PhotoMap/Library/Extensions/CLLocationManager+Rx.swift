@@ -40,4 +40,12 @@ extension Reactive where Base: CLLocationManager {
                 return parameters[1] as! [CLLocation]
         }
     }
+    
+    var didChangeAuthorization: Observable<CLAuthorizationStatus> {
+        return delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManager(_:didChangeAuthorization:)))
+            .map { parameters in
+                return CLLocationManager.authorizationStatus()
+            }
+    }
+    
 }

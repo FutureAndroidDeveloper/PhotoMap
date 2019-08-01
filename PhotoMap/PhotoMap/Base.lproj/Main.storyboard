@@ -28,7 +28,16 @@
                                     <constraint firstAttribute="height" constant="43" id="fOI-vI-vOp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" image="locationInactive"/>
+                                <state key="normal" image="discover"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHR-vF-B7K">
+                                <rect key="frame" x="211" y="48" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="mvW-PX-BCl"/>
+                                    <constraint firstAttribute="height" constant="50" id="vDa-rt-Y6i"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" image="camera"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -36,13 +45,16 @@
                             <constraint firstItem="BbE-t8-Taz" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="4Ze-rS-UC6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KTx-Ye-sNq" secondAttribute="trailing" constant="40" id="Oga-yq-zwf"/>
                             <constraint firstItem="BbE-t8-Taz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="S3y-DP-Lle"/>
+                            <constraint firstItem="NHR-vF-B7K" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="28" id="hao-JZ-dsN"/>
                             <constraint firstItem="KTx-Ye-sNq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="iak-HT-rSA"/>
                             <constraint firstItem="BbE-t8-Taz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="sUi-NR-Fo5"/>
                             <constraint firstItem="BbE-t8-Taz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="uD3-xD-fd8"/>
+                            <constraint firstItem="KTx-Ye-sNq" firstAttribute="leading" secondItem="NHR-vF-B7K" secondAttribute="trailing" constant="30" id="zLO-R9-hV9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="cameraButton" destination="NHR-vF-B7K" id="cQM-YT-TYO"/>
                         <outlet property="locationButton" destination="KTx-Ye-sNq" id="14j-4S-7mG"/>
                         <outlet property="mapView" destination="BbE-t8-Taz" id="jM1-Y4-8SY"/>
                     </connections>
@@ -83,6 +95,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="locationInactive" width="50" height="50"/>
+        <image name="camera" width="60" height="60"/>
+        <image name="discover" width="50" height="50"/>
     </resources>
 </document>
