@@ -39,6 +39,9 @@ class MapCoordinator: BaseCoordinator<Void> {
             })
             .disposed(by: disposeBag)
         
+        
+        
+        
         return .never()
     }
     
@@ -46,25 +49,42 @@ class MapCoordinator: BaseCoordinator<Void> {
     
     private func showPhotoLibrary(in viewController: UIViewController) {
         let imagePicker = UIImagePickerController()
-        
         imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
+        imagePicker.allowsEditing = false
         viewController.present(imagePicker, animated: true)
 
-        imagePicker.rx.didFinishPickingMediaWithInfo
+        let imagePickerResult = imagePicker.rx.didFinishPickingMediaWithInfo.share()
+        
+        let image = imagePickerResult.asObservable()
             .map { info -> UIImage in
-                if imagePicker.allowsEditing {
-                    return info[UIImagePickerController.InfoKey.editedImage.rawValue] as! UIImage
-                } else {
-                    return info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
-                }
+                return info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
             }
-            .subscribe(onNext: { image in
-                // TODO: - Pass image in View Model if it is necessary
-                print("Image in Map Coordinator = \(image)")
+        
+        let date = imagePickerResult.asObservable()
+            .map { info -> Date in
+                let asset = info[UIImagePickerController.InfoKey.phAsset.rawValue] as! PHAsset
+                return asset.creationDate!
+            }
+        
+        Observable.combineLatest(image, date)
+            .subscribe(onNext: { image, date in
                 imagePicker.dismiss(animated: true)
+                
+                // TODO: - What is next?
+                self.showPostViewController(on: viewController, image: image, date: date)
             })
             .disposed(by: disposeBag)
+    }
+
+    private func showPostViewController(on rootViewController: UIViewController, image: UIImage, date: Date) -> Observable<Post?> {
+        let postCoordinator = PostCoordinator(rootViewController: rootViewController, image: image, date: date)
+        return coordinate(to: postCoordinator)
+            .map { result in
+                switch result {
+                case .post(let post): return post
+                case .cancel: return nil
+                }
+            }
     }
     
     private func displayImageSheet(in viewController: UIViewController) {
@@ -81,18 +101,13 @@ class MapCoordinator: BaseCoordinator<Void> {
         photoMenu.addAction(cameraAction)
         photoMenu.addAction(libraryAction)
         photoMenu.addAction(cancelAction)
-        
         viewController.present(photoMenu, animated: true, completion: nil)
     }
     
-    
     private func requestPermissions(in viewController: UIViewController, title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
         let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ in
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
             
             if UIApplication.shared.canOpenURL(settingsUrl) {
                 UIApplication.shared.open(settingsUrl)
@@ -102,7 +117,6 @@ class MapCoordinator: BaseCoordinator<Void> {
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         alertController.addAction(cancelAction)
         alertController.addAction(settingsAction)
-        
         viewController.present(alertController, animated: true, completion: nil)
     }
 }

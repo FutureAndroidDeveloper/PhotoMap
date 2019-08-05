@@ -46,7 +46,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
         cameraButton.rx.tap
             .bind(to: viewModel.cameraButtonTapped)
             .disposed(by: bag)
-
         
         locationButton.rx.tap
             .bind(to: viewModel.locationButtonTapped)

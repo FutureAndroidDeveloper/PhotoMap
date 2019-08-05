@@ -10,6 +10,49 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Post View Controller-->
+        <scene sceneID="dn1-C7-bWa">
+            <objects>
+                <viewController storyboardIdentifier="PostViewController" id="aJP-ha-EMr" customClass="PostViewController" customModule="PhotoMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s4R-Vy-tpW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jt-C3-k1k">
+                                <rect key="frame" x="30" y="30" width="315" height="607"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zBc-9A-ONg" customClass="PostView" customModule="PhotoMap" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="315" height="447"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zBc-9A-ONg" firstAttribute="leading" secondItem="5jt-C3-k1k" secondAttribute="leading" id="gdZ-BR-Jse"/>
+                                    <constraint firstItem="zBc-9A-ONg" firstAttribute="top" secondItem="5jt-C3-k1k" secondAttribute="top" id="j9r-ko-kQ9"/>
+                                    <constraint firstAttribute="trailing" secondItem="zBc-9A-ONg" secondAttribute="trailing" id="sYP-xS-ukm"/>
+                                    <constraint firstItem="zBc-9A-ONg" firstAttribute="width" secondItem="5jt-C3-k1k" secondAttribute="width" id="tIF-tJ-Nqb"/>
+                                    <constraint firstAttribute="bottom" secondItem="zBc-9A-ONg" secondAttribute="bottom" id="zN2-RJ-TiX"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="g7B-OQ-ySA" firstAttribute="trailing" secondItem="5jt-C3-k1k" secondAttribute="trailing" constant="30" id="Or5-YS-rb7"/>
+                            <constraint firstItem="g7B-OQ-ySA" firstAttribute="bottom" secondItem="5jt-C3-k1k" secondAttribute="bottom" constant="30" id="n94-ye-wVz"/>
+                            <constraint firstItem="5jt-C3-k1k" firstAttribute="leading" secondItem="g7B-OQ-ySA" secondAttribute="leading" constant="30" id="vze-UU-mlR"/>
+                            <constraint firstItem="5jt-C3-k1k" firstAttribute="top" secondItem="g7B-OQ-ySA" secondAttribute="top" constant="30" id="whN-S2-qP3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="g7B-OQ-ySA"/>
+                    </view>
+                    <connections>
+                        <outlet property="contentView" destination="zBc-9A-ONg" id="Eax-QL-P0t"/>
+                        <outlet property="scrollView" destination="5jt-C3-k1k" id="xIe-r6-UHM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T08-8u-3wh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-279.19999999999999" y="-675.11244377811101"/>
+        </scene>
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
