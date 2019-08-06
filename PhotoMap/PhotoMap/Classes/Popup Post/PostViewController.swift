@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class PostViewController: UIViewController, StoryboardInitializable {
 
@@ -16,11 +17,15 @@ class PostViewController: UIViewController, StoryboardInitializable {
     
     var viewModel: PostViewModel!
     private let bag = DisposeBag()
+    private let tapGesture = UITapGestureRecognizer()
+    private let pickerView = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         
+        // TODO: - Add gesture in imageView!
+        // TODO: - Replace in setupBind() method
         viewModel.postImage
             .bind(to: contentView.photoImageView.rx.image)
             .disposed(by: bag)
@@ -29,11 +34,18 @@ class PostViewController: UIViewController, StoryboardInitializable {
             .bind(to: contentView.dateLabel.rx.text)
             .disposed(by: bag)
         
+        viewModel.categories
+            .flatMap { Observable.just([$0]) }
+            .bind(to: pickerView.rx.items(adapter: PickerViewViewAdapter()))
+            .disposed(by: bag)
+        
         contentView.cancelButton.rx.tap
             .bind(to: viewModel.cancel)
             .disposed(by: bag)
         
         contentView.doneButton.rx.tap
+            
+            // TODO: - Send a Post after filling in the necessary information.
             .map { Post(image: self.contentView.photoImageView.image!, date: "Test Test") }
             .bind(to: viewModel.done)
             .disposed(by: bag)
@@ -44,7 +56,13 @@ class PostViewController: UIViewController, StoryboardInitializable {
                 self.moveOut()
             })
             .disposed(by: bag)
-
+        
+        tapGesture.rx.event
+            .bind(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.showCategoryPicker()
+            })
+            .disposed(by: bag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,12 +70,26 @@ class PostViewController: UIViewController, StoryboardInitializable {
         moveIn()
     }
     
+    func showCategoryPicker() {
+        let viewController = UIViewController()
+        
+        // TODO: - Make snape do screen?
+        viewController.preferredContentSize = CGSize(width: 250, height: 150)
+        pickerView.frame = CGRect(x: 0, y: -20, width: 250, height: 180)
+        viewController.view.addSubview(pickerView)
+        
+        let editRadiusAlert = UIAlertController(title: "Choose A Photo Category", message: "", preferredStyle: UIAlertController.Style.alert)
+        editRadiusAlert.setValue(viewController, forKey: "contentViewController")
+        editRadiusAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(editRadiusAlert, animated: true)
+    }
+    
     private func setupView() {
         scrollView.layer.cornerRadius = 10
         contentView.layer.cornerRadius = 10
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        contentView.categoryStackView.addGestureRecognizer(tapGesture)
     }
-    
     
     private func moveIn() {
         scrollView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
@@ -69,7 +101,7 @@ class PostViewController: UIViewController, StoryboardInitializable {
         }
     }
     
-     func moveOut() {
+     private func moveOut() {
         UIView.animate(withDuration: 0.4, animations: {
             self.scrollView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             self.scrollView.alpha = 0

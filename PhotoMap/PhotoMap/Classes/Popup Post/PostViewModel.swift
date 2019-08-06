@@ -10,6 +10,9 @@ import Foundation
 import RxSwift
 
 class PostViewModel {
+    
+    // TODO: - Make a description.
+    
     // MARK: - Input
     let didSelectedImage: AnyObserver<UIImage>
     let cancel: AnyObserver<Void>
@@ -23,8 +26,9 @@ class PostViewModel {
     let post: Observable<Post>
     let shouldDismass: Observable<Void>
     let date: Observable<String>
+    let categories: Observable<[String]>
     
-    init(dateService: DateService = DateService()) {
+    init(dateService: DateService = DateService(), categoriesService: CategoriesService = CategoriesService()) {
         let _didSelectedImage = ReplaySubject<UIImage>.create(bufferSize: 1)
         didSelectedImage = _didSelectedImage.asObserver()
         postImage = _didSelectedImage.asObservable()
@@ -45,5 +49,7 @@ class PostViewModel {
         creationDate = _creationDate.asObserver()
         date = _creationDate.asObservable()
             .map { dateService.getFormattedDate(date: $0) }
+        
+        categories = categoriesService.getCategories()
     }
 }

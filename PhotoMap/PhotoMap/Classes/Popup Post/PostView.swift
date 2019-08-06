@@ -38,21 +38,21 @@ class PostView: UIView {
         return label
     }()
     
-    private lazy var categoryImageView: UIImageView = {
-        let imageView = UIImageView(image: nil)
+    lazy var categoryImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "default"))
         imageView.setContentHuggingPriority(UILayoutPriority(251), for: .horizontal)
         return imageView
     }()
     
-    private lazy var caegoryLabel: UILabel = {
+    lazy var categoryLabel: UILabel = {
         let label = UILabel()
-        label.text = "FRIENDS"
+        label.text = "DEFAULT"
         
         return label
     }()
     
-    private lazy var categoryStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [categoryImageView, caegoryLabel])
+    lazy var categoryStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [categoryImageView, categoryLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 8
         

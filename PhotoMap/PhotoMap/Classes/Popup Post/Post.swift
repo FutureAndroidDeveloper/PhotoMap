@@ -11,4 +11,6 @@ import UIKit
 struct Post {
     let image: UIImage
     let date: String
+//    let category: String
+//    let description: String?
 }
