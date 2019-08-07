@@ -21,6 +21,8 @@ extension UIView {
 
 class PostView: UIView {
     
+    let placeholder = "Placeholder"
+    
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView(image: nil)
         imageView.contentMode = .scaleAspectFit
@@ -59,11 +61,12 @@ class PostView: UIView {
         return stack
     }()
     
-    private lazy var textView: UITextView = {
+    lazy var textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.systemFont(ofSize: 16)
-        textView.text = "My best friend show me his new MacBook. It looks amazing #mackbook #friend #amazing"
+        textView.text = nil
+        textView.returnKeyType = .done
         textView.layer.borderColor = UIColor.black.cgColor
         textView.layer.borderWidth = 1
         textView.layer.cornerRadius = 5

@@ -30,6 +30,15 @@ class PostViewController: UIViewController, StoryboardInitializable {
             .bind(to: contentView.photoImageView.rx.image)
             .disposed(by: bag)
         
+        pickerView.rx.modelSelected(String.self)
+            .compactMap { $0.first }
+            .subscribe(onNext: { [weak self] category in
+                guard let self = self else { return }
+                self.contentView.categoryLabel.text = category.uppercased()
+                self.contentView.categoryImageView.image = UIImage(named: category)
+            })
+            .disposed(by: bag)
+        
         viewModel.date
             .bind(to: contentView.dateLabel.rx.text)
             .disposed(by: bag)
@@ -46,7 +55,10 @@ class PostViewController: UIViewController, StoryboardInitializable {
         contentView.doneButton.rx.tap
             
             // TODO: - Send a Post after filling in the necessary information.
-            .map { Post(image: self.contentView.photoImageView.image!, date: "Test Test") }
+            .map { Post(image: self.contentView.photoImageView.image!,
+                        date: self.contentView.dateLabel.text!,
+                        category: self.contentView.categoryLabel.text!,
+                        description: self.contentView.textView.text) }
             .bind(to: viewModel.done)
             .disposed(by: bag)
         
@@ -73,7 +85,7 @@ class PostViewController: UIViewController, StoryboardInitializable {
     func showCategoryPicker() {
         let viewController = UIViewController()
         
-        // TODO: - Make snape do screen?
+        // TODO: - Make snape to screen?
         viewController.preferredContentSize = CGSize(width: 250, height: 150)
         pickerView.frame = CGRect(x: 0, y: -20, width: 250, height: 180)
         viewController.view.addSubview(pickerView)

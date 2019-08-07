@@ -23,15 +23,21 @@ class MapViewModel {
     
     let didPickedImage: AnyObserver<UIImage>
     
+    let photoLibrarySelected: AnyObserver<Void>
+    
     // MARK: - Outputs
     
     /// Emits when we should show Photo Sheet
-    let showImageSheet: Observable<Void>
+//    let showImageSheet: Observable<Void>
     
     /// Emits when we should provide the necessary Permissions
     let showPermissionMessage: Observable<String>
     
     let image: Observable<UIImage>
+    
+    let showPhotoLibrary: Observable<Void>
+    
+    let showImageSheet: Observable<Void>
     
     // MARK: - Initialization
     
@@ -52,6 +58,10 @@ class MapViewModel {
         
         let _showImageSheet = PublishSubject<Void>()
         showImageSheet = _showImageSheet.asObservable()
+        
+        let _showPhotoLibrary = PublishSubject<Void>()
+        photoLibrarySelected = _showPhotoLibrary.asObserver()
+        showPhotoLibrary = _showPhotoLibrary.asObservable()
 
         _locationButtonTapped.asObservable()
             .subscribe(onNext: { _ in
@@ -77,7 +87,7 @@ class MapViewModel {
                 authorized
                     .skipWhile { $0 == false }
                     .take(1)
-                    .subscribe(onNext: { (_) in
+                    .subscribe(onNext: { _ in
                         _showImageSheet.onNext(Void())
                     })
                     .disposed(by: self.disposebag)

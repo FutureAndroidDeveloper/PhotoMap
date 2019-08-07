@@ -126,8 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				5929CC4722F0B6450089947C /* MapViewController.swift */,
-				590B675D22F102DF00D439B0 /* MapCoordinator.swift */,
 				59FEEF9122F27BD0004178AC /* MapViewModel.swift */,
+				590B675D22F102DF00D439B0 /* MapCoordinator.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -209,10 +209,10 @@
 		59EC38C422F0CD910034DFF4 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */,
+				59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */,
 				593A055422F363B500FCD118 /* Services */,
 				590B676522F115C500D439B0 /* Extensions */,
-				59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */,
-				590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";

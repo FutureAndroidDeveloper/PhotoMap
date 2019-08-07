@@ -32,15 +32,12 @@ class MapCoordinator: BaseCoordinator<Void> {
             })
             .disposed(by: disposeBag)
         
-        viewModel.showImageSheet
+        viewModel.showPhotoLibrary
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.displayImageSheet(in: mapViewController)
+                self.showPhotoLibrary(in: mapViewController)
             })
             .disposed(by: disposeBag)
-        
-        
-        
         
         return .never()
     }
@@ -67,11 +64,12 @@ class MapCoordinator: BaseCoordinator<Void> {
             }
         
         Observable.combineLatest(image, date)
-            .subscribe(onNext: { image, date in
+            .flatMap { image, date -> Observable<Post?> in
                 imagePicker.dismiss(animated: true)
-                
-                // TODO: - What is next?
-                self.showPostViewController(on: viewController, image: image, date: date)
+                return self.showPostViewController(on: viewController, image: image, date: date)
+            }
+            .subscribe(onNext: { (post) in
+                print(post)
             })
             .disposed(by: disposeBag)
     }
@@ -85,23 +83,6 @@ class MapCoordinator: BaseCoordinator<Void> {
                 case .cancel: return nil
                 }
             }
-    }
-    
-    private func displayImageSheet(in viewController: UIViewController) {
-        let photoMenu = UIAlertController(title: "Just a text for little test", message: "Choose one because i am Ivan", preferredStyle: .actionSheet)
-        
-        let cameraAction = UIAlertAction(title: "Take a Picture", style: .default, handler: { _ in
-            // TODO: - Camera
-        })
-        let libraryAction = UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in
-            self.showPhotoLibrary(in: viewController)
-        })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        photoMenu.addAction(cameraAction)
-        photoMenu.addAction(libraryAction)
-        photoMenu.addAction(cancelAction)
-        viewController.present(photoMenu, animated: true, completion: nil)
     }
     
     private func requestPermissions(in viewController: UIViewController, title: String, message: String) {

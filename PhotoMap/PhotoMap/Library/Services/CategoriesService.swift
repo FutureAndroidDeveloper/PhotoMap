@@ -30,6 +30,6 @@ class CategoriesService {
                 categories.append(item)
             }
         }
-        return Observable.just(categories)
+        return Observable.just(categories.reversed())
     }
 }

@@ -42,11 +42,16 @@ class MapViewController: UIViewController, StoryboardInitializable {
             })
             .disposed(by: bag)
         
+        viewModel.showImageSheet
+            .subscribe(onNext: { _ in
+                self.displayImageSheet()
+            })
+            .disposed(by: bag)
         
         cameraButton.rx.tap
             .bind(to: viewModel.cameraButtonTapped)
             .disposed(by: bag)
-        
+
         locationButton.rx.tap
             .bind(to: viewModel.locationButtonTapped)
             .disposed(by: bag)
@@ -65,13 +70,11 @@ class MapViewController: UIViewController, StoryboardInitializable {
             })
             .disposed(by: bag)
 
-        
         mapView.rx.didChangeUserTrackingMode
             .subscribe(onNext: { _ in
                 self.locationButton.isSelected = !self.locationButton.isSelected
             })
             .disposed(by: bag)
-        
         
         locationManager.rx.didChangeAuthorization
             .subscribe(onNext: { status in
@@ -99,6 +102,23 @@ class MapViewController: UIViewController, StoryboardInitializable {
         
         locationButton.setImage(UIImage(named: "discover"), for: .normal)
         locationButton.setImage(UIImage(named: "follow"), for: .selected)
+    }
+    
+    private func displayImageSheet() {
+        let photoMenu = UIAlertController(title: "Just a text for little test", message: "Choose one because i am Ivan", preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Take a Picture", style: .default, handler: { _ in
+            // TODO: - Camera
+        })
+        let libraryAction = UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in
+            self.viewModel.photoLibrarySelected.onNext(Void())
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        photoMenu.addAction(cameraAction)
+        photoMenu.addAction(libraryAction)
+        photoMenu.addAction(cancelAction)
+        present(photoMenu, animated: true, completion: nil)
     }
 }
 

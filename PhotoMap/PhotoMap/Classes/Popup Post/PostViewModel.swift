@@ -22,10 +22,10 @@ class PostViewModel {
     
     // MARK: - Output
     let postImage: Observable<UIImage>
+    let date: Observable<String>
     let didCancel: Observable<Void>
     let post: Observable<Post>
     let shouldDismass: Observable<Void>
-    let date: Observable<String>
     let categories: Observable<[String]>
     
     init(dateService: DateService = DateService(), categoriesService: CategoriesService = CategoriesService()) {
