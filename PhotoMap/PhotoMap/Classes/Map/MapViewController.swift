@@ -50,15 +50,10 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 
                 NSLayoutConstraint.activate([
                     calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    calloutView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                    calloutView.bottomAnchor.constraint(equalTo: view.topAnchor),
                     calloutView.heightAnchor.constraint(equalToConstant: 100),
                     calloutView.widthAnchor.constraint(equalToConstant: 300)
                     ])
-                
-
-                calloutView.contentView.layer.cornerRadius = 20
-                calloutView.contentView.layer.borderColor = UIColor.gray.cgColor
-                calloutView.contentView.layer.borderWidth = 1
                 
                 calloutView.photoImage.image = postAnnotation.image
                 calloutView.descriptionLabel.text = postAnnotation.postDescription
