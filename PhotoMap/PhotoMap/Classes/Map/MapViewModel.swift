@@ -21,9 +21,9 @@ class MapViewModel {
     /// Check location permission
     let locationButtonTapped: AnyObserver<Void>
     
-    let didPickedImage: AnyObserver<UIImage>
-    
     let photoLibrarySelected: AnyObserver<Void>
+    
+    let postCreated: AnyObserver<PostAnnotation>
     
     // MARK: - Outputs
     
@@ -33,20 +33,15 @@ class MapViewModel {
     /// Emits when we should provide the necessary Permissions
     let showPermissionMessage: Observable<String>
     
-    let image: Observable<UIImage>
-    
     let showPhotoLibrary: Observable<Void>
     
     let showImageSheet: Observable<Void>
     
+    let post: Observable<PostAnnotation>
+    
     // MARK: - Initialization
     
     init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(), locationService: LocationService = LocationService()) {
-        
-        let _didpickedImage = PublishSubject<UIImage>()
-        didPickedImage = _didpickedImage.asObserver()
-        image = _didpickedImage.asObservable()
-        
         let _locationButtonTapped = PublishSubject<Void>()
         locationButtonTapped = _locationButtonTapped.asObserver()
         
@@ -62,6 +57,10 @@ class MapViewModel {
         let _showPhotoLibrary = PublishSubject<Void>()
         photoLibrarySelected = _showPhotoLibrary.asObserver()
         showPhotoLibrary = _showPhotoLibrary.asObservable()
+        
+        let _post = PublishSubject<PostAnnotation>()
+        postCreated = _post.asObserver()
+        post = _post.asObservable()
 
         _locationButtonTapped.asObservable()
             .subscribe(onNext: { _ in

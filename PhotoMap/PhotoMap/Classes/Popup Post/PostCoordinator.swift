@@ -14,7 +14,7 @@ import RxSwift
 /// - post: Post was created.
 /// - cancel: Cancel button was tapped.
 enum PostCoordinatorResult {
-    case post(Post)
+    case post(PostAnnotation)
     case cancel
 }
 

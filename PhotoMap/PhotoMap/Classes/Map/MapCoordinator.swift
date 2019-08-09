@@ -33,18 +33,20 @@ class MapCoordinator: BaseCoordinator<Void> {
             .disposed(by: disposeBag)
         
         viewModel.showPhotoLibrary
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.showPhotoLibrary(in: mapViewController)
-            })
+            .flatMap { self.showPhotoLibrary(in: mapViewController) }
+            .flatMap { image, date in
+                self.showPostViewController(on: mapViewController, image: image, date: date)
+            }
+            .compactMap { $0 }
+            .bind(to: viewModel.postCreated)
             .disposed(by: disposeBag)
-        
+
         return .never()
     }
     
     // MARK: - Private Methods
     
-    private func showPhotoLibrary(in viewController: UIViewController) {
+    private func showPhotoLibrary(in viewController: UIViewController) -> Observable<(UIImage, Date)>{
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = false
@@ -63,18 +65,13 @@ class MapCoordinator: BaseCoordinator<Void> {
                 return asset.creationDate!
             }
         
-        Observable.combineLatest(image, date)
-            .flatMap { image, date -> Observable<Post?> in
+        return Observable.combineLatest(image, date)
+            .do(onNext: { _ in
                 imagePicker.dismiss(animated: true)
-                return self.showPostViewController(on: viewController, image: image, date: date)
-            }
-            .subscribe(onNext: { (post) in
-                print(post)
             })
-            .disposed(by: disposeBag)
     }
 
-    private func showPostViewController(on rootViewController: UIViewController, image: UIImage, date: Date) -> Observable<Post?> {
+    private func showPostViewController(on rootViewController: UIViewController, image: UIImage, date: Date) -> Observable<PostAnnotation?> {
         let postCoordinator = PostCoordinator(rootViewController: rootViewController, image: image, date: date)
         return coordinate(to: postCoordinator)
             .map { result in

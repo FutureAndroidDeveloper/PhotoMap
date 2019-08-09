@@ -16,7 +16,7 @@ class PostViewModel {
     // MARK: - Input
     let didSelectedImage: AnyObserver<UIImage>
     let cancel: AnyObserver<Void>
-    let done: AnyObserver<Post>
+    let done: AnyObserver<PostAnnotation>
     let dismiss: AnyObserver<Void>
     let creationDate: AnyObserver<Date>
     
@@ -24,7 +24,7 @@ class PostViewModel {
     let postImage: Observable<UIImage>
     let date: Observable<String>
     let didCancel: Observable<Void>
-    let post: Observable<Post>
+    let post: Observable<PostAnnotation>
     let shouldDismass: Observable<Void>
     let categories: Observable<[String]>
     
@@ -37,7 +37,7 @@ class PostViewModel {
         cancel = _cancel.asObserver()
         didCancel = _cancel.asObservable()
         
-        let _done = PublishSubject<Post>()
+        let _done = PublishSubject<PostAnnotation>()
         done = _done.asObserver()
         post = _done.asObservable()
         

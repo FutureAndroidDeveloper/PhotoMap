@@ -17,4 +17,5 @@ target 'PhotoMap' do
   # Reative
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod "RxMKMapView"
 end

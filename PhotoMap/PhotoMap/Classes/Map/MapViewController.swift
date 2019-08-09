@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import MapKit
 import CoreLocation
+import RxMKMapView
 
 class MapViewController: UIViewController, StoryboardInitializable {
     
@@ -23,6 +24,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
     var viewModel: MapViewModel!
     private let bag = DisposeBag()
     private let locationManager = CLLocationManager()
+    private let longPressGesture = UILongPressGestureRecognizer()
+    private var location: CLLocation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +37,63 @@ class MapViewController: UIViewController, StoryboardInitializable {
             })
             .disposed(by: bag)
 
-        viewModel.image
-            .subscribe(onNext: { [weak self] image in
-                // TODO: - Implement passing in new VC if it necessary ( but this image is alredy in Map Coordinator)
-                guard let self = self else { return }
-                print("Image in MapViewController = \(image)")
+        mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
+        mapView.rx.didSelectAnnotationView
+            .filter { !($0.annotation is MKUserLocation) }
+            .bind(onNext: { view in
+                let postAnnotation = view.annotation as! PostAnnotation
+                
+                let calloutView = CustomCalloutView()
+                calloutView.translatesAutoresizingMaskIntoConstraints = false
+                view.addSubview(calloutView)
+                
+                NSLayoutConstraint.activate([
+                    calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    calloutView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                    calloutView.heightAnchor.constraint(equalToConstant: 100),
+                    calloutView.widthAnchor.constraint(equalToConstant: 300)
+                    ])
+                
+
+                calloutView.contentView.layer.cornerRadius = 20
+                calloutView.contentView.layer.borderColor = UIColor.gray.cgColor
+                calloutView.contentView.layer.borderWidth = 1
+                
+                calloutView.photoImage.image = postAnnotation.image
+                calloutView.descriptionLabel.text = postAnnotation.postDescription
+                calloutView.dateLabel.text = postAnnotation.date
+
+                self.mapView.setCenter((view.annotation?.coordinate)!, animated: true)
+            })
+            .disposed(by: bag)
+        
+        mapView.rx.didDeselectAnnotationView
+            .filter { $0 is PostAnnotationView }
+            .bind(onNext: { view in
+                for subview in view.subviews {
+                    subview.removeFromSuperview()
+                }
+            })
+            .disposed(by: bag)
+        
+        longPressGesture.rx.event
+            .filter { $0.state == .began }
+            .do(onNext: { (recognizer) in
+                let touchPoint = recognizer.location(in: self.mapView)
+                let touchCoordinate = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
+                let touchLocation = CLLocation(latitude: touchCoordinate.latitude, longitude: touchCoordinate.longitude)
+                self.location = touchLocation
+            })
+            .map { _ in return Void() }
+            .bind(to: viewModel.cameraButtonTapped)
+            .disposed(by: bag)
+        
+        viewModel.post
+            .subscribe(onNext: { post in
+                guard let coordinate = self.location?.coordinate else { return }
+                post.coordinate = coordinate
+                self.mapView.addAnnotation(post)
             })
             .disposed(by: bag)
         
@@ -49,6 +104,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         cameraButton.rx.tap
+            .do(onNext: { self.location = self.locationManager.location })
             .bind(to: viewModel.cameraButtonTapped)
             .disposed(by: bag)
 
@@ -69,7 +125,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 }
             })
             .disposed(by: bag)
-
+        
         mapView.rx.didChangeUserTrackingMode
             .subscribe(onNext: { _ in
                 self.locationButton.isSelected = !self.locationButton.isSelected
@@ -97,6 +153,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.startUpdatingLocation()
+        mapView.addGestureRecognizer(longPressGesture)
         
         mapView.showsUserLocation = true
         
@@ -121,4 +178,3 @@ class MapViewController: UIViewController, StoryboardInitializable {
         present(photoMenu, animated: true, completion: nil)
     }
 }
-

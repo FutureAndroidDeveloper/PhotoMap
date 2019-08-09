@@ -19,6 +19,8 @@
 		590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676122F1040A00D439B0 /* MoreCoordinator.swift */; };
 		590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676322F1053400D439B0 /* AppCoordinator.swift */; };
 		590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */; };
+		5917FD6C22FCBF4200D98225 /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */; };
+		5917FD6E22FCBF6500D98225 /* CustomCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */; };
 		5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4522F0B6450089947C /* AppDelegate.swift */; };
 		5929CC4822F0B6450089947C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4722F0B6450089947C /* MapViewController.swift */; };
 		5929CC4B22F0B6450089947C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4922F0B6450089947C /* Main.storyboard */; };
@@ -26,15 +28,15 @@
 		5929CC5022F0B6460089947C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4E22F0B6460089947C /* LaunchScreen.storyboard */; };
 		593A055622F363D900FCD118 /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593A055522F363D900FCD118 /* PhotoLibraryService.swift */; };
 		593A055822F39F5500FCD118 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593A055722F39F5500FCD118 /* LocationService.swift */; };
+		593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593D193522FB97FB00B98E07 /* PostAnnotationView.swift */; };
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
 		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0622F89C4A00F987EF /* PostViewController.swift */; };
 		59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0822F89C5600F987EF /* PostViewModel.swift */; };
 		59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0A22F89C6100F987EF /* PostCoordinator.swift */; };
 		59FB8C0D22F89D0D00F987EF /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0C22F89D0D00F987EF /* PostView.swift */; };
-		59FB8C0F22F8B29C00F987EF /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0E22F8B29C00F987EF /* Post.swift */; };
+		59FB8C0F22F8B29C00F987EF /* PostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0E22F8B29C00F987EF /* PostAnnotation.swift */; };
 		59FB8C1122F8C7E800F987EF /* DateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C1022F8C7E800F987EF /* DateService.swift */; };
-		59FEEF8B22F215E1004178AC /* MKMapView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8A22F215E1004178AC /* MKMapView+Rx.swift */; };
 		59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */; };
 		59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */; };
 		59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF9122F27BD0004178AC /* MapViewModel.swift */; };
@@ -56,6 +58,8 @@
 		590B676122F1040A00D439B0 /* MoreCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCoordinator.swift; sourceTree = "<group>"; };
 		590B676322F1053400D439B0 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
+		5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
+		5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCalloutView.xib; sourceTree = "<group>"; };
 		5929CC4222F0B6450089947C /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5929CC4522F0B6450089947C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5929CC4722F0B6450089947C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -65,15 +69,15 @@
 		5929CC5122F0B6460089947C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		593A055522F363D900FCD118 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
 		593A055722F39F5500FCD118 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		593D193522FB97FB00B98E07 /* PostAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotationView.swift; sourceTree = "<group>"; };
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		59FB8C0622F89C4A00F987EF /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		59FB8C0822F89C5600F987EF /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		59FB8C0A22F89C6100F987EF /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
 		59FB8C0C22F89D0D00F987EF /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
-		59FB8C0E22F8B29C00F987EF /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		59FB8C0E22F8B29C00F987EF /* PostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotation.swift; sourceTree = "<group>"; };
 		59FB8C1022F8C7E800F987EF /* DateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateService.swift; sourceTree = "<group>"; };
-		59FEEF8A22F215E1004178AC /* MKMapView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Rx.swift"; sourceTree = "<group>"; };
 		59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+RxCreate.swift"; sourceTree = "<group>"; };
 		59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Rx.swift"; sourceTree = "<group>"; };
 		59FEEF9122F27BD0004178AC /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 		590B675822F0FD9F00D439B0 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				5917FD6A22FCBD4F00D98225 /* Annotation */,
 				5929CC4722F0B6450089947C /* MapViewController.swift */,
 				59FEEF9122F27BD0004178AC /* MapViewModel.swift */,
 				590B675D22F102DF00D439B0 /* MapCoordinator.swift */,
@@ -154,11 +159,21 @@
 			isa = PBXGroup;
 			children = (
 				590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */,
-				59FEEF8A22F215E1004178AC /* MKMapView+Rx.swift */,
 				59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */,
 				59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5917FD6A22FCBD4F00D98225 /* Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				593D193522FB97FB00B98E07 /* PostAnnotationView.swift */,
+				59FB8C0E22F8B29C00F987EF /* PostAnnotation.swift */,
+				5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */,
+				5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */,
+			);
+			path = Annotation;
 			sourceTree = "<group>";
 		};
 		5929CC3922F0B6450089947C = {
@@ -224,7 +239,6 @@
 				59FB8C0822F89C5600F987EF /* PostViewModel.swift */,
 				59FB8C0A22F89C6100F987EF /* PostCoordinator.swift */,
 				59FB8C0C22F89D0D00F987EF /* PostView.swift */,
-				59FB8C0E22F8B29C00F987EF /* Post.swift */,
 				59069D5022FA482E009D317B /* PickerViewViewAdapter.swift */,
 			);
 			path = "Popup Post";
@@ -303,6 +317,7 @@
 				5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */,
 				5929CC4D22F0B6460089947C /* Assets.xcassets in Resources */,
 				5929CC4B22F0B6450089947C /* Main.storyboard in Resources */,
+				5917FD6E22FCBF6500D98225 /* CustomCalloutView.xib in Resources */,
 				59069D4D22FA08D1009D317B /* Categories in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,12 +396,12 @@
 				59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */,
 				593A055822F39F5500FCD118 /* LocationService.swift in Sources */,
 				59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */,
-				59FEEF8B22F215E1004178AC /* MKMapView+Rx.swift in Sources */,
 				59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */,
 				59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */,
 				59FB8C0D22F89D0D00F987EF /* PostView.swift in Sources */,
 				593A055622F363D900FCD118 /* PhotoLibraryService.swift in Sources */,
-				59FB8C0F22F8B29C00F987EF /* Post.swift in Sources */,
+				5917FD6C22FCBF4200D98225 /* CustomCalloutView.swift in Sources */,
+				59FB8C0F22F8B29C00F987EF /* PostAnnotation.swift in Sources */,
 				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
 				59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
@@ -396,6 +411,7 @@
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
 				59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */,
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
+				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,
 				590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */,
 				590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */,

@@ -24,7 +24,6 @@ class PostViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-        // TODO: - Add gesture in imageView!
         // TODO: - Replace in setupBind() method
         viewModel.postImage
             .bind(to: contentView.photoImageView.rx.image)
@@ -55,10 +54,12 @@ class PostViewController: UIViewController, StoryboardInitializable {
         contentView.doneButton.rx.tap
             
             // TODO: - Send a Post after filling in the necessary information.
-            .map { Post(image: self.contentView.photoImageView.image!,
+            // TODO: - Keyboard management
+            // TODO: - Size Classes
+            .map { PostAnnotation(image: self.contentView.photoImageView.image!,
                         date: self.contentView.dateLabel.text!,
                         category: self.contentView.categoryLabel.text!,
-                        description: self.contentView.textView.text) }
+                        postDescription: self.contentView.textView.text) }
             .bind(to: viewModel.done)
             .disposed(by: bag)
         
