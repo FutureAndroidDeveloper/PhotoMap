@@ -53,6 +53,21 @@
             </objects>
             <point key="canvasLocation" x="-279.19999999999999" y="-675.11244377811101"/>
         </scene>
+        <!--Full Photo View Controller-->
+        <scene sceneID="rtt-vv-qbk">
+            <objects>
+                <viewController storyboardIdentifier="FullPhotoViewController" id="Npa-bq-h2C" customClass="FullPhotoViewController" customModule="PhotoMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hwg-Wg-0Lg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="zTZ-xf-fco"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fW9-IR-Rab" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="409" y="-675"/>
+        </scene>
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>

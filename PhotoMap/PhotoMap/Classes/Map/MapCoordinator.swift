@@ -40,6 +40,9 @@ class MapCoordinator: BaseCoordinator<Void> {
             .compactMap { $0 }
             .bind(to: viewModel.postCreated)
             .disposed(by: disposeBag)
+        
+        viewModel.showFullPhoto
+            .
 
         return .never()
     }
@@ -97,4 +100,6 @@ class MapCoordinator: BaseCoordinator<Void> {
         alertController.addAction(settingsAction)
         viewController.present(alertController, animated: true, completion: nil)
     }
+    
+    private func showFullPhotoViewController(in navigat)
 }

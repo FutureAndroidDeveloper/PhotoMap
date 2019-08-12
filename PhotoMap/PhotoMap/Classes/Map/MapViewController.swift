@@ -58,6 +58,11 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 calloutView.photoImage.image = postAnnotation.image
                 calloutView.descriptionLabel.text = postAnnotation.postDescription
                 calloutView.dateLabel.text = postAnnotation.date
+                calloutView.detailButton.rx.tap
+                    .compactMap { calloutView.photoImage.image }
+                    .bind(to: self.viewModel.fullPhotoTapped)
+                    .disposed(by: self.bag)
+                
 
                 self.mapView.setCenter((view.annotation?.coordinate)!, animated: true)
             })

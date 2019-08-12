@@ -30,6 +30,8 @@
 		593A055822F39F5500FCD118 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593A055722F39F5500FCD118 /* LocationService.swift */; };
 		593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593D193522FB97FB00B98E07 /* PostAnnotationView.swift */; };
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
+		5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024822FE218500A66145 /* FullPhotoCoordinator.swift */; };
+		5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024A22FE219C00A66145 /* FullPhotoViewController.swift */; };
 		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0622F89C4A00F987EF /* PostViewController.swift */; };
 		59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0822F89C5600F987EF /* PostViewModel.swift */; };
@@ -71,6 +73,8 @@
 		593A055722F39F5500FCD118 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		593D193522FB97FB00B98E07 /* PostAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotationView.swift; sourceTree = "<group>"; };
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5975024822FE218500A66145 /* FullPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoCoordinator.swift; sourceTree = "<group>"; };
+		5975024A22FE219C00A66145 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
 		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		59FB8C0622F89C4A00F987EF /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		59FB8C0822F89C5600F987EF /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 		590B675822F0FD9F00D439B0 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				5975024722FE216B00A66145 /* Full Photo */,
 				5917FD6A22FCBD4F00D98225 /* Annotation */,
 				5929CC4722F0B6450089947C /* MapViewController.swift */,
 				59FEEF9122F27BD0004178AC /* MapViewModel.swift */,
@@ -219,6 +224,15 @@
 				59069D4E22FA35C4009D317B /* CategoriesService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		5975024722FE216B00A66145 /* Full Photo */ = {
+			isa = PBXGroup;
+			children = (
+				5975024822FE218500A66145 /* FullPhotoCoordinator.swift */,
+				5975024A22FE219C00A66145 /* FullPhotoViewController.swift */,
+			);
+			path = "Full Photo";
 			sourceTree = "<group>";
 		};
 		59EC38C422F0CD910034DFF4 /* Library */ = {
@@ -406,6 +420,7 @@
 				59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
 				59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */,
+				5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */,
 				590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */,
 				590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */,
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
@@ -413,6 +428,7 @@
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
 				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,
+				5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */,
 				590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */,
 				590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */,
 			);

@@ -25,6 +25,8 @@ class MapViewModel {
     
     let postCreated: AnyObserver<PostAnnotation>
     
+    let fullPhotoTapped: AnyObserver<UIImage>
+    
     // MARK: - Outputs
     
     /// Emits when we should show Photo Sheet
@@ -38,6 +40,8 @@ class MapViewModel {
     let showImageSheet: Observable<Void>
     
     let post: Observable<PostAnnotation>
+    
+    let showFullPhoto: Observable<UIImage>
     
     // MARK: - Initialization
     
@@ -61,6 +65,10 @@ class MapViewModel {
         let _post = PublishSubject<PostAnnotation>()
         postCreated = _post.asObserver()
         post = _post.asObservable()
+        
+        let _showFullPhoto = PublishSubject<UIImage>()
+        fullPhotoTapped = _showFullPhoto.asObserver()
+        showFullPhoto = _showFullPhoto.asObservable()
 
         _locationButtonTapped.asObservable()
             .subscribe(onNext: { _ in
