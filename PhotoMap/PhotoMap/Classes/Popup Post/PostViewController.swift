@@ -52,12 +52,12 @@ class PostViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         contentView.doneButton.rx.tap
-            
             // TODO: - Send a Post after filling in the necessary information.
             // TODO: - Keyboard management
             // TODO: - Size Classes
+            .flatMap { self.viewModel.timestamp }
             .map { PostAnnotation(image: self.contentView.photoImageView.image!,
-                        date: self.contentView.dateLabel.text!,
+                        date: $0,
                         category: self.contentView.categoryLabel.text!,
                         postDescription: self.contentView.textView.text) }
             .bind(to: viewModel.done)

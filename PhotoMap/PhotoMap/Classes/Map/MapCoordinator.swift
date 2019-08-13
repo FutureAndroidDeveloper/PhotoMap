@@ -26,6 +26,7 @@ class MapCoordinator: BaseCoordinator<Void> {
         mapViewController.viewModel = viewModel
         
         viewModel.showPermissionMessage
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] title in
                 guard let self = self else { return }
                 self.requestPermissions(in: mapViewController, title: title, message: "Please go to Settings and turn on the permissions")
@@ -42,8 +43,8 @@ class MapCoordinator: BaseCoordinator<Void> {
             .disposed(by: disposeBag)
         
         viewModel.showFullPhoto
-            .subscribe(onNext: { (image) in
-                print(image)
+            .subscribe(onNext: { post in
+                self.showFullPhotoViewController(post: post)
             })
             .disposed(by: disposeBag)
 
@@ -104,7 +105,8 @@ class MapCoordinator: BaseCoordinator<Void> {
         viewController.present(alertController, animated: true, completion: nil)
     }
     
-    private func showFullPhotoViewController(in navigationController: UINavigationController) {
-        
+    private func showFullPhotoViewController(post: PostAnnotation) -> Observable<Void> {
+        let fullPhotoCoordinator = FullPhotoCoordinator(navigationController: navigationController, post: post)
+        return coordinate(to: fullPhotoCoordinator)
     }
 }

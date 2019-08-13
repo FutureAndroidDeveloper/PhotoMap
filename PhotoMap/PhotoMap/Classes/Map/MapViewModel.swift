@@ -25,12 +25,12 @@ class MapViewModel {
     
     let postCreated: AnyObserver<PostAnnotation>
     
-    let fullPhotoTapped: AnyObserver<UIImage>
+    let fullPhotoTapped: AnyObserver<PostAnnotation>
+    
+    let timestamp: AnyObserver<Int>
+    
     
     // MARK: - Outputs
-    
-    /// Emits when we should show Photo Sheet
-//    let showImageSheet: Observable<Void>
     
     /// Emits when we should provide the necessary Permissions
     let showPermissionMessage: Observable<String>
@@ -41,11 +41,16 @@ class MapViewModel {
     
     let post: Observable<PostAnnotation>
     
-    let showFullPhoto: Observable<UIImage>
+    let showFullPhoto: Observable<PostAnnotation>
+    
+    let shortDate: Observable<String>
     
     // MARK: - Initialization
     
-    init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(), locationService: LocationService = LocationService()) {
+    init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
+         locationService: LocationService = LocationService(),
+         dateService: DateService = DateService()) {
+        
         let _locationButtonTapped = PublishSubject<Void>()
         locationButtonTapped = _locationButtonTapped.asObserver()
         
@@ -66,31 +71,27 @@ class MapViewModel {
         postCreated = _post.asObserver()
         post = _post.asObservable()
         
-        let _showFullPhoto = PublishSubject<UIImage>()
+        let _showFullPhoto = PublishSubject<PostAnnotation>()
         fullPhotoTapped = _showFullPhoto.asObserver()
         showFullPhoto = _showFullPhoto.asObservable()
-
-        _locationButtonTapped.asObservable()
-            .subscribe(onNext: { _ in
-                let locationAuthorized = locationService.authorized
-                    .share()
-
-                locationAuthorized
-                    .takeLast(1)
-                    .filter { $0 == false }
-                    .subscribe(onNext: { (_) in
-                        _showPermissionMessage.onNext("Allow access to location.")
-                    })
-                    .disposed(by: self.disposebag)
-            })
-            .disposed(by: disposebag)
         
+        let _timestamp = PublishSubject<Int>()
+        timestamp = _timestamp.asObserver()
+        shortDate = _timestamp.asObservable()
+            .compactMap { dateService.getShortDate(timestamp: $0) }
+        
+        _locationButtonTapped.asObservable()
+            .flatMap { locationService.authorized }
+            .filter { $0 == false }
+            .map { _ in "Allow access to location." }
+            .bind(to: _showPermissionMessage)
+            .disposed(by: disposebag)
         
         _cameraButtopTapped.asObservable()
             .subscribe(onNext: { _ in
                 let authorized = photoLibraryService.authorized
                     .share()
-                
+
                 authorized
                     .skipWhile { $0 == false }
                     .take(1)

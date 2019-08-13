@@ -20,6 +20,7 @@ class TabBarCoordinator: BaseCoordinator<Void> {
         // Setup NavigationControlles
         let mapNavigation = UINavigationController()
         mapNavigation.isNavigationBarHidden = true
+        mapNavigation.navigationBar.tintColor = .white
         mapNavigation.tabBarItem = UITabBarItem(title: "Map", image: UIImage(named: "compass"), selectedImage: nil)
         
         let timelineNavigation = UINavigationController()

@@ -31,11 +31,11 @@ class MapViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-        locationManager.rx.didUpdateLocations
-            .subscribe(onNext: { locations in
-                // TODO: - Process location data here
-            })
-            .disposed(by: bag)
+//        locationManager.rx.didUpdateLocations
+//            .subscribe(onNext: { locations in
+//                // TODO: - Process location data here
+//            })
+//            .disposed(by: bag)
 
         mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
@@ -57,12 +57,17 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 
                 calloutView.photoImage.image = postAnnotation.image
                 calloutView.descriptionLabel.text = postAnnotation.postDescription
-                calloutView.dateLabel.text = postAnnotation.date
-                calloutView.detailButton.rx.tap
-                    .compactMap { calloutView.photoImage.image }
-                    .bind(to: self.viewModel.fullPhotoTapped)
+                
+                self.viewModel.shortDate
+                    .bind(to: calloutView.dateLabel.rx.text)
                     .disposed(by: self.bag)
                 
+                self.viewModel.timestamp.onNext(postAnnotation.date)
+
+                calloutView.detailButton.rx.tap
+                    .map { postAnnotation }
+                    .bind(to: self.viewModel.fullPhotoTapped)
+                    .disposed(by: self.bag)
 
                 self.mapView.setCenter((view.annotation?.coordinate)!, animated: true)
             })
@@ -156,6 +161,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.addGestureRecognizer(longPressGesture)
         
         mapView.showsUserLocation = true
+        hidesBottomBarWhenPushed = true
         
         locationButton.setImage(UIImage(named: "discover"), for: .normal)
         locationButton.setImage(UIImage(named: "follow"), for: .selected)

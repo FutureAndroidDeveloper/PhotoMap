@@ -33,6 +33,9 @@
 		5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024822FE218500A66145 /* FullPhotoCoordinator.swift */; };
 		5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024A22FE219C00A66145 /* FullPhotoViewController.swift */; };
 		59DA4AB82302420B00843954 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA4AB72302420B00843954 /* AdaptiveScrollView.swift */; };
+		59DA4ABB2302486D00843954 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA4AB92302486D00843954 /* FooterView.swift */; };
+		59DA4ABC2302486D00843954 /* FooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59DA4ABA2302486D00843954 /* FooterView.xib */; };
+		59DA4ABE230249DD00843954 /* FullPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */; };
 		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0622F89C4A00F987EF /* PostViewController.swift */; };
 		59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0822F89C5600F987EF /* PostViewModel.swift */; };
@@ -77,6 +80,9 @@
 		5975024822FE218500A66145 /* FullPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoCoordinator.swift; sourceTree = "<group>"; };
 		5975024A22FE219C00A66145 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
 		59DA4AB72302420B00843954 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
+		59DA4AB92302486D00843954 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
+		59DA4ABA2302486D00843954 /* FooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FooterView.xib; sourceTree = "<group>"; };
+		59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewModel.swift; sourceTree = "<group>"; };
 		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		59FB8C0622F89C4A00F987EF /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		59FB8C0822F89C5600F987EF /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
@@ -231,8 +237,11 @@
 		5975024722FE216B00A66145 /* Full Photo */ = {
 			isa = PBXGroup;
 			children = (
+				59DA4AB92302486D00843954 /* FooterView.swift */,
+				59DA4ABA2302486D00843954 /* FooterView.xib */,
 				5975024822FE218500A66145 /* FullPhotoCoordinator.swift */,
 				5975024A22FE219C00A66145 /* FullPhotoViewController.swift */,
+				59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */,
 			);
 			path = "Full Photo";
 			sourceTree = "<group>";
@@ -330,6 +339,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59DA4ABC2302486D00843954 /* FooterView.xib in Resources */,
 				5929CC5022F0B6460089947C /* LaunchScreen.storyboard in Resources */,
 				5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */,
 				5929CC4D22F0B6460089947C /* Assets.xcassets in Resources */,
@@ -420,6 +430,7 @@
 				5917FD6C22FCBF4200D98225 /* CustomCalloutView.swift in Sources */,
 				59FB8C0F22F8B29C00F987EF /* PostAnnotation.swift in Sources */,
 				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
+				59DA4ABB2302486D00843954 /* FooterView.swift in Sources */,
 				59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
 				59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */,
@@ -432,6 +443,7 @@
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
 				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,
+				59DA4ABE230249DD00843954 /* FullPhotoViewModel.swift in Sources */,
 				5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */,
 				590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */,
 				590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */,

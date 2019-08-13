@@ -28,6 +28,8 @@ class PostViewModel {
     let shouldDismass: Observable<Void>
     let categories: Observable<[String]>
     
+    let timestamp: Observable<Int>
+    
     init(dateService: DateService = DateService(), categoriesService: CategoriesService = CategoriesService()) {
         let _didSelectedImage = ReplaySubject<UIImage>.create(bufferSize: 1)
         didSelectedImage = _didSelectedImage.asObserver()
@@ -48,7 +50,10 @@ class PostViewModel {
         let _creationDate = ReplaySubject<Date>.create(bufferSize: 1)
         creationDate = _creationDate.asObserver()
         date = _creationDate.asObservable()
-            .map { dateService.getFormattedDate(date: $0) }
+            .map { dateService.getLongDate(timestamp: Int($0.timeIntervalSince1970), modifier: .dash) }
+        
+        timestamp = _creationDate.asObservable()
+            .map { Int($0.timeIntervalSince1970) }
         
         categories = categoriesService.getCategories()
     }

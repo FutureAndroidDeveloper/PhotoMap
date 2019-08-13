@@ -8,17 +8,19 @@
 
 import Foundation
 
+enum DateModifier: String {
+    case at = "at"
+    case dash = "-"
+}
+
 class DateService {
     
     private let dateFormatter = DateFormatter()
     private let calendar = Calendar.current
     private let numberFormatter = NumberFormatter()
     
-    func getCurrentDate() -> String {
-        return getFormattedDate(date: Date())
-    }
-    
-    func getFormattedDate(date: Date) -> String {
+    func getLongDate(timestamp: Int, modifier: DateModifier) -> String {
+        let date = Date(timeIntervalSince1970: Double(timestamp))
         let components = calendar.dateComponents([.day], from: date)
         numberFormatter.numberStyle = .ordinal
         
@@ -26,7 +28,13 @@ class DateService {
         
         dateFormatter.amSymbol = "am"
         dateFormatter.pmSymbol = "pm"
-        dateFormatter.dateFormat = "MMMM '\(ordinalDay!)', yyyy - h:mm a"
+        dateFormatter.dateFormat = "MMMM '\(ordinalDay!)', yyyy '\(modifier.rawValue)' h:mm a"
+        return dateFormatter.string(from: date)
+    }
+    
+    func getShortDate(timestamp: Int) -> String? {
+        let date = Date(timeIntervalSince1970: Double(timestamp))
+        dateFormatter.dateFormat = "MM-dd-yyyy"
         return dateFormatter.string(from: date)
     }
 }
