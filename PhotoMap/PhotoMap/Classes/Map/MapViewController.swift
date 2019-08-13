@@ -162,7 +162,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
     }
     
     private func displayImageSheet() {
-        let photoMenu = UIAlertController(title: "Just a text for little test", message: "Choose one because i am Ivan", preferredStyle: .actionSheet)
+        let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let cameraAction = UIAlertAction(title: "Take a Picture", style: .default, handler: { _ in
             // TODO: - Camera

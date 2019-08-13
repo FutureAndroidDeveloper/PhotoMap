@@ -42,7 +42,10 @@ class MapCoordinator: BaseCoordinator<Void> {
             .disposed(by: disposeBag)
         
         viewModel.showFullPhoto
-            .
+            .subscribe(onNext: { (image) in
+                print(image)
+            })
+            .disposed(by: disposeBag)
 
         return .never()
     }
@@ -101,5 +104,7 @@ class MapCoordinator: BaseCoordinator<Void> {
         viewController.present(alertController, animated: true, completion: nil)
     }
     
-    private func showFullPhotoViewController(in navigat)
+    private func showFullPhotoViewController(in navigationController: UINavigationController) {
+        
+    }
 }

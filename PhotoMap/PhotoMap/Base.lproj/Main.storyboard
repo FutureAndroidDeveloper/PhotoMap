@@ -18,28 +18,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jt-C3-k1k">
-                                <rect key="frame" x="30" y="30" width="315" height="607"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jt-C3-k1k" customClass="AdaptiveScrollView" customModule="PhotoMap" customModuleProvider="target">
+                                <rect key="frame" x="10" y="30" width="355" height="607"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zBc-9A-ONg" customClass="PostView" customModule="PhotoMap" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="315" height="447"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="355" height="447"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="zBc-9A-ONg" firstAttribute="leading" secondItem="5jt-C3-k1k" secondAttribute="leading" id="gdZ-BR-Jse"/>
-                                    <constraint firstItem="zBc-9A-ONg" firstAttribute="top" secondItem="5jt-C3-k1k" secondAttribute="top" id="j9r-ko-kQ9"/>
+                                    <constraint firstItem="zBc-9A-ONg" firstAttribute="top" secondItem="5jt-C3-k1k" secondAttribute="topMargin" id="j9r-ko-kQ9"/>
                                     <constraint firstAttribute="trailing" secondItem="zBc-9A-ONg" secondAttribute="trailing" id="sYP-xS-ukm"/>
                                     <constraint firstItem="zBc-9A-ONg" firstAttribute="width" secondItem="5jt-C3-k1k" secondAttribute="width" id="tIF-tJ-Nqb"/>
-                                    <constraint firstAttribute="bottom" secondItem="zBc-9A-ONg" secondAttribute="bottom" id="zN2-RJ-TiX"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="zBc-9A-ONg" secondAttribute="bottom" id="zN2-RJ-TiX"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="g7B-OQ-ySA" firstAttribute="trailing" secondItem="5jt-C3-k1k" secondAttribute="trailing" constant="30" id="Or5-YS-rb7"/>
+                            <constraint firstItem="g7B-OQ-ySA" firstAttribute="trailing" secondItem="5jt-C3-k1k" secondAttribute="trailing" constant="10" id="Or5-YS-rb7"/>
                             <constraint firstItem="g7B-OQ-ySA" firstAttribute="bottom" secondItem="5jt-C3-k1k" secondAttribute="bottom" constant="30" id="n94-ye-wVz"/>
-                            <constraint firstItem="5jt-C3-k1k" firstAttribute="leading" secondItem="g7B-OQ-ySA" secondAttribute="leading" constant="30" id="vze-UU-mlR"/>
+                            <constraint firstItem="5jt-C3-k1k" firstAttribute="leading" secondItem="g7B-OQ-ySA" secondAttribute="leading" constant="10" id="vze-UU-mlR"/>
                             <constraint firstItem="5jt-C3-k1k" firstAttribute="top" secondItem="g7B-OQ-ySA" secondAttribute="top" constant="30" id="whN-S2-qP3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="g7B-OQ-ySA"/>
@@ -149,7 +149,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nem-4x-JoZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1105" y="-9"/>
+            <point key="canvasLocation" x="1092" y="-9"/>
         </scene>
     </scenes>
     <resources>
