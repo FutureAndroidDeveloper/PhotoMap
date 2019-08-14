@@ -118,7 +118,9 @@ class PostViewController: UIViewController, StoryboardInitializable {
         UIView.animate(withDuration: 0.4, animations: {
             self.scrollView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             self.scrollView.alpha = 0
-        }, completion: { _ in
+        }, completion: { [weak self]  _ in
+            guard let self = self else { return }
+            self.removeFromParent()
             self.view.removeFromSuperview()
         })
     }

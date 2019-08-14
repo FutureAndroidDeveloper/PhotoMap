@@ -12,78 +12,45 @@ import RxCocoa
 
 class FullPhotoViewController: UIViewController, StoryboardInitializable {
     
-    var height: NSLayoutConstraint!
-    var top: NSLayoutConstraint!
-    var leading: NSLayoutConstraint!
+    @IBOutlet weak var imageView: UIImageView!
     
+    // MARK: - Properties
+    private var headerHeight: NSLayoutConstraint!
+    private var headerTop: NSLayoutConstraint!
+    private var headerLeading: NSLayoutConstraint!
     
-    var bot: NSLayoutConstraint!
-    var heightFooter: NSLayoutConstraint!
+    private var footerBot: NSLayoutConstraint!
+    private var footerHeight: NSLayoutConstraint!
     
-    let headerView = UIView()
-    let footerView = FooterView()
-    
-    
-    let tapGesture = UITapGestureRecognizer()
-    var doubleTapGesture = UITapGestureRecognizer()
+    private let headerView = UIView()
+    private let footerView = FooterView()
+    private let tapGesture = UITapGestureRecognizer()
+    private let doubleTapGesture = UITapGestureRecognizer()
     
     var viewModel: FullPhotoViewModel!
     private let bag = DisposeBag()
     
-    @IBOutlet weak var imageView: UIImageView!
-    
-//    @IBOutlet weak var scrollView: UIScrollView!
-//    @IBOutlet weak var imageView: UIImageView!
-//    @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var imageViewTralingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = false
         
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(headerView)
+        tapGesture.rx.event
+            .observeOn(MainScheduler.instance)
+            .bind(onNext: { _ in
+                if self.navigationItem.hidesBackButton {
+                    self.show()
+                } else {
+                    self.hide()
+                }
+            })
+            .disposed(by: bag)
         
-        // Transparent navigation bar
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        
-        height = headerView.heightAnchor.constraint(equalToConstant: 44 * 2)
-        top = headerView.topAnchor.constraint(equalTo: view.topAnchor, constant: -25)
-        leading = headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -25.0)
-        
-        NSLayoutConstraint.activate([
-            leading,
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 25.0),
-            top,
-            height
-            ])
-        
-        headerView.layer.shadowColor = UIColor.black.cgColor
-        headerView.layer.shadowOpacity = 0.6
-        headerView.layer.shadowOffset = .zero
-        headerView.layer.shadowRadius = 8
-        
-        headerView.layer.shadowPath = UIBezierPath(rect: headerView.bounds).cgPath
-        headerView.layer.shouldRasterize = true
-        headerView.layer.rasterizationScale = UIScreen.main.scale
-        
-        tapGesture.addTarget(self, action: #selector(tap))
-        doubleTapGesture.addTarget(self, action: #selector(double))
-        
-        doubleTapGesture.numberOfTapsRequired = 2
-        tapGesture.require(toFail: doubleTapGesture)
-        
-        view.addGestureRecognizer(tapGesture)
-        view.addGestureRecognizer(doubleTapGesture)
-        
-//        scrollView.delegate = self
-        addFooter()
-//        updateConstraintsForSize(view.bounds.size)
-        
+        doubleTapGesture.rx.event
+            .observeOn(MainScheduler.instance)
+            .bind(onNext: { recognizer in
+                // TODO: - Handle double tap
+                print("double tap")
+            })
+            .disposed(by: bag)
         
         let post = viewModel.post.share(replay: 1)
         
@@ -100,60 +67,51 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
         viewModel.longDate
             .bind(to: footerView.dateLabel.rx.text)
             .disposed(by: bag)
-    }
-    
-    @objc func tap() {
-        if navigationItem.hidesBackButton {
-            display()
-        } else {
-            hide()
-        }
-    }
-    
-    
-    @objc func double() {
         
+        setupView()
+        addFooter()
+        addHeaderView()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // Aaaaaaaaaaaaa!
-        
-        headerView.removeFromSuperview()
+        viewModel.backTapped.onNext(Void())
+        headerLeading.constant = 0
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         guard let navigationController = navigationController else { return }
-        height.constant = navigationController.navigationBar.frame.size.height * 2 + 20
-        //
-        //        switch UIDevice.current.orientation {
-        //        case .portrait:
-        //            heightFooter.constant = footerView.descriptionLabel.bounds.size.height * 2 + 16 + 16 + footerView.dateLabel.bounds.size.height
-        //        case .landscapeLeft, .landscapeRight:
-        //            heightFooter.constant = footerView.descriptionLabel.bounds.size.height / 2 + 16 + 16 + footerView.dateLabel.bounds.size.height
-        //        default:
-        //            break
-        //        }
-        
-//        updateMinZoomScaleForSize(view.bounds.size)
+        headerHeight.constant = navigationController.navigationBar.frame.size.height * 2 + 20
+        footerView.layoutSubviews()
+        footerView.layoutIfNeeded()
     }
-    
-    
-    // Handles a double tap by either resetting the zoom or zooming to where was tapped
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         headerView.layer.shadowPath = UIBezierPath(rect: headerView.bounds).cgPath
+        footerHeight.constant = 8 + footerView.descriptionLabel.bounds.size.height + 16 + footerView.dateLabel.bounds.size.height + 16
     }
     
-    func hide() {
-        top.constant = -height.constant
-        navigationItem.hidesBackButton = true
+    // MARK: - Private Methods
+    
+    private func setupView() {
+        // Transparent navigation bar
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
         
-        // hide footer
-        bot.constant = heightFooter.constant
+        tapGesture.require(toFail: doubleTapGesture)
+        doubleTapGesture.numberOfTapsRequired = 2
+        view.addGestureRecognizer(tapGesture)
+        view.addGestureRecognizer(doubleTapGesture)
+    }
+    
+    private func hide() {
+        headerTop.constant = -headerHeight.constant
+        navigationItem.hidesBackButton = true
+        footerBot.constant = footerHeight.constant
         
         UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
             self.view.layoutIfNeeded()
@@ -162,12 +120,10 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
             }.startAnimation()
     }
     
-    func display() {
-        top.constant = -25
+    private func show() {
+        headerTop.constant = -25
         navigationItem.hidesBackButton = false
-        
-        // show footer
-        bot.constant = 0
+        footerBot.constant = 0
         
         UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
             self.view.layoutIfNeeded()
@@ -176,47 +132,43 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
             }.startAnimation()
     }
     
+    private func addHeaderView() {
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(headerView)
+        
+        headerHeight = headerView.heightAnchor.constraint(equalToConstant: 44 * 2)
+        headerTop = headerView.topAnchor.constraint(equalTo: view.topAnchor, constant: -25)
+        headerLeading = headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -25.0)
+        
+        NSLayoutConstraint.activate([
+            headerLeading,
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 25.0),
+            headerTop,
+            headerHeight
+            ])
+        
+        headerView.layer.shadowColor = UIColor.black.cgColor
+        headerView.layer.shadowOpacity = 0.6
+        headerView.layer.shadowOffset = .zero
+        headerView.layer.shadowRadius = 8
+        
+        headerView.layer.shadowPath = UIBezierPath(rect: headerView.bounds).cgPath
+        headerView.layer.shouldRasterize = true
+        headerView.layer.rasterizationScale = UIScreen.main.scale
+    }
+    
     func addFooter() {
         footerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(footerView)
         
-        
-        bot = footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        heightFooter = footerView.heightAnchor.constraint(equalToConstant: 140)
-        //        heightFooter = footerView.heightAnchor.constraint(equalToConstant: footerView.descriptionLabel.bounds.size.height * 2 + 16 + 16 + footerView.dateLabel.bounds.size.height)
+        footerBot = footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        footerHeight = footerView.heightAnchor.constraint(equalToConstant: 8 + footerView.descriptionLabel.bounds.size.height + 16 + footerView.dateLabel.bounds.size.height + 16)
         
         NSLayoutConstraint.activate([
             footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bot,
-            heightFooter
+            footerBot,
+            footerHeight
             ])
     }
-    
-//    fileprivate func updateMinZoomScaleForSize(_ size: CGSize) {
-//        let widthScale = size.width / imageView.bounds.width
-//        let heightScale = size.height / imageView.bounds.height
-//        let minScale = min(widthScale, heightScale)
-//
-//        scrollView.minimumZoomScale = minScale
-//        scrollView.zoomScale = minScale
-//    }
-//
-//    fileprivate func updateConstraintsForSize(_ size: CGSize) {
-//
-//        let yOffset = max(0, (size.height - imageView.frame.height) / 2)
-//        imageViewTopConstraint.constant = yOffset
-//        imageViewBottomConstraint.constant = yOffset
-//
-//        let xOffset = max(0, (size.width - imageView.frame.width) / 2)
-//        imageViewLeadingConstraint.constant = xOffset
-//        imageViewTralingConstraint.constant = xOffset
-//
-//
-//        print("yOffset = \(yOffset)")
-//        print("xOffset = \(xOffset)")
-//        print("")
-//
-//        view.layoutIfNeeded()
-//    }
 }

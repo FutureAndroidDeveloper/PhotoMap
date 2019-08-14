@@ -26,6 +26,13 @@ class MapViewController: UIViewController, StoryboardInitializable {
     private let locationManager = CLLocationManager()
     private let longPressGesture = UILongPressGestureRecognizer()
     private var location: CLLocation?
+    private var postAnnotation: PostAnnotation!
+    
+    private lazy var calloutView: CustomCalloutView = {
+        let view = CustomCalloutView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,36 +46,31 @@ class MapViewController: UIViewController, StoryboardInitializable {
 
         mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
+        calloutView.detailButton.rx.tap
+            .compactMap { self.postAnnotation }
+            .bind(to: viewModel.fullPhotoTapped)
+            .disposed(by: bag)
+        
+        viewModel.shortDate
+            .bind(to: calloutView.dateLabel.rx.text)
+            .disposed(by: bag)
+        
         mapView.rx.didSelectAnnotationView
             .filter { !($0.annotation is MKUserLocation) }
             .bind(onNext: { view in
-                let postAnnotation = view.annotation as! PostAnnotation
-                
-                let calloutView = CustomCalloutView()
-                calloutView.translatesAutoresizingMaskIntoConstraints = false
-                view.addSubview(calloutView)
+                self.postAnnotation = view.annotation as? PostAnnotation
+                view.addSubview(self.calloutView)
                 
                 NSLayoutConstraint.activate([
-                    calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    calloutView.bottomAnchor.constraint(equalTo: view.topAnchor),
-                    calloutView.heightAnchor.constraint(equalToConstant: 100),
-                    calloutView.widthAnchor.constraint(equalToConstant: 300)
+                    self.calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    self.calloutView.bottomAnchor.constraint(equalTo: view.topAnchor),
+                    self.calloutView.heightAnchor.constraint(equalToConstant: 100),
+                    self.calloutView.widthAnchor.constraint(equalToConstant: 300)
                     ])
                 
-                calloutView.photoImage.image = postAnnotation.image
-                calloutView.descriptionLabel.text = postAnnotation.postDescription
-                
-                self.viewModel.shortDate
-                    .bind(to: calloutView.dateLabel.rx.text)
-                    .disposed(by: self.bag)
-                
-                self.viewModel.timestamp.onNext(postAnnotation.date)
-
-                calloutView.detailButton.rx.tap
-                    .map { postAnnotation }
-                    .bind(to: self.viewModel.fullPhotoTapped)
-                    .disposed(by: self.bag)
-
+                self.calloutView.photoImage.image = self.postAnnotation.image
+                self.calloutView.descriptionLabel.text = self.postAnnotation.postDescription
+                self.viewModel.timestamp.onNext(self.postAnnotation.date)
                 self.mapView.setCenter((view.annotation?.coordinate)!, animated: true)
             })
             .disposed(by: bag)
@@ -161,7 +163,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.addGestureRecognizer(longPressGesture)
         
         mapView.showsUserLocation = true
-        hidesBottomBarWhenPushed = true
         
         locationButton.setImage(UIImage(named: "discover"), for: .normal)
         locationButton.setImage(UIImage(named: "follow"), for: .selected)

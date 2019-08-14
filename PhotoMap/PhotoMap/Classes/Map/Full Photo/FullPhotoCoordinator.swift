@@ -24,10 +24,8 @@ class FullPhotoCoordinator: BaseCoordinator<Void> {
         navigationController.pushViewController(fullPhotoViewController, animated: true)
         
         fullPhotoViewController.viewModel = viewModel
-        
         viewModel.postDidLoad.onNext(post)
         
         return viewModel.back
-            
     }
 }
