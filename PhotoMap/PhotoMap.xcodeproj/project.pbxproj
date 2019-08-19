@@ -32,10 +32,17 @@
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
 		5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024822FE218500A66145 /* FullPhotoCoordinator.swift */; };
 		5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024A22FE219C00A66145 /* FullPhotoViewController.swift */; };
+		59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */; };
+		59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */; };
+		59D74C002304BD7E00C5E7FD /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */; };
+		59D74C022304C3C600C5E7FD /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74C012304C3C600C5E7FD /* FirebaseService.swift */; };
 		59DA4AB82302420B00843954 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA4AB72302420B00843954 /* AdaptiveScrollView.swift */; };
 		59DA4ABB2302486D00843954 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA4AB92302486D00843954 /* FooterView.swift */; };
 		59DA4ABC2302486D00843954 /* FooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59DA4ABA2302486D00843954 /* FooterView.xib */; };
 		59DA4ABE230249DD00843954 /* FullPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */; };
+		59E24B9623076ABC00DDE574 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9523076ABC00DDE574 /* SignUpViewController.swift */; };
+		59E24B9823076ACF00DDE574 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9723076ACF00DDE574 /* SignUpCoordinator.swift */; };
+		59E24B9A23076ADC00DDE574 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9923076ADC00DDE574 /* SignUpViewModel.swift */; };
 		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0622F89C4A00F987EF /* PostViewController.swift */; };
 		59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0822F89C5600F987EF /* PostViewModel.swift */; };
@@ -79,10 +86,17 @@
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5975024822FE218500A66145 /* FullPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoCoordinator.swift; sourceTree = "<group>"; };
 		5975024A22FE219C00A66145 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
+		59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
+		59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
+		59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		59D74C012304C3C600C5E7FD /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		59DA4AB72302420B00843954 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
 		59DA4AB92302486D00843954 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		59DA4ABA2302486D00843954 /* FooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FooterView.xib; sourceTree = "<group>"; };
 		59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewModel.swift; sourceTree = "<group>"; };
+		59E24B9523076ABC00DDE574 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		59E24B9723076ACF00DDE574 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
+		59E24B9923076ADC00DDE574 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		59FB8C0622F89C4A00F987EF /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		59FB8C0822F89C5600F987EF /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
@@ -129,6 +143,8 @@
 		590B675722F0FD2500D439B0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				59E24B942307670900DDE574 /* Sign Up */,
+				59D74BFA2304BCE500C5E7FD /* Authentication */,
 				590B675B22F0FE9100D439B0 /* TabBarCoordinator.swift */,
 				59FB8C0522F89C0A00F987EF /* Popup Post */,
 				590B675822F0FD9F00D439B0 /* Map */,
@@ -230,6 +246,7 @@
 				593A055522F363D900FCD118 /* PhotoLibraryService.swift */,
 				59FB8C1022F8C7E800F987EF /* DateService.swift */,
 				59069D4E22FA35C4009D317B /* CategoriesService.swift */,
+				59D74C012304C3C600C5E7FD /* FirebaseService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -244,6 +261,26 @@
 				59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */,
 			);
 			path = "Full Photo";
+			sourceTree = "<group>";
+		};
+		59D74BFA2304BCE500C5E7FD /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */,
+				59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */,
+				59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		59E24B942307670900DDE574 /* Sign Up */ = {
+			isa = PBXGroup;
+			children = (
+				59E24B9523076ABC00DDE574 /* SignUpViewController.swift */,
+				59E24B9923076ADC00DDE574 /* SignUpViewModel.swift */,
+				59E24B9723076ACF00DDE574 /* SignUpCoordinator.swift */,
+			);
+			path = "Sign Up";
 			sourceTree = "<group>";
 		};
 		59EC38C422F0CD910034DFF4 /* Library */ = {
@@ -290,7 +327,6 @@
 				5929CC3F22F0B6450089947C /* Frameworks */,
 				5929CC4022F0B6450089947C /* Resources */,
 				AA62178F8DFF681474F17FF6 /* [CP] Embed Pods Frameworks */,
-				F7E72EF75FF6CAC611A64E80 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -391,23 +427,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F7E72EF75FF6CAC611A64E80 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PhotoMap/Pods-PhotoMap-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PhotoMap/Pods-PhotoMap-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhotoMap/Pods-PhotoMap-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -416,6 +435,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */,
+				59E24B9A23076ADC00DDE574 /* SignUpViewModel.swift in Sources */,
 				590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */,
 				5929CC4822F0B6450089947C /* MapViewController.swift in Sources */,
 				59FB8C1122F8C7E800F987EF /* DateService.swift in Sources */,
@@ -431,10 +451,14 @@
 				59FB8C0F22F8B29C00F987EF /* PostAnnotation.swift in Sources */,
 				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
 				59DA4ABB2302486D00843954 /* FooterView.swift in Sources */,
+				59D74C002304BD7E00C5E7FD /* AuthenticationViewModel.swift in Sources */,
+				59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */,
+				59E24B9823076ACF00DDE574 /* SignUpCoordinator.swift in Sources */,
 				59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
 				59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */,
 				5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */,
+				59D74C022304C3C600C5E7FD /* FirebaseService.swift in Sources */,
 				590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */,
 				59DA4AB82302420B00843954 /* AdaptiveScrollView.swift in Sources */,
 				590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */,
@@ -443,10 +467,12 @@
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
 				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,
+				59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */,
 				59DA4ABE230249DD00843954 /* FullPhotoViewModel.swift in Sources */,
 				5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */,
 				590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */,
 				590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */,
+				59E24B9623076ABC00DDE574 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

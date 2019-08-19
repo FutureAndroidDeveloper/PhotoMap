@@ -8,17 +8,43 @@
 
 import Foundation
 import RxSwift
+import Firebase
+import RxFirebase
 
 class AppCoordinator: BaseCoordinator<Void> {
     private let window: UIWindow
+    let state: Observable<User?>
     
     init(window: UIWindow) {
         self.window = window
+        state = Auth.auth().rx.stateDidChange.share()
     }
     
     override func start() -> Observable<Void> {
-        let tabBarCoordinator = TabBarCoordinator(window: window)
         
-        return tabBarCoordinator.coordinate(to: tabBarCoordinator)
+        // Applications are expected to have a root view controller at the end of application launch
+        window.rootViewController = UINavigationController()
+
+        do {
+            try Auth.auth().signOut()
+        } catch { }
+
+        state.compactMap { $0 }
+            .flatMap { _ -> Observable<Void> in
+                let tabBarCoordinator = TabBarCoordinator(window: self.window)
+                return self.coordinate(to: tabBarCoordinator)
+            }
+            .subscribe()
+            .disposed(by: disposeBag)
+        
+        state.filter { $0 == nil }
+            .flatMap { _ -> Observable<Void> in
+                let authCoordinator = AuthenticationCoordinator(window: self.window)
+                return self.coordinate(to: authCoordinator)
+            }
+            .subscribe()
+            .disposed(by: disposeBag)
+
+        return .never()
     }
 }
