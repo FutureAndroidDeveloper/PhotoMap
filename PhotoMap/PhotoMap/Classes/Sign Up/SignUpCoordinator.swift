@@ -23,10 +23,12 @@ class SignUpCoordinator: BaseCoordinator<Void> {
  
         navigationController.pushViewController(signUpViewController, animated: true)
         
-        return viewModel.disappear
+        return viewModel.disappear.amb(viewModel.create)
+            .take(1)
             .do(onNext: { _ in
                 self.navigationController.isNavigationBarHidden = true
-//                self.navigationController.popToRootViewController(animated: true)
+                self.navigationController.popToRootViewController(animated: true)
+                signUpViewController.dismiss(animated: true)
             })
     }
 }

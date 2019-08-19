@@ -11,43 +11,52 @@ import RxSwift
 
 class AuthenticationViewModel {
     
+    private let bag = DisposeBag()
+    
     let signUpTapped: AnyObserver<Void>
     let signInTapped: AnyObserver<Void>
-    let name: AnyObserver<String>
+    let email: AnyObserver<String>
     let password: AnyObserver<String>
     
     
     let signUp: Observable<Void>
     let signIn: Observable<Void>
+    let error: Observable<String>
     
     init(firebaseService: FirebaseService = FirebaseService()) {
-        
-        // TODO: - Naming
+        let _error = PublishSubject<String>()
+        error = _error.asObservable()
         
         let _signUp = PublishSubject<Void>()
         signUpTapped = _signUp.asObserver()
         signUp = _signUp.asObservable()
         
-        
-        let _name = PublishSubject<String>()
-        name = _name.asObserver()
-        let a = _name.asObservable()
+        let _email = PublishSubject<String>()
+        email = _email.asObserver()
         
         let _singIn = PublishSubject<Void>()
         signInTapped = _singIn.asObserver()
         
         let _password = PublishSubject<String>()
         password = _password.asObserver()
-        let b = _password.asObservable()
         
-        let c = Observable.combineLatest(a, b).share(replay: 1)
+        let accountData = Observable.combineLatest(_email, _password).share(replay: 1)
 
-        
         //sing In
-        signIn = _singIn.asObservable().withLatestFrom(c)
-            .do(onNext: { (mail, pass) in
-                firebaseService.signIn(withEmail: mail, password: pass)
-            })
-            .map { _ in return Void() }
+        let signInResult = _singIn.asObservable().withLatestFrom(accountData)
+            .flatMap { (email, password) in
+                firebaseService.signIn(withEmail: email, password: password)
+            }
+            .share(replay: 1)
+        
+        signInResult
+            .compactMap { $0 }
+            .bind(to: _error)
+            .disposed(by: bag)
+        
+        signIn = signInResult
+            .filter { $0 == nil }
+            .take(1)
+            .map { _ in Void() }
     }
 }

@@ -10,41 +10,47 @@ import Foundation
 import RxFirebaseAuthentication
 import FirebaseAuth
 import RxSwift
-import RxCocoa
 
 class FirebaseService {
     private let bag = DisposeBag()
+    let auth = Auth.auth()
     
-    func createUser(email: String, password: String) {
-        let auth = Auth.auth()
-        
-        // Create a password-based account
-        auth.rx.createUser(withEmail: email, password: password)
-            .subscribe(onNext: { result in
-                print(result)
-            }, onError: { error in
-                print(error)
-            })
-            .disposed(by: bag)
+    func createUser(withEmail email: String, password: String) -> Observable<String?> {
+        return Observable.create { [weak self] observer in
+            // Create a password-based account
+            self?.auth.rx.createUser(withEmail: email, password: password)
+                .subscribe(onNext: { _ in
+                    observer.onNext(nil)
+                    observer.onCompleted()
+                }, onError: { error in
+                    observer.onNext(error.localizedDescription)
+                    observer.onCompleted()
+                })
+                .disposed(by: self!.bag)
+            return Disposables.create()
+        }
     }
     
-    func signIn(withEmail email: String, password: String) {
-        let auth = Auth.auth()
-        
-        // Sign in a user with an email address and password
-        auth.rx.signIn(withEmail: email, password: password)
-            .subscribe(onNext: { result in
-                print(result)
-            }, onError: { error in
-                print(error)
-                print(error.localizedDescription)
-            })
-            .disposed(by: bag)
+    func signIn(withEmail email: String, password: String) -> Observable<String?> {
+        return Observable.create { [weak self] observer in
+            // Sign in a user with an email address and password
+            self?.auth.rx.signIn(withEmail: email, password: password)
+                .subscribe(onNext: { _ in
+                    observer.onNext(nil)
+                    observer.onCompleted()
+                }, onError: { error in
+                    observer.onNext(error.localizedDescription)
+                    observer.onCompleted()
+                })
+                .disposed(by: self!.bag)
+            return Disposables.create()
+        }
     }
+    
     
     func signOut() -> Bool {
         do {
-            try Auth.auth().signOut()
+            try auth.signOut()
             return true
         } catch {
             print(error)

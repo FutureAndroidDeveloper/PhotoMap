@@ -28,22 +28,17 @@ class AuthenticationCoordinator: BaseCoordinator<Void> {
         
         navigationController.pushViewController(authController, animated: true)
         window.makeKeyAndVisible()
+
         
-        viewModel.signUp
-            .flatMap { self.showSignUpViewController() }
-            .subscribe(onNext: { _ in
-                print("END")
-            })
-            .disposed(by: disposeBag)
+        let signUp = viewModel.signUp.flatMap { self.showSignUpViewController() }
+        let signIn = viewModel.signIn
         
-        
-        // TODO: - Check that keyboard manager isEnable == false, after dismissing auth controller
-        return viewModel.signIn
+        return Observable.merge(signUp, signIn)
             .do(onNext: { _ in
                 IQKeyboardManager.shared.enable = false
                 IQKeyboardManager.shared.enableAutoToolbar = false
-//                self.navigationController.dismiss(animated: true)
-//                authController.dismiss(animated: true)
+                self.navigationController.dismiss(animated: true)
+                authController.dismiss(animated: true)
             })
     }
     

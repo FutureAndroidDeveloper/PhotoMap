@@ -21,15 +21,15 @@ class AppCoordinator: BaseCoordinator<Void> {
     }
     
     override func start() -> Observable<Void> {
-        
         // Applications are expected to have a root view controller at the end of application launch
         window.rootViewController = UINavigationController()
 
-        do {
-            try Auth.auth().signOut()
-        } catch { }
-
-        state.compactMap { $0 }
+//        do {
+//            try Auth.auth().signOut()
+//        } catch { }
+        
+        state
+            .compactMap { $0 }
             .flatMap { _ -> Observable<Void> in
                 let tabBarCoordinator = TabBarCoordinator(window: self.window)
                 return self.coordinate(to: tabBarCoordinator)
@@ -37,14 +37,15 @@ class AppCoordinator: BaseCoordinator<Void> {
             .subscribe()
             .disposed(by: disposeBag)
         
-        state.filter { $0 == nil }
+        state
+            .filter { $0 == nil }
             .flatMap { _ -> Observable<Void> in
                 let authCoordinator = AuthenticationCoordinator(window: self.window)
                 return self.coordinate(to: authCoordinator)
             }
             .subscribe()
             .disposed(by: disposeBag)
-
+        
         return .never()
     }
 }
