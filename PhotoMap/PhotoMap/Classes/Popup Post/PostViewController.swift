@@ -52,24 +52,20 @@ class PostViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         contentView.doneButton.rx.tap
-            // TODO: - Send a Post after filling in the necessary information.
-            // TODO: - Keyboard management
-            // TODO: - Size Classes
-            .flatMap { self.viewModel.timestamp }
-            .map { PostAnnotation(image: self.contentView.photoImageView.image!,
-                        date: $0,
-                        category: self.contentView.categoryLabel.text!,
-                        postDescription: self.contentView.textView.text) }
+            .flatMap { [weak self] _ -> Observable<Int> in
+                guard let self = self else { return .empty() }
+                return self.viewModel.timestamp
+            }
+            .map { [weak self] timestamp in
+                guard let self = self else { fatalError("Post View Controller") }
+                return PostAnnotation(image: self.contentView.photoImageView.image!,
+                                      date: timestamp,
+                                      category: self.contentView.categoryLabel.text!,
+                                      postDescription: self.contentView.textView.text)
+            }
             .bind(to: viewModel.done)
             .disposed(by: bag)
-        
-        viewModel.shouldDismass
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.moveOut()
-            })
-            .disposed(by: bag)
-        
+
         tapGesture.rx.event
             .bind(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -114,7 +110,7 @@ class PostViewController: UIViewController, StoryboardInitializable {
         }
     }
     
-     private func moveOut() {
+     func moveOut() {
         UIView.animate(withDuration: 0.4, animations: {
             self.scrollView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             self.scrollView.alpha = 0

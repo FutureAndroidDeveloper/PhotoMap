@@ -27,6 +27,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
     private let longPressGesture = UILongPressGestureRecognizer()
     private var location: CLLocation?
     private var postAnnotation: PostAnnotation!
+    private let spinner = UIActivityIndicatorView(style: .gray)
     
     private lazy var calloutView: CustomCalloutView = {
         let view = CustomCalloutView()
@@ -38,11 +39,14 @@ class MapViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-//        locationManager.rx.didUpdateLocations
-//            .subscribe(onNext: { locations in
-//                // TODO: - Process location data here
-//            })
-//            .disposed(by: bag)
+        viewModel.isLoading
+            .map { !$0 }
+            .bind(to: spinner.rx.isHidden)
+            .disposed(by: bag)
+        
+        viewModel.isLoading
+            .bind(to: spinner.rx.isAnimating)
+            .disposed(by: bag)
 
         mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
@@ -151,6 +155,12 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 }
             })
             .disposed(by: bag)
+        
+        viewModel.error
+            .subscribe(onNext: { message in
+                self.showStorageError(message: message)
+            })
+            .disposed(by: bag)
         }
     
     // MARK: - Private Methods
@@ -163,6 +173,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.addGestureRecognizer(longPressGesture)
         
         mapView.showsUserLocation = true
+        view.addSubview(spinner)
+        spinner.center = view.center
         
         locationButton.setImage(UIImage(named: "discover"), for: .normal)
         locationButton.setImage(UIImage(named: "follow"), for: .selected)
@@ -183,5 +195,12 @@ class MapViewController: UIViewController, StoryboardInitializable {
         photoMenu.addAction(libraryAction)
         photoMenu.addAction(cancelAction)
         present(photoMenu, animated: true, completion: nil)
+    }
+    
+    private func showStorageError(message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }

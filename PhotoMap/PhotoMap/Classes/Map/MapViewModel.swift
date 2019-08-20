@@ -45,11 +45,16 @@ class MapViewModel {
     
     let shortDate: Observable<String>
     
+    let isLoading: Observable<Bool>
+    
+    let error: Observable<String>
+    
     // MARK: - Initialization
     
     init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
          locationService: LocationService = LocationService(),
-         dateService: DateService = DateService()) {
+         dateService: DateService = DateService(),
+         firebaseService: FirebaseService = FirebaseService()) {
         
         let _locationButtonTapped = PublishSubject<Void>()
         locationButtonTapped = _locationButtonTapped.asObserver()
@@ -69,7 +74,12 @@ class MapViewModel {
         
         let _post = PublishSubject<PostAnnotation>()
         postCreated = _post.asObserver()
-        post = _post.asObservable()
+        
+        let _isLoading = PublishSubject<Bool>()
+        isLoading = _isLoading.asObservable()
+        
+        let _error = PublishSubject<String>()
+        error = _error.asObservable()
         
         let _showFullPhoto = PublishSubject<PostAnnotation>()
         fullPhotoTapped = _showFullPhoto.asObserver()
@@ -79,6 +89,20 @@ class MapViewModel {
         timestamp = _timestamp.asObserver()
         shortDate = _timestamp.asObservable()
             .compactMap { dateService.getShortDate(timestamp: $0) }
+        
+        _ = _post.asObservable()
+            .map { _ in return true }
+            .bind(to: _isLoading)
+        
+        post = _post.asObservable()
+            .flatMap { firebaseService.upload(post: $0)
+                .andThen(Observable.just($0))
+            }
+            .do(onNext: { _ in
+                _isLoading.onNext(false)
+            }, onError: { error in
+                _error.onNext(error.localizedDescription)
+            })
         
         _locationButtonTapped.asObservable()
             .flatMap { locationService.authorized }

@@ -22,7 +22,7 @@ class PostAnnotation: NSObject, MKAnnotation {
     let postDescription: String?
     var coordinate: CLLocationCoordinate2D
     
-    init(image: UIImage, date: Int, category: String,postDescription: String?,
+    init(image: UIImage, date: Int, category: String, postDescription: String?,
          coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)) {
         self.image = image
         self.date = date
