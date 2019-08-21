@@ -1,4 +1,5 @@
 PODS:
+  - CodableFirebase (0.2.1)
   - Firebase/Analytics (5.20.2):
     - Firebase/Core
   - Firebase/Core (5.20.2):
@@ -107,6 +108,7 @@ PODS:
   - SkyFloatingLabelTextField (3.7.0)
 
 DEPENDENCIES:
+  - CodableFirebase
   - Firebase/Analytics
   - Firebase/DynamicLinks
   - IQKeyboardManagerSwift
@@ -120,6 +122,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - CodableFirebase
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -147,6 +150,7 @@ SPEC REPOS:
     - SkyFloatingLabelTextField
 
 SPEC CHECKSUMS:
+  CodableFirebase: 0bf201991eeec35eb9fcd987d271ea463cf34a80
   Firebase: 0c8cf33f266410c61ab3e2265cfa412200351d9c
   FirebaseAnalytics: ece1aa57a4f43c64d53a648b5a5e05151aae947b
   FirebaseAnalyticsInterop: 0f250d71e8741352407a8db351e6de78c5c56d35
@@ -173,6 +177,6 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   SkyFloatingLabelTextField: 4b46db0ab1ccde0919cded29c656e6b4805eda04
 
-PODFILE CHECKSUM: 219972d45c9f4f34e712558686dd5e4cd0ede778
+PODFILE CHECKSUM: 0d8608c84c53021f38044b1aaf0c86d8b3e4d9b2
 
 COCOAPODS: 1.7.3

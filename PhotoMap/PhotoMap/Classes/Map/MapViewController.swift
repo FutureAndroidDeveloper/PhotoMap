@@ -39,6 +39,11 @@ class MapViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
+//        mapView.rx.region
+//            .subscribe(onNext: { (region) in
+//                print(region)
+//            })
+        
         viewModel.isLoading
             .map { !$0 }
             .bind(to: spinner.rx.isHidden)
@@ -93,8 +98,15 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .do(onNext: { (recognizer) in
                 let touchPoint = recognizer.location(in: self.mapView)
                 let touchCoordinate = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
+ 
+                
+//                let b = self.convertMapRect()
+//                print(b)
+
+                
                 let touchLocation = CLLocation(latitude: touchCoordinate.latitude, longitude: touchCoordinate.longitude)
                 self.location = touchLocation
+                self.viewModel.location.onNext(touchLocation)
             })
             .map { _ in return Void() }
             .bind(to: viewModel.cameraButtonTapped)
@@ -115,7 +127,10 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         cameraButton.rx.tap
-            .do(onNext: { self.location = self.locationManager.location })
+            .do(onNext: {
+                self.location = self.locationManager.location
+                self.viewModel.location.onNext(self.location!)
+            })
             .bind(to: viewModel.cameraButtonTapped)
             .disposed(by: bag)
 
@@ -178,6 +193,13 @@ class MapViewController: UIViewController, StoryboardInitializable {
         
         locationButton.setImage(UIImage(named: "discover"), for: .normal)
         locationButton.setImage(UIImage(named: "follow"), for: .selected)
+    }
+    
+    private func convertMapRect() -> CoordinateInterval {
+        let northEast = self.mapView.convert(CGPoint(x: self.view.bounds.width, y: 0), toCoordinateFrom: self.mapView)
+        let southWest = self.mapView.convert(CGPoint(x: 0, y: self.view.bounds.height), toCoordinateFrom: self.mapView)
+        
+        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude, beginLongitude: southWest.longitude, endLongitude: northEast.longitude)
     }
     
     private func displayImageSheet() {

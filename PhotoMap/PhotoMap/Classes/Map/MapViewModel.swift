@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import CoreLocation.CLLocation
 
 class MapViewModel {
     
@@ -28,6 +29,8 @@ class MapViewModel {
     let fullPhotoTapped: AnyObserver<PostAnnotation>
     
     let timestamp: AnyObserver<Int>
+    
+    let location: AnyObserver<CLLocation>
     
     
     // MARK: - Outputs
@@ -72,6 +75,9 @@ class MapViewModel {
         photoLibrarySelected = _showPhotoLibrary.asObserver()
         showPhotoLibrary = _showPhotoLibrary.asObservable()
         
+        let _location = PublishSubject<CLLocation>()
+        location = _location.asObserver()
+        
         let _post = PublishSubject<PostAnnotation>()
         postCreated = _post.asObserver()
         
@@ -94,9 +100,13 @@ class MapViewModel {
             .map { _ in return true }
             .bind(to: _isLoading)
         
-        post = _post.asObservable()
-            .flatMap { firebaseService.upload(post: $0)
-                .andThen(Observable.just($0))
+        let lastLocation = _location.sample(_post)
+        
+        post = Observable.zip(_post, lastLocation)
+            .flatMap { (post, location) -> Observable<PostAnnotation> in
+                post.coordinate = location.coordinate
+                return firebaseService.upload(post: post)
+                    .andThen(Observable.just(post))
             }
             .do(onNext: { _ in
                 _isLoading.onNext(false)

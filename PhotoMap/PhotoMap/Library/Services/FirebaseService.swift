@@ -12,6 +12,9 @@ import FirebaseAuth
 import FirebaseStorage
 import RxFirebaseStorage
 import RxSwift
+import CodableFirebase
+import FirebaseDatabase
+import RxFirebaseDatabase
 
 enum FirebaseError: Error {
     case badImage
@@ -29,6 +32,7 @@ extension FirebaseError: LocalizedError {
 class FirebaseService {
     private let bag = DisposeBag()
     let auth = Auth.auth()
+    let database = Database.database().reference()
     let storage = Storage.storage().reference()
     
     static private let defaultMetadata: StorageMetadata = {
@@ -36,7 +40,6 @@ class FirebaseService {
         uploadMetadata.contentType = "image/jpeg"
         return uploadMetadata
     }()
-    
     
     func createUser(withEmail email: String, password: String) -> Observable<String?> {
         return Observable.create { [weak self] observer in
@@ -70,26 +73,42 @@ class FirebaseService {
         }
     }
     
-    func upload(post: PostAnnotation, metadata: StorageMetadata = defaultMetadata) -> Completable {
-        // upload only image NOW
-        return Completable.create { completable in
-            guard let imageData = post.image.jpegData(compressionQuality: 0.75) else {
-                completable(.error(FirebaseError.badImage))
-                return Disposables.create()
-            }
-            
-            let imageID = UUID().uuidString
-            let imageRef = self.storage.child(post.category.lowercased()).child("\(imageID).jpg")
-            _ = imageRef.rx.putData(imageData, metadata: metadata)
-                .flatMapLatest { _ in imageRef.rx.downloadURL() }
-                .subscribe(onNext: { (url) in
+    func upload(post: PostAnnotation) -> Completable {
+        // upload info
+        return Completable.create { [weak self] completable in
+            guard let self = self else { return Disposables.create() }
+
+            _ = self.uploadImage(post: post)
+                .flatMap { url -> Observable<DatabaseReference> in
+                    post.imageUrl = url.absoluteString
+                    let encoder = FirebaseEncoder()
+                    encoder.dataEncodingStrategy = .custom { _, _  in return }
+                    let data = try! encoder.encode(post)
+                    
+                    return self.database.child("model").childByAutoId()
+                        .rx.setValue(data).take(1)
+                }
+                .subscribe(onNext: { _ in
                     completable(.completed)
-                }, onError: { (error) in
+                }, onError: { error in
                     completable(.error(error))
                 })
             
             return Disposables.create()
         }
+    }
+    
+    func uploadImage(post: PostAnnotation, metadata: StorageMetadata = defaultMetadata) -> Observable<URL> {
+        // upload image
+        guard let imageData = post.image.jpegData(compressionQuality: 0.75) else {
+            return .error(FirebaseError.badImage)
+        }
+        
+        let imageID = UUID().uuidString
+        let imageRef = self.storage.child(post.category.lowercased()).child("\(imageID).jpg")
+        return imageRef.rx.putData(imageData, metadata: metadata)
+            .flatMapLatest { _ in imageRef.rx.downloadURL() }
+            .take(1)
     }
     
     func signOut() -> Bool {

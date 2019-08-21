@@ -13,7 +13,7 @@ target 'PhotoMap' do
   pod 'RxFirebase/Storage'
   pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
-  
+  pod 'CodableFirebase'
 
   # Reative
   pod 'RxSwift'
