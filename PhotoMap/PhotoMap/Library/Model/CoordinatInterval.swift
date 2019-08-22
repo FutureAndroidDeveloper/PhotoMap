@@ -14,4 +14,6 @@ struct CoordinateInterval {
     var endLatitude: CLLocationDegrees
     var beginLongitude: CLLocationDegrees
     var endLongitude: CLLocationDegrees
+    var latitudeDelta: Double
+    var longitudeDelta: Double
 }

@@ -18,6 +18,7 @@ import RxFirebaseDatabase
 
 enum FirebaseError: Error {
     case badImage
+    case badJson
 }
 
 extension FirebaseError: LocalizedError {
@@ -25,6 +26,8 @@ extension FirebaseError: LocalizedError {
         switch self {
         case .badImage:
             return NSLocalizedString("Unkown Image", comment: "FirebaseError")
+        case .badJson:
+            return NSLocalizedString("Unkown JSON", comment: "FirebaseError")
         }
     }
 }
@@ -40,6 +43,8 @@ class FirebaseService {
         uploadMetadata.contentType = "image/jpeg"
         return uploadMetadata
     }()
+    
+    private let zoomDelta: Double = 1.0
     
     func createUser(withEmail email: String, password: String) -> Observable<String?> {
         return Observable.create { [weak self] observer in
@@ -98,9 +103,49 @@ class FirebaseService {
         }
     }
     
+    func download(interval: CoordinateInterval) -> Observable<[PostAnnotation]> {
+        return Observable.create { observer  in
+            if interval.latitudeDelta > self.zoomDelta && interval.longitudeDelta > self.zoomDelta {
+                observer.onNext([])
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            //filter by latitude
+            _ = self.database.child("model").queryOrdered(byChild: "coordinate/latitude")
+                .queryStarting(atValue: interval.beginLatitude)
+                .queryEnding(atValue: interval.endLatitude)
+                .rx.observeEvent(.value)
+                .subscribe(onNext: { snapshot in
+                    guard let value = snapshot.value as? [String: Any] else {
+                        observer.onNext([])
+                        observer.onCompleted()
+                        return
+                    }
+                    
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
+                        let posts = try JSONDecoder().decode([String: PostAnnotation].self, from: jsonData)
+                        let sortedPosts = posts.map { $0.value }
+                            .filter {
+                                $0.coordinate.longitude > interval.beginLongitude
+                                && $0.coordinate.longitude < interval.endLongitude
+                            }
+                        observer.onNext(sortedPosts)
+                        observer.onCompleted()
+                    } catch {
+                        observer.onError(error)
+                        observer.onCompleted()
+                    }
+                })
+            
+            return Disposables.create()
+        }
+    }
+    
     func uploadImage(post: PostAnnotation, metadata: StorageMetadata = defaultMetadata) -> Observable<URL> {
         // upload image
-        guard let imageData = post.image.jpegData(compressionQuality: 0.75) else {
+        guard let imageData = post.image!.jpegData(compressionQuality: 0.75) else {
             return .error(FirebaseError.badImage)
         }
         

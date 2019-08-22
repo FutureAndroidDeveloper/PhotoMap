@@ -13,6 +13,8 @@ import MapKit
 import CoreLocation
 import RxMKMapView
 
+import Kingfisher
+
 class MapViewController: UIViewController, StoryboardInitializable {
     
     @IBOutlet weak var mapView: MKMapView!
@@ -39,10 +41,13 @@ class MapViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-//        mapView.rx.region
-//            .subscribe(onNext: { (region) in
-//                print(region)
-//            })
+        mapView.rx.regionDidChangeAnimated
+            .map { _ in self.convertMapRect() }
+            .bind(to: self.viewModel.coordinateInterval)
+            .disposed(by: bag)
+        
+        mapView.rx.annotations(viewModel.posts)
+            .disposed(by: bag)
         
         viewModel.isLoading
             .map { !$0 }
@@ -98,12 +103,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .do(onNext: { (recognizer) in
                 let touchPoint = recognizer.location(in: self.mapView)
                 let touchCoordinate = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
- 
-                
-//                let b = self.convertMapRect()
-//                print(b)
-
-                
                 let touchLocation = CLLocation(latitude: touchCoordinate.latitude, longitude: touchCoordinate.longitude)
                 self.location = touchLocation
                 self.viewModel.location.onNext(touchLocation)
@@ -198,8 +197,10 @@ class MapViewController: UIViewController, StoryboardInitializable {
     private func convertMapRect() -> CoordinateInterval {
         let northEast = self.mapView.convert(CGPoint(x: self.view.bounds.width, y: 0), toCoordinateFrom: self.mapView)
         let southWest = self.mapView.convert(CGPoint(x: 0, y: self.view.bounds.height), toCoordinateFrom: self.mapView)
+        let latDelta = mapView.region.span.latitudeDelta
+        let longDelta = mapView.region.span.longitudeDelta
         
-        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude, beginLongitude: southWest.longitude, endLongitude: northEast.longitude)
+        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude, beginLongitude: southWest.longitude, endLongitude: northEast.longitude, latitudeDelta: latDelta, longitudeDelta: longDelta)
     }
     
     private func displayImageSheet() {

@@ -32,6 +32,9 @@ class MapViewModel {
     
     let location: AnyObserver<CLLocation>
     
+    let coordinateInterval: AnyObserver<CoordinateInterval>
+    
+    
     
     // MARK: - Outputs
     
@@ -51,6 +54,8 @@ class MapViewModel {
     let isLoading: Observable<Bool>
     
     let error: Observable<String>
+    
+    let posts: Observable<[PostAnnotation]>
     
     // MARK: - Initialization
     
@@ -87,9 +92,38 @@ class MapViewModel {
         let _error = PublishSubject<String>()
         error = _error.asObservable()
         
+        let _coordinateInterval = PublishSubject<CoordinateInterval>()
+        coordinateInterval = _coordinateInterval.asObserver()
+        
         let _showFullPhoto = PublishSubject<PostAnnotation>()
         fullPhotoTapped = _showFullPhoto.asObserver()
         showFullPhoto = _showFullPhoto.asObservable()
+        
+        var set = Set<String>()
+        var uniqPosts = [PostAnnotation]()
+        
+        let _posts = PublishSubject<[PostAnnotation]>()
+        posts = _posts.asObservable()
+
+        _ = _coordinateInterval.flatMapLatest { firebaseService.download(interval: $0) }
+            .map { posts -> [PostAnnotation] in
+                var test = [PostAnnotation]()
+                for post in posts {
+                    if set.contains(post.imageUrl!) {
+                        continue
+                    } else {
+                        set.insert(post.imageUrl!)
+                        test.append(post)
+                    }
+                }
+                return test
+            }
+            .map { uniq in
+                uniqPosts.append(contentsOf: uniq)
+                return uniqPosts
+            }
+            .catchErrorJustReturn(uniqPosts)
+            .bind(to: _posts)
         
         let _timestamp = PublishSubject<Int>()
         timestamp = _timestamp.asObserver()

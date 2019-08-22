@@ -71,6 +71,7 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
   - IQKeyboardManagerSwift (6.4.1)
+  - Kingfisher (5.7.1)
   - leveldb-library (1.20)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
@@ -112,6 +113,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/DynamicLinks
   - IQKeyboardManagerSwift
+  - Kingfisher
   - RxCocoa
   - RxFirebase/Auth
   - RxFirebase/Database
@@ -137,6 +139,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - Kingfisher
     - leveldb-library
     - nanopb
     - RxCocoa
@@ -165,6 +168,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   IQKeyboardManagerSwift: d2df660d0b8d64a15cb2537c9ff303213fa515b2
+  Kingfisher: 176d377ad339113c99ad4980cbae687f807e20fe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
@@ -177,6 +181,6 @@ SPEC CHECKSUMS:
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   SkyFloatingLabelTextField: 4b46db0ab1ccde0919cded29c656e6b4805eda04
 
-PODFILE CHECKSUM: 0d8608c84c53021f38044b1aaf0c86d8b3e4d9b2
+PODFILE CHECKSUM: a9c0529c56108576605c7ff03198877d6a59d2f6
 
 COCOAPODS: 1.7.3
