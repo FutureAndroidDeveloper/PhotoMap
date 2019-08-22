@@ -8,14 +8,24 @@ target 'PhotoMap' do
   # Pods for PhotoMap
 
   # Firebase
-  pod 'Firebase/Auth'
-  pod 'FirebaseUI'
+  pod 'RxFirebase/Auth'
+  pod 'RxFirebase/Database'
+  pod 'RxFirebase/Storage'
   pod 'Firebase/Analytics'
-  pod 'Firebase/Database'
-  pod 'Firebase/Storage'
+  pod 'Firebase/DynamicLinks'
+  pod 'CodableFirebase'
 
   # Reative
   pod 'RxSwift'
   pod 'RxCocoa'
   pod "RxMKMapView"
+
+  # Keyboard
+  pod 'IQKeyboardManagerSwift'
+
+  # TextField
+  pod 'SkyFloatingLabelTextField'
+
+  # image downloading
+  pod 'Kingfisher'
 end

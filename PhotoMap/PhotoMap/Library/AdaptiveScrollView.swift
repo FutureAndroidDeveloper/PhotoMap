@@ -8,43 +8,48 @@
 
 // AdaptiveScrollView.swift
 import UIKit
+import RxSwift
+import RxCocoa
 
 class AdaptiveScrollView: UIScrollView {
     
+    private let bag = DisposeBag()
+    
+    @IBInspectable var keyboardHeightDivisor: CGFloat = 1
+    @IBInspectable var contentInsetsDivisor: CGFloat = 1
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setupBindings()
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setupBindings()
     }
     
-    private func setup() {
-         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardDidShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-                return
-        }
-        let keyboardSize = frame.cgRectValue.size
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
-                                         bottom: keyboardSize.height / 1.5, right: 0.0)
-        adjustContentInsets(contentInsets)
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        adjustContentInsets(.zero)
+    private func setupBindings() {
+        NotificationCenter.default.rx.notification(UIResponder.keyboardDidShowNotification)
+            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue }
+            .subscribe(onNext: { frame in
+                let keyboardSize = frame.cgRectValue.size
+                let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
+                                                 bottom: keyboardSize.height / self.keyboardHeightDivisor, right: 0.0)
+                self.adjustContentInsets(contentInsets)
+            })
+            .disposed(by: bag)
+
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .subscribe(onNext: { _ in
+                self.adjustContentInsets(.zero)
+            })
+            .disposed(by: bag)
     }
     
     private func adjustContentInsets(_ contentInsets: UIEdgeInsets) {
-        
-        contentInset = contentInsets
-        setContentOffset(CGPoint(x: 0, y: contentInsets.bottom / 1.2), animated: false)
-        scrollIndicatorInsets = contentInsets
+        if contentSize.height > frame.size.height - contentInsets.bottom || contentInsets == .zero {
+            contentInset = contentInsets
+            setContentOffset(CGPoint(x: 0, y: contentInsets.bottom / contentInsetsDivisor), animated: false)
+            scrollIndicatorInsets = contentInsets
+        }
     }
 }

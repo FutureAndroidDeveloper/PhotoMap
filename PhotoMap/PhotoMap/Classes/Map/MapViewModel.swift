@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import CoreLocation.CLLocation
 
 class MapViewModel {
     
@@ -29,6 +30,11 @@ class MapViewModel {
     
     let timestamp: AnyObserver<Int>
     
+    let location: AnyObserver<CLLocation>
+    
+    let coordinateInterval: AnyObserver<CoordinateInterval>
+    
+    
     
     // MARK: - Outputs
     
@@ -45,11 +51,18 @@ class MapViewModel {
     
     let shortDate: Observable<String>
     
+    let isLoading: Observable<Bool>
+    
+    let error: Observable<String>
+    
+    let posts: Observable<[PostAnnotation]>
+    
     // MARK: - Initialization
     
     init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
          locationService: LocationService = LocationService(),
-         dateService: DateService = DateService()) {
+         dateService: DateService = DateService(),
+         firebaseService: FirebaseService = FirebaseService()) {
         
         let _locationButtonTapped = PublishSubject<Void>()
         locationButtonTapped = _locationButtonTapped.asObserver()
@@ -67,18 +80,73 @@ class MapViewModel {
         photoLibrarySelected = _showPhotoLibrary.asObserver()
         showPhotoLibrary = _showPhotoLibrary.asObservable()
         
+        let _location = PublishSubject<CLLocation>()
+        location = _location.asObserver()
+        
         let _post = PublishSubject<PostAnnotation>()
         postCreated = _post.asObserver()
-        post = _post.asObservable()
+        
+        let _isLoading = PublishSubject<Bool>()
+        isLoading = _isLoading.asObservable()
+        
+        let _error = PublishSubject<String>()
+        error = _error.asObservable()
+        
+        let _coordinateInterval = PublishSubject<CoordinateInterval>()
+        coordinateInterval = _coordinateInterval.asObserver()
         
         let _showFullPhoto = PublishSubject<PostAnnotation>()
         fullPhotoTapped = _showFullPhoto.asObserver()
         showFullPhoto = _showFullPhoto.asObservable()
         
+        var set = Set<String>()
+        var uniqPosts = [PostAnnotation]()
+        
+        let _posts = PublishSubject<[PostAnnotation]>()
+        posts = _posts.asObservable()
+
+        _ = _coordinateInterval.flatMapLatest { firebaseService.download(interval: $0) }
+            .map { posts -> [PostAnnotation] in
+                var test = [PostAnnotation]()
+                for post in posts {
+                    if set.contains(post.imageUrl!) {
+                        continue
+                    } else {
+                        set.insert(post.imageUrl!)
+                        test.append(post)
+                    }
+                }
+                return test
+            }
+            .map { uniq in
+                uniqPosts.append(contentsOf: uniq)
+                return uniqPosts
+            }
+            .catchErrorJustReturn(uniqPosts)
+            .bind(to: _posts)
+        
         let _timestamp = PublishSubject<Int>()
         timestamp = _timestamp.asObserver()
         shortDate = _timestamp.asObservable()
             .compactMap { dateService.getShortDate(timestamp: $0) }
+        
+        _ = _post.asObservable()
+            .map { _ in return true }
+            .bind(to: _isLoading)
+        
+        let lastLocation = _location.sample(_post)
+        
+        post = Observable.zip(_post, lastLocation)
+            .flatMap { (post, location) -> Observable<PostAnnotation> in
+                post.coordinate = location.coordinate
+                return firebaseService.upload(post: post)
+                    .andThen(Observable.just(post))
+            }
+            .do(onNext: { _ in
+                _isLoading.onNext(false)
+            }, onError: { error in
+                _error.onNext(error.localizedDescription)
+            })
         
         _locationButtonTapped.asObservable()
             .flatMap { locationService.authorized }

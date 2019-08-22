@@ -34,9 +34,13 @@ class MapCoordinator: BaseCoordinator<Void> {
             .disposed(by: disposeBag)
         
         viewModel.showPhotoLibrary
-            .flatMap { self.showPhotoLibrary(in: mapViewController) }
-            .flatMap { image, date in
-                self.showPostViewController(on: mapViewController, image: image, date: date)
+            .flatMap { [weak self] _ -> Observable<(UIImage, Date)> in
+                guard let self = self else { return .empty() }
+                return self.showPhotoLibrary(in: mapViewController)
+            }
+            .flatMap { [weak self] image, date -> Observable<PostAnnotation?> in
+                guard let self = self else { return .empty() }
+                return self.showPostViewController(on: mapViewController, image: image, date: date)
             }
             .compactMap { $0 }
             .bind(to: viewModel.postCreated)
@@ -73,6 +77,7 @@ class MapCoordinator: BaseCoordinator<Void> {
             }
         
         return Observable.combineLatest(image, date)
+            .take(1)
             .do(onNext: { _ in
                 imagePicker.dismiss(animated: true)
             })

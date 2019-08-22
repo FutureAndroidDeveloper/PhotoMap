@@ -17,7 +17,6 @@ class PostViewModel {
     let didSelectedImage: AnyObserver<UIImage>
     let cancel: AnyObserver<Void>
     let done: AnyObserver<PostAnnotation>
-    let dismiss: AnyObserver<Void>
     let creationDate: AnyObserver<Date>
     
     // MARK: - Output
@@ -25,7 +24,6 @@ class PostViewModel {
     let date: Observable<String>
     let didCancel: Observable<Void>
     let post: Observable<PostAnnotation>
-    let shouldDismass: Observable<Void>
     let categories: Observable<[String]>
     
     let timestamp: Observable<Int>
@@ -42,10 +40,6 @@ class PostViewModel {
         let _done = PublishSubject<PostAnnotation>()
         done = _done.asObserver()
         post = _done.asObservable()
-        
-        let _dismiss = PublishSubject<Void>()
-        dismiss = _dismiss.asObserver()
-        shouldDismass = _dismiss.asObservable()
         
         let _creationDate = ReplaySubject<Date>.create(bufferSize: 1)
         creationDate = _creationDate.asObserver()

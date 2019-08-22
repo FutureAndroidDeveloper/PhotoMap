@@ -18,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var appCoordinator: AppCoordinator!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-//        FirebaseApp.configure()
-        
+        FirebaseApp.configure()
         window = UIWindow()
         
         appCoordinator = AppCoordinator(window: window!)
