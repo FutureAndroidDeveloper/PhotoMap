@@ -26,6 +26,6 @@ class FullPhotoCoordinator: BaseCoordinator<Void> {
         fullPhotoViewController.viewModel = viewModel
         viewModel.postDidLoad.onNext(post)
         
-        return viewModel.back
+        return viewModel.back.take(1)
     }
 }

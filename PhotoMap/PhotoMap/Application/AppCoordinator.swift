@@ -17,7 +17,7 @@ class AppCoordinator: BaseCoordinator<Void> {
     
     init(window: UIWindow) {
         self.window = window
-        state = Auth.auth().rx.stateDidChange.share()
+        state = Auth.auth().rx.stateDidChange.share(replay: 1)
     }
     
     override func start() -> Observable<Void> {

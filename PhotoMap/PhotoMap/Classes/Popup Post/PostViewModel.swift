@@ -18,6 +18,7 @@ class PostViewModel {
     let cancel: AnyObserver<Void>
     let done: AnyObserver<PostAnnotation>
     let creationDate: AnyObserver<Date>
+    let fullPhotoTapped: AnyObserver<PostAnnotation>
     
     // MARK: - Output
     let postImage: Observable<UIImage>
@@ -25,6 +26,7 @@ class PostViewModel {
     let didCancel: Observable<Void>
     let post: Observable<PostAnnotation>
     let categories: Observable<[String]>
+    let showFullPhoto: Observable<PostAnnotation>
     
     let timestamp: Observable<Int>
     
@@ -41,6 +43,10 @@ class PostViewModel {
         done = _done.asObserver()
         post = _done.asObservable()
         
+        let _fullPhoto = PublishSubject<PostAnnotation>()
+        fullPhotoTapped = _fullPhoto.asObserver()
+        showFullPhoto = _fullPhoto.asObservable()
+
         let _creationDate = ReplaySubject<Date>.create(bufferSize: 1)
         creationDate = _creationDate.asObserver()
         date = _creationDate.asObservable()

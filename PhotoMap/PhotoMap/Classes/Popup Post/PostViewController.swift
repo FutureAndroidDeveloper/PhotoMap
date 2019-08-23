@@ -17,7 +17,8 @@ class PostViewController: UIViewController, StoryboardInitializable {
     
     var viewModel: PostViewModel!
     private let bag = DisposeBag()
-    private let tapGesture = UITapGestureRecognizer()
+    private let categoryTapGesture = UITapGestureRecognizer()
+    private let imageTapGesture = UITapGestureRecognizer()
     private let pickerView = UIPickerView()
     
     override func viewDidLoad() {
@@ -52,25 +53,26 @@ class PostViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         contentView.doneButton.rx.tap
-            .flatMap { [weak self] _ -> Observable<Int> in
-                guard let self = self else { return .empty() }
-                return self.viewModel.timestamp
-            }
-            .map { [weak self] timestamp in
+            .flatMap { [weak self] _ -> Observable<PostAnnotation> in
                 guard let self = self else { fatalError("Post View Controller") }
-                return PostAnnotation(image: self.contentView.photoImageView.image!,
-                                      date: timestamp,
-                                      category: self.contentView.categoryLabel.text!,
-                                      postDescription: self.contentView.textView.text)
+                return self.createPost()
             }
             .bind(to: viewModel.done)
             .disposed(by: bag)
 
-        tapGesture.rx.event
+        categoryTapGesture.rx.event
             .bind(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.showCategoryPicker()
             })
+            .disposed(by: bag)
+
+        imageTapGesture.rx.event
+            .flatMap { [weak self] _ -> Observable<PostAnnotation> in
+                guard let self = self else { fatalError("Post View Controller") }
+                return self.createPost()
+            }
+            .bind(to: viewModel.fullPhotoTapped)
             .disposed(by: bag)
     }
     
@@ -97,27 +99,61 @@ class PostViewController: UIViewController, StoryboardInitializable {
         scrollView.layer.cornerRadius = 10
         contentView.layer.cornerRadius = 10
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        contentView.categoryStackView.addGestureRecognizer(tapGesture)
+        contentView.categoryStackView.addGestureRecognizer(categoryTapGesture)
+        contentView.photoImageView.addGestureRecognizer(imageTapGesture)
+    }
+    
+    private func createPost() -> Observable<PostAnnotation> {
+        return Observable.create { observer  in
+            self.viewModel.timestamp
+                .map { [weak self] timestamp -> PostAnnotation in
+                    guard let self = self else { fatalError("Post View Controller. createPost()") }
+                    return PostAnnotation(image: self.contentView.photoImageView.image!,
+                                          date: timestamp,
+                                          category: self.contentView.categoryLabel.text!,
+                                          postDescription: self.contentView.textView.text)
+                }
+                .subscribe(onNext: { post in
+                    observer.onNext(post)
+                    observer.onCompleted()
+                }, onError: { error in
+                    observer.onError(error)
+                })
+                .disposed(by: self.bag)
+            
+            return Disposables.create()
+        }
     }
     
     private func moveIn() {
         scrollView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         scrollView.alpha = 0
-        
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.5) { [weak self] () -> Void in
+            guard let self = self else { return }
             self.scrollView.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.scrollView.alpha = 1
         }
     }
     
-     func moveOut() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.scrollView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            self.scrollView.alpha = 0
-        }, completion: { [weak self]  _ in
-            guard let self = self else { return }
-            self.removeFromParent()
-            self.view.removeFromSuperview()
-        })
+     func moveOut() -> Observable<Void> {
+        return Observable.create { observer  in
+            UIView.animate(withDuration: 0.4, animations: { [weak self] () -> Void in
+                guard let self = self else { return }
+                self.scrollView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                self.scrollView.alpha = 0
+                }, completion: { [weak self]  _ in
+                    guard let self = self else {
+                        observer.onNext(Void())
+                        observer.onCompleted()
+                        return
+                    }
+                    self.removeFromParent()
+                    self.view.removeFromSuperview()
+                    observer.onNext(Void())
+                    observer.onCompleted()
+            })
+            
+            return Disposables.create()
+        }
     }
 }

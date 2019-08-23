@@ -37,16 +37,44 @@ class PostCoordinator: BaseCoordinator<PostCoordinatorResult> {
         viewModel.didSelectedImage.onNext(postImage)
         viewModel.creationDate.onNext(creationDate)
         
-        rootViewController.addChild(postViewController)
-        postViewController.view.frame = rootViewController.view.frame
-        rootViewController.view.addSubview(postViewController.view)
-        postViewController.didMove(toParent: rootViewController)
+        let navigationController = UINavigationController(rootViewController: postViewController)
+        navigationController.isNavigationBarHidden = true
+        navigationController.navigationBar.tintColor = .white
+        navigationController.modalPresentationStyle = .overCurrentContext
+        rootViewController.present(navigationController, animated: false, completion: nil)
         
-        let cancel = viewModel.didCancel.map { _ in CoordinatorResult.cancel }
-        let post = viewModel.post.map { CoordinatorResult.post($0) }
- 
-        return Observable.merge(cancel, post)
-            .take(1)
-            .do(onNext: { _ in postViewController.moveOut() })
+        viewModel.showFullPhoto
+            .flatMap { [weak self] post -> Observable<Void> in
+                guard let self = self else { return .empty() }
+                self.rootViewController.tabBarController?.tabBar.isHidden = true
+                return self.showFullPhotoViewController(post: post, navigationController: navigationController)
+                    .take(1)
+            }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.rootViewController.tabBarController?.tabBar.isHidden = false
+            })
+            .disposed(by: disposeBag)
+        
+        let cancel = viewModel.didCancel.take(1).map { _ in CoordinatorResult.cancel }.take(1)
+        let post = viewModel.post.take(1).map { CoordinatorResult.post($0) }.take(1)
+        let result = Observable.merge(cancel, post).share(replay: 1)
+        
+        return result
+            .flatMap { _ in
+                postViewController.moveOut()
+            }
+            .flatMap { _ -> Observable<CoordinatorResult> in
+                return result.take(1)
+            }
+            .do(onNext: { [weak self] re in
+                guard let self = self else { return }
+                self.rootViewController.dismiss(animated: false, completion: nil)
+            })
+    }
+    
+    private func showFullPhotoViewController(post: PostAnnotation, navigationController: UINavigationController) -> Observable<Void> {
+        let fullPhotoCoordinator = FullPhotoCoordinator(navigationController: navigationController, post: post)
+        return coordinate(to: fullPhotoCoordinator)
     }
 }

@@ -69,7 +69,7 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
 extension PostAnnotation {
     override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? PostAnnotation else { return false }
-        return self.categoryImage == object.categoryImage
+        return self.imageUrl == object.imageUrl
     }
 }
 

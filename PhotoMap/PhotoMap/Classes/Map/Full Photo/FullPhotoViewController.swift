@@ -35,7 +35,8 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
         
         tapGesture.rx.event
             .observeOn(MainScheduler.instance)
-            .bind(onNext: { _ in
+            .bind(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 if self.navigationItem.hidesBackButton {
                     self.show()
                 } else {

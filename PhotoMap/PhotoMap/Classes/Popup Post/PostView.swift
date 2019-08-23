@@ -118,6 +118,7 @@ class PostView: UIView {
         addSubview(fisrtLine)
         addSubview(secondLine)
         addSubview(categoryStackView)
+        photoImageView.isUserInteractionEnabled = true
         
         let leadingGuide = UILayoutGuide()
         let middleGuide = UILayoutGuide()

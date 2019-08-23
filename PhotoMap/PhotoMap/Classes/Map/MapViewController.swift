@@ -42,7 +42,10 @@ class MapViewController: UIViewController, StoryboardInitializable {
         setupView()
         
         mapView.rx.regionDidChangeAnimated
-            .map { _ in self.convertMapRect() }
+            .map { [weak self] _ in
+                guard let self = self else { fatalError() }
+                return self.convertMapRect()
+            }
             .bind(to: self.viewModel.coordinateInterval)
             .disposed(by: bag)
         
@@ -61,7 +64,10 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
         calloutView.detailButton.rx.tap
-            .compactMap { self.postAnnotation }
+            .compactMap { [weak self] _ in
+                guard let self = self else { fatalError() }
+                return self.postAnnotation
+            }
             .bind(to: viewModel.fullPhotoTapped)
             .disposed(by: bag)
         
@@ -71,7 +77,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
         
         mapView.rx.didSelectAnnotationView
             .filter { !($0.annotation is MKUserLocation) }
-            .bind(onNext: { view in
+            .bind(onNext: { [weak self] view in
+                guard let self = self else { return }
                 self.postAnnotation = view.annotation as? PostAnnotation
                 view.addSubview(self.calloutView)
                 
@@ -100,7 +107,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
         
         longPressGesture.rx.event
             .filter { $0.state == .began }
-            .do(onNext: { (recognizer) in
+            .do(onNext: { [weak self] recognizer in
+                guard let self = self else { return }
                 let touchPoint = recognizer.location(in: self.mapView)
                 let touchCoordinate = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
                 let touchLocation = CLLocation(latitude: touchCoordinate.latitude, longitude: touchCoordinate.longitude)
@@ -112,7 +120,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         viewModel.post
-            .subscribe(onNext: { post in
+            .subscribe(onNext: { [weak self] post in
+                guard let self = self else { return }
                 guard let coordinate = self.location?.coordinate else { return }
                 post.coordinate = coordinate
                 self.mapView.addAnnotation(post)
@@ -120,13 +129,15 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         viewModel.showImageSheet
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.displayImageSheet()
             })
             .disposed(by: bag)
         
         cameraButton.rx.tap
-            .do(onNext: {
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.location = self.locationManager.location
                 self.viewModel.location.onNext(self.location!)
             })
@@ -138,7 +149,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         locationButton.rx.tap.asObservable()
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 switch CLLocationManager.authorizationStatus() {
                 case .authorizedAlways, .authorizedWhenInUse:
                     if self.locationButton.isSelected {
@@ -152,13 +164,15 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         mapView.rx.didChangeUserTrackingMode
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.locationButton.isSelected = !self.locationButton.isSelected
             })
             .disposed(by: bag)
         
         locationManager.rx.didChangeAuthorization
-            .subscribe(onNext: { status in
+            .subscribe(onNext: { [weak self] status in
+                guard let self = self else { return }
                 switch status {
                 case .authorizedAlways, .authorizedWhenInUse:
                     self.mapView.userTrackingMode = .follow
@@ -171,7 +185,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         viewModel.error
-            .subscribe(onNext: { message in
+            .subscribe(onNext: { [weak self] message in
+                guard let self = self else { return }
                 self.showStorageError(message: message)
             })
             .disposed(by: bag)
@@ -200,7 +215,9 @@ class MapViewController: UIViewController, StoryboardInitializable {
         let latDelta = mapView.region.span.latitudeDelta
         let longDelta = mapView.region.span.longitudeDelta
         
-        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude, beginLongitude: southWest.longitude, endLongitude: northEast.longitude, latitudeDelta: latDelta, longitudeDelta: longDelta)
+        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude,
+                                  beginLongitude: southWest.longitude, endLongitude: northEast.longitude,
+                                  latitudeDelta: latDelta, longitudeDelta: longDelta)
     }
     
     private func displayImageSheet() {
@@ -209,7 +226,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
         let cameraAction = UIAlertAction(title: "Take a Picture", style: .default, handler: { _ in
             // TODO: - Camera
         })
-        let libraryAction = UIAlertAction(title: "Choose From Library", style: .default, handler: { _ in
+        let libraryAction = UIAlertAction(title: "Choose From Library", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
             self.viewModel.photoLibrarySelected.onNext(Void())
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)

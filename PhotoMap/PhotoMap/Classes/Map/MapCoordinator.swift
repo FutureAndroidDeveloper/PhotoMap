@@ -47,9 +47,12 @@ class MapCoordinator: BaseCoordinator<Void> {
             .disposed(by: disposeBag)
         
         viewModel.showFullPhoto
-            .subscribe(onNext: { post in
-                self.showFullPhotoViewController(post: post)
-            })
+            .flatMap { [weak self] post -> Observable<Void> in
+                guard let self = self else { return .empty() }
+                return self.showFullPhotoViewController(post: post)
+                    .take(1)
+            }
+            .subscribe(onNext: {})
             .disposed(by: disposeBag)
 
         return .never()
@@ -86,6 +89,7 @@ class MapCoordinator: BaseCoordinator<Void> {
     private func showPostViewController(on rootViewController: UIViewController, image: UIImage, date: Date) -> Observable<PostAnnotation?> {
         let postCoordinator = PostCoordinator(rootViewController: rootViewController, image: image, date: date)
         return coordinate(to: postCoordinator)
+            .take(1)
             .map { result in
                 switch result {
                 case .post(let post): return post
