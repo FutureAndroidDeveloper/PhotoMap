@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import CoreLocation.CLLocation
+import MapKit.MKMapView
 
 class MapViewModel {
     
@@ -32,7 +33,7 @@ class MapViewModel {
     
     let location: AnyObserver<CLLocation>
     
-    let coordinateInterval: AnyObserver<CoordinateInterval>
+    let coordinateInterval: AnyObserver<MKCoordinateRegion>
     
     
     
@@ -92,7 +93,7 @@ class MapViewModel {
         let _error = PublishSubject<String>()
         error = _error.asObservable()
         
-        let _coordinateInterval = PublishSubject<CoordinateInterval>()
+        let _coordinateInterval = PublishSubject<MKCoordinateRegion>()
         coordinateInterval = _coordinateInterval.asObserver()
         
         let _showFullPhoto = PublishSubject<PostAnnotation>()
@@ -105,7 +106,7 @@ class MapViewModel {
         let _posts = PublishSubject<[PostAnnotation]>()
         posts = _posts.asObservable()
 
-        _ = _coordinateInterval.flatMapLatest { firebaseService.download(interval: $0) }
+        _ = _coordinateInterval.flatMapLatest { firebaseService.download(region: $0) }
             .map { posts -> [PostAnnotation] in
                 var test = [PostAnnotation]()
                 for post in posts {

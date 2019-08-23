@@ -6,14 +6,14 @@
 //  Copyright © 2019 Kiryl Klimiankou. All rights reserved.
 //
 
-import Foundation
-import CoreLocation.CLLocation
-
-struct CoordinateInterval {
-    var beginLatitude: CLLocationDegrees
-    var endLatitude: CLLocationDegrees
-    var beginLongitude: CLLocationDegrees
-    var endLongitude: CLLocationDegrees
-    var latitudeDelta: Double
-    var longitudeDelta: Double
-}
+//import Foundation
+//import CoreLocation.CLLocation
+//
+//struct CoordinateInterval {
+//    var beginLatitude: CLLocationDegrees
+//    var endLatitude: CLLocationDegrees
+//    var beginLongitude: CLLocationDegrees
+//    var endLongitude: CLLocationDegrees
+//    var latitudeDelta: Double
+//    var longitudeDelta: Double
+//}

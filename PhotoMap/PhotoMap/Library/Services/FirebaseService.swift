@@ -15,6 +15,7 @@ import RxSwift
 import CodableFirebase
 import FirebaseDatabase
 import RxFirebaseDatabase
+import GeoFire
 
 enum FirebaseError: Error {
     case badImage
@@ -35,7 +36,7 @@ extension FirebaseError: LocalizedError {
 class FirebaseService {
     private let bag = DisposeBag()
     let auth = Auth.auth()
-    let database = Database.database().reference()
+    let databaseRef = Database.database().reference().child("model")
     let storage = Storage.storage().reference()
     
     static private let defaultMetadata: StorageMetadata = {
@@ -79,7 +80,7 @@ class FirebaseService {
     }
     
     func upload(post: PostAnnotation) -> Completable {
-        // upload info
+        // upload post model
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
 
@@ -90,11 +91,21 @@ class FirebaseService {
                     encoder.dataEncodingStrategy = .custom { _, _  in return }
                     let data = try! encoder.encode(post)
                     
-                    return self.database.child("model").childByAutoId()
+                    return self.databaseRef.childByAutoId()
                         .rx.setValue(data).take(1)
                 }
-                .subscribe(onNext: { _ in
-                    completable(.completed)
+                .subscribe(onNext: { [weak self] postReference in
+                    guard let self = self else {
+                        completable(.completed)
+                        return
+                    }
+                    // set helpfull inforamtion for geo quary
+                    GeoFire(firebaseRef: self.databaseRef).setLocation(CLLocation(latitude: post.coordinate.latitude, longitude: post.coordinate.longitude), forKey: postReference.key!, withCompletionBlock: { geoError in
+                        if let geoError = geoError {
+                            completable(.error(geoError))
+                        }
+                        completable(.completed)
+                    })
                 }, onError: { error in
                     completable(.error(error))
                 })
@@ -103,43 +114,39 @@ class FirebaseService {
         }
     }
     
-    func download(interval: CoordinateInterval) -> Observable<[PostAnnotation]> {
-        return Observable.create { observer  in
-            if interval.latitudeDelta > self.zoomDelta && interval.longitudeDelta > self.zoomDelta {
+    func download(region: MKCoordinateRegion) -> Observable<[PostAnnotation]> {
+        return Observable.create { [weak self] observer  in
+            guard let self = self else { return Disposables.create() }
+            if region.span.latitudeDelta > self.zoomDelta && region.span.longitudeDelta > self.zoomDelta {
                 observer.onNext([])
                 observer.onCompleted()
                 return Disposables.create()
             }
             
-            //filter by latitude
-            _ = self.database.child("model").queryOrdered(byChild: "coordinate/latitude")
-                .queryStarting(atValue: interval.beginLatitude)
-                .queryEnding(atValue: interval.endLatitude)
-                .rx.observeEvent(.value)
-                .subscribe(onNext: { snapshot in
+            // Query location by region
+            let regionQuery = GeoFire(firebaseRef: self.databaseRef).query(with: region)
+            regionQuery.observe(.keyEntered, with: { [weak self] key, _ in
+                guard let self = self else {
+                    observer.onCompleted()
+                    return
+                }
+                self.databaseRef.child(key).observe(.value, with: { snapshot in
                     guard let value = snapshot.value as? [String: Any] else {
-                        observer.onNext([])
-                        observer.onCompleted()
                         return
                     }
                     
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
-                        let posts = try JSONDecoder().decode([String: PostAnnotation].self, from: jsonData)
-                        let sortedPosts = posts.map { $0.value }
-                            .filter {
-                                $0.coordinate.longitude > interval.beginLongitude
-                                && $0.coordinate.longitude < interval.endLongitude
-                            }
-                        observer.onNext(sortedPosts)
+                        let post = try JSONDecoder().decode(PostAnnotation.self, from: jsonData)
+                        observer.onNext([post])
                         observer.onCompleted()
                     } catch {
                         observer.onError(error)
                         observer.onCompleted()
                     }
                 })
-            
-            return Disposables.create()
+            })
+            return Disposables.create { regionQuery.removeAllObservers() }
         }
     }
     

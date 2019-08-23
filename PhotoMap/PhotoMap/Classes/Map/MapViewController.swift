@@ -44,7 +44,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.rx.regionDidChangeAnimated
             .map { [weak self] _ in
                 guard let self = self else { fatalError() }
-                return self.convertMapRect()
+//                return self.convertMapRect()
+                return self.mapView.region
             }
             .bind(to: self.viewModel.coordinateInterval)
             .disposed(by: bag)
@@ -210,17 +211,17 @@ class MapViewController: UIViewController, StoryboardInitializable {
         locationButton.setImage(UIImage(named: "discover"), for: .normal)
         locationButton.setImage(UIImage(named: "follow"), for: .selected)
     }
-    
-    private func convertMapRect() -> CoordinateInterval {
-        let northEast = self.mapView.convert(CGPoint(x: self.view.bounds.width, y: 0), toCoordinateFrom: self.mapView)
-        let southWest = self.mapView.convert(CGPoint(x: 0, y: self.view.bounds.height), toCoordinateFrom: self.mapView)
-        let latDelta = mapView.region.span.latitudeDelta
-        let longDelta = mapView.region.span.longitudeDelta
-        
-        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude,
-                                  beginLongitude: southWest.longitude, endLongitude: northEast.longitude,
-                                  latitudeDelta: latDelta, longitudeDelta: longDelta)
-    }
+//
+//    private func convertMapRect() -> CoordinateInterval {
+//        let northEast = self.mapView.convert(CGPoint(x: self.view.bounds.width, y: 0), toCoordinateFrom: self.mapView)
+//        let southWest = self.mapView.convert(CGPoint(x: 0, y: self.view.bounds.height), toCoordinateFrom: self.mapView)
+//        let latDelta = mapView.region.span.latitudeDelta
+//        let longDelta = mapView.region.span.longitudeDelta
+//
+//        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude,
+//                                  beginLongitude: southWest.longitude, endLongitude: northEast.longitude,
+//                                  latitudeDelta: latDelta, longitudeDelta: longDelta)
+//    }
     
     private func displayImageSheet() {
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
