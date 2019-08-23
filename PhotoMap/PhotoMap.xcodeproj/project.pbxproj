@@ -32,6 +32,7 @@
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
 		5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024822FE218500A66145 /* FullPhotoCoordinator.swift */; };
 		5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024A22FE219C00A66145 /* FullPhotoViewController.swift */; };
+		59ABFBEC231055F000C938AD /* PostClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ABFBEB231055F000C938AD /* PostClusterView.swift */; };
 		59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */; };
 		59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */; };
 		59D74C002304BD7E00C5E7FD /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */; };
@@ -87,6 +88,7 @@
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5975024822FE218500A66145 /* FullPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoCoordinator.swift; sourceTree = "<group>"; };
 		5975024A22FE219C00A66145 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
+		59ABFBEB231055F000C938AD /* PostClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostClusterView.swift; sourceTree = "<group>"; };
 		59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				59FB8C0E22F8B29C00F987EF /* PostAnnotation.swift */,
 				5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */,
 				5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */,
+				59ABFBEB231055F000C938AD /* PostClusterView.swift */,
 			);
 			path = Annotation;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 				59DA4ABB2302486D00843954 /* FooterView.swift in Sources */,
 				59D74C002304BD7E00C5E7FD /* AuthenticationViewModel.swift in Sources */,
 				59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */,
+				59ABFBEC231055F000C938AD /* PostClusterView.swift in Sources */,
 				59E24B9823076ACF00DDE574 /* SignUpCoordinator.swift in Sources */,
 				59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,

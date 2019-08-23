@@ -72,6 +72,7 @@ class PostAnnotationView: MKAnnotationView {
             guard let post = newValue as? PostAnnotation else { return }
             canShowCallout = false
             image = UIImage.scale(image: post.categoryImage, by: 1.7)
+            clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
     }
 }

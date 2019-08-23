@@ -62,6 +62,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
 
         mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(PostClusterView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
         
         calloutView.detailButton.rx.tap
             .compactMap { [weak self] _ in
@@ -77,6 +78,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
         
         mapView.rx.didSelectAnnotationView
             .filter { !($0.annotation is MKUserLocation) }
+            .filter { $0.annotation is PostAnnotation }
             .bind(onNext: { [weak self] view in
                 guard let self = self else { return }
                 self.postAnnotation = view.annotation as? PostAnnotation
