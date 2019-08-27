@@ -92,7 +92,7 @@ class PostViewController: UIViewController, StoryboardInitializable {
         let editRadiusAlert = UIAlertController(title: "Choose A Photo Category", message: "", preferredStyle: UIAlertController.Style.alert)
         editRadiusAlert.setValue(viewController, forKey: "contentViewController")
         editRadiusAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(editRadiusAlert, animated: true)
+        present(editRadiusAlert, animated: true)
     }
     
     private func setupView() {
@@ -104,7 +104,11 @@ class PostViewController: UIViewController, StoryboardInitializable {
     }
     
     private func createPost() -> Observable<PostAnnotation> {
-        return Observable.create { observer  in
+        return Observable.create { [weak self] observer  in
+            guard let self = self else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
             self.viewModel.timestamp
                 .map { [weak self] timestamp -> PostAnnotation in
                     guard let self = self else { fatalError("Post View Controller. createPost()") }

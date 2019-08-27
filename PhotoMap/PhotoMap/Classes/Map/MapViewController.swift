@@ -12,8 +12,8 @@ import RxCocoa
 import MapKit
 import CoreLocation
 import RxMKMapView
-
 import Kingfisher
+import UICircularProgressRing
 
 class MapViewController: UIViewController, StoryboardInitializable {
     
@@ -44,7 +44,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.rx.regionDidChangeAnimated
             .map { [weak self] _ in
                 guard let self = self else { fatalError() }
-//                return self.convertMapRect()
                 return self.mapView.region
             }
             .bind(to: self.viewModel.coordinateInterval)
@@ -76,7 +75,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
         viewModel.shortDate
             .bind(to: calloutView.dateLabel.rx.text)
             .disposed(by: bag)
-        
+
         mapView.rx.didSelectAnnotationView
             .filter { !($0.annotation is MKUserLocation) }
             .filter { $0.annotation is PostAnnotation }
@@ -91,6 +90,41 @@ class MapViewController: UIViewController, StoryboardInitializable {
                     self.calloutView.heightAnchor.constraint(equalToConstant: 100),
                     self.calloutView.widthAnchor.constraint(equalToConstant: 300)
                     ])
+                
+                let indicator = UICircularProgressRing()
+                
+                indicator.maxValue = 100
+                indicator.outerRingColor = UIColor(white: 1, alpha: 0.7)
+                indicator.innerRingColor = #colorLiteral(red: 0, green: 0.5690457821, blue: 0.5746168494, alpha: 1)
+                indicator.style = .bordered(width: 1, color: #colorLiteral(red: 0.2078431373, green: 0.7294117647, blue: 0.6549019608, alpha: 1))
+                indicator.font = UIFont.systemFont(ofSize: self.calloutView.photoImage.bounds.height / 5, weight: .medium)
+                indicator.translatesAutoresizingMaskIntoConstraints = false
+                self.calloutView.photoImage.addSubview(indicator)
+                indicator.isHidden = false
+                
+                NSLayoutConstraint.activate([
+                    indicator.centerXAnchor.constraint(equalTo: self.calloutView.photoImage.centerXAnchor),
+                    indicator.centerYAnchor.constraint(equalTo: self.calloutView.photoImage.centerYAnchor),
+                    indicator.widthAnchor.constraint(equalTo: self.calloutView.photoImage.widthAnchor),
+                    indicator.heightAnchor.constraint(equalTo: self.calloutView.photoImage.heightAnchor)
+                    ])
+
+                guard let imageUrl = URL(string: self.postAnnotation.imageUrl!) else { return }
+                self.calloutView.photoImage
+                    .kf.setImage(
+                        with: imageUrl,
+                        progressBlock: { receivedSize, totalSize in
+                            let percentage = (Float(receivedSize) / Float(totalSize)) * 100.0
+                            indicator.value = CGFloat(percentage)
+                        },
+                        completionHandler: { [weak self] result in
+                            guard let self = self else { return }
+                            switch result {
+                            case .success(let value): self.postAnnotation.image = value.image
+                            case .failure(let error): print(error)
+                            }
+                            indicator.isHidden = true
+                        })
                 
                 self.calloutView.photoImage.image = self.postAnnotation.image
                 self.calloutView.descriptionLabel.text = self.postAnnotation.postDescription
@@ -211,17 +245,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
         locationButton.setImage(UIImage(named: "discover"), for: .normal)
         locationButton.setImage(UIImage(named: "follow"), for: .selected)
     }
-//
-//    private func convertMapRect() -> CoordinateInterval {
-//        let northEast = self.mapView.convert(CGPoint(x: self.view.bounds.width, y: 0), toCoordinateFrom: self.mapView)
-//        let southWest = self.mapView.convert(CGPoint(x: 0, y: self.view.bounds.height), toCoordinateFrom: self.mapView)
-//        let latDelta = mapView.region.span.latitudeDelta
-//        let longDelta = mapView.region.span.longitudeDelta
-//
-//        return CoordinateInterval(beginLatitude: southWest.latitude, endLatitude: northEast.latitude,
-//                                  beginLongitude: southWest.longitude, endLongitude: northEast.longitude,
-//                                  latitudeDelta: latDelta, longitudeDelta: longDelta)
-//    }
     
     private func displayImageSheet() {
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

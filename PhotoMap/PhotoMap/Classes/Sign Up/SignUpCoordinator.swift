@@ -9,23 +9,33 @@
 import UIKit
 import RxSwift
 
-class SignUpCoordinator: BaseCoordinator<Void> {
+enum SignUpCoordinatorResult {
+    case created(Bool)
+    case back
+}
+
+class SignUpCoordinator: BaseCoordinator<SignUpCoordinatorResult> {
     private let navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
-    override func start() -> Observable<Void> {
+    override func start() -> Observable<CoordinatorResult> {
         let signUpViewController = SignUpViewController.initFromStoryboard(name: "Main")
         let viewModel = SignUpViewModel()
         signUpViewController.viewModel = viewModel
  
         navigationController.pushViewController(signUpViewController, animated: true)
         
-        return viewModel.disappear.amb(viewModel.create)
+        let back = viewModel.disappear.take(1).map { SignUpCoordinatorResult.back }
+        let created = viewModel.create.take(1).map { SignUpCoordinatorResult.created(true) }
+        let result = Observable.merge(back, created).share(replay: 1)
+
+        return result
             .take(1)
-            .do(onNext: { _ in
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.navigationController.isNavigationBarHidden = true
                 self.navigationController.popToRootViewController(animated: true)
                 signUpViewController.dismiss(animated: true)

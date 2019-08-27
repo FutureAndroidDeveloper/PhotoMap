@@ -30,7 +30,8 @@ class AppCoordinator: BaseCoordinator<Void> {
         
         state
             .compactMap { $0 }
-            .flatMap { _ -> Observable<Void> in
+            .flatMap { [weak self] _ -> Observable<Void> in
+                guard let self = self else { return .empty() }
                 let tabBarCoordinator = TabBarCoordinator(window: self.window)
                 return self.coordinate(to: tabBarCoordinator)
             }
@@ -39,7 +40,8 @@ class AppCoordinator: BaseCoordinator<Void> {
         
         state
             .filter { $0 == nil }
-            .flatMap { _ -> Observable<Void> in
+            .flatMap { [weak self] _ -> Observable<Void> in
+                guard let self = self else { return .empty() }
                 let authCoordinator = AuthenticationCoordinator(window: self.window)
                 return self.coordinate(to: authCoordinator)
             }

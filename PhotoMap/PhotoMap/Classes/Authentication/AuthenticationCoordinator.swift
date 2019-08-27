@@ -29,23 +29,33 @@ class AuthenticationCoordinator: BaseCoordinator<Void> {
         navigationController.pushViewController(authController, animated: true)
         window.makeKeyAndVisible()
 
+        let signUp = viewModel.signUp.flatMap { [weak self] _ -> Observable<Bool?> in
+            guard let self = self else { return .empty() }
+            return self.showSignUpViewController()
+        }
+            .filter { $0 != nil }
+            .map { _ in return Void() }
         
-        let signUp = viewModel.signUp.flatMap { self.showSignUpViewController() }
         let signIn = viewModel.signIn
         
         return Observable.merge(signUp, signIn)
-            .do(onNext: { _ in
+            .take(1)
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 IQKeyboardManager.shared.enable = false
                 IQKeyboardManager.shared.enableAutoToolbar = false
                 self.navigationController.dismiss(animated: true)
-                authController.dismiss(animated: true)
             })
     }
     
-    private func showSignUpViewController() -> Observable<Void> {
+    private func showSignUpViewController() -> Observable<Bool?> {
         let signUpCoordinator = SignUpCoordinator(navigationController: navigationController)
-        IQKeyboardManager.shared.enable = false
-        IQKeyboardManager.shared.enableAutoToolbar = false
         return coordinate(to: signUpCoordinator)
+            .map { result in
+                switch result {
+                case .created(let flag): return flag
+                case .back: return nil
+                }
+        }
     }
 }

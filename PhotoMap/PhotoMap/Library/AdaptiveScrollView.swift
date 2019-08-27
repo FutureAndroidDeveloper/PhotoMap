@@ -30,7 +30,8 @@ class AdaptiveScrollView: UIScrollView {
     private func setupBindings() {
         NotificationCenter.default.rx.notification(UIResponder.keyboardDidShowNotification)
             .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue }
-            .subscribe(onNext: { frame in
+            .subscribe(onNext: { [weak self] frame in
+                guard let self = self else { return }
                 let keyboardSize = frame.cgRectValue.size
                 let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0,
                                                  bottom: keyboardSize.height / self.keyboardHeightDivisor, right: 0.0)
@@ -39,7 +40,8 @@ class AdaptiveScrollView: UIScrollView {
             .disposed(by: bag)
 
         NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.adjustContentInsets(.zero)
             })
             .disposed(by: bag)

@@ -112,6 +112,7 @@ PODS:
     - RxSwift (~> 5)
   - RxSwift (5.0.0)
   - SkyFloatingLabelTextField (3.7.0)
+  - UICircularProgressRing (6.2.1)
 
 DEPENDENCIES:
   - CodableFirebase
@@ -127,6 +128,7 @@ DEPENDENCIES:
   - RxMKMapView
   - RxSwift
   - SkyFloatingLabelTextField
+  - UICircularProgressRing
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -158,6 +160,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SkyFloatingLabelTextField
+    - UICircularProgressRing
 
 SPEC CHECKSUMS:
   CodableFirebase: 0bf201991eeec35eb9fcd987d271ea463cf34a80
@@ -188,7 +191,8 @@ SPEC CHECKSUMS:
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   SkyFloatingLabelTextField: 4b46db0ab1ccde0919cded29c656e6b4805eda04
+  UICircularProgressRing: b52543c79dbd89844e13f0053e3f565b7d7efc5c
 
-PODFILE CHECKSUM: 892847b88ebd410d8ccbc2281ed604a562200d9f
+PODFILE CHECKSUM: 4ecec4ca022a1c394428b2caab355f09105e8daf
 
 COCOAPODS: 1.7.3

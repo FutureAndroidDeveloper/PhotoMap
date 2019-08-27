@@ -55,8 +55,8 @@ class AuthenticationViewModel {
             .disposed(by: bag)
         
         signIn = signInResult
-            .filter { $0 == nil }
             .take(1)
+            .filter { $0 == nil }
             .map { _ in Void() }
     }
 }

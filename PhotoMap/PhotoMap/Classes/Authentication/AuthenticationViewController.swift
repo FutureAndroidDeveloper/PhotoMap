@@ -30,21 +30,25 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
         
         // TODO: - Handle forgot password (if it is possible)
         // TODO: - Change color of show/hide password button
-        // TODO: - Handle sign Up
-
-        // TODO: - Filter password and user name
-        
         emailTextField.rx.controlEvent(.editingDidEnd)
             .asObservable()
-            .filter { self.isEmailValid(self.emailTextField.text) == false }
-            .subscribe(onNext: { _ in
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                return self.isEmailValid(self.emailTextField.text) == false
+            }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.emailTextField.errorMessage = "Invalid email"
             })
             .disposed(by: bag)
         
         emailTextField.rx.text.orEmpty
-            .filter { self.isEmailValid($0) }
-            .do(onNext: { _ in
+            .filter { [weak self] email in
+                guard let self = self else { return false }
+                return self.isEmailValid(email)
+            }
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.emailTextField.errorMessage = ""
             })
             .bind(to: viewModel.email)
@@ -52,23 +56,32 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
         
         passwordTextField.rx.controlEvent(.editingDidEnd)
             .asObservable()
-            .filter { self.isPasswordValid(self.emailTextField.text) == false }
-            .subscribe(onNext: { _ in
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                return self.isPasswordValid(self.emailTextField.text) == false
+            }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.passwordTextField.errorMessage = "Minimum 8 characters at least 1 Alphabet and 1 Number"
             })
             .disposed(by: bag)
         
         passwordTextField.rx.text.orEmpty
-            .filter { self.isPasswordValid($0) }
-            .do(onNext: { _ in
+            .filter { [weak self] password in
+                guard let self = self else { return false }
+                return self.isPasswordValid(password)
+            }
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.passwordTextField.errorMessage = ""
             })
             .bind(to: viewModel.password)
             .disposed(by: bag)
         
         signInButton.rx.tap
-            .filter {
-                self.isEmailValid(self.emailTextField.text) &&
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                return self.isEmailValid(self.emailTextField.text) &&
                 self.isPasswordValid(self.passwordTextField.text)
             }
             .bind(to: viewModel.signInTapped)
@@ -79,21 +92,24 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         showPasswordButton.rx.tap
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.showPasswordButton.isSelected = !self.showPasswordButton.isSelected
                 self.passwordTextField.isSecureTextEntry = !self.showPasswordButton.isSelected
             })
         .disposed(by: bag)
         
         tapGesture.rx.event
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.emailTextField.endEditing(true)
                 self.passwordTextField.endEditing(true)
             })
             .disposed(by: bag)
         
         viewModel.error
-            .subscribe(onNext: { message in
+            .subscribe(onNext: { [weak self] message in
+                guard let self = self else { return }
                 self.showSigInError(message: message)
             })
             .disposed(by: bag)
@@ -153,6 +169,6 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 }

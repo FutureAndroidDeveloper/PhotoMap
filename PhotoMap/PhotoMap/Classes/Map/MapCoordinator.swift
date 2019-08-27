@@ -66,14 +66,16 @@ class MapCoordinator: BaseCoordinator<Void> {
         imagePicker.allowsEditing = false
         viewController.present(imagePicker, animated: true)
 
-        let imagePickerResult = imagePicker.rx.didFinishPickingMediaWithInfo.share()
+        let imagePickerResult = imagePicker.rx.didFinishPickingMediaWithInfo.share(replay: 1)
         
         let image = imagePickerResult.asObservable()
+            .take(1)
             .map { info -> UIImage in
                 return info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
             }
         
         let date = imagePickerResult.asObservable()
+            .take(1)
             .map { info -> Date in
                 let asset = info[UIImagePickerController.InfoKey.phAsset.rawValue] as! PHAsset
                 return asset.creationDate!

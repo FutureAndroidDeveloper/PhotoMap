@@ -16,7 +16,7 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
         return UIImage(named: category.lowercased())!
     }
     
-    let image: UIImage?
+    var image: UIImage?
     let date: Int
     let category: String
     let postDescription: String?
@@ -45,7 +45,7 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let imageData = try? container.decode(Data.self, forKey: .image)
-        image = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(imageData ?? Data()) as? UIImage ?? UIImage(named: "image placeholder")!
+        image = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(imageData ?? Data()) as? UIImage ?? UIImage()
         date = try container.decode(Int.self, forKey: .date)
         category = try container.decode(String.self, forKey: .category)
         postDescription = try container.decode(String.self, forKey: .postDescription)

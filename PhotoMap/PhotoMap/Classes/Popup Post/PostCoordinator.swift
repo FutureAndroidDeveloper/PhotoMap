@@ -56,8 +56,8 @@ class PostCoordinator: BaseCoordinator<PostCoordinatorResult> {
             })
             .disposed(by: disposeBag)
         
-        let cancel = viewModel.didCancel.take(1).map { _ in CoordinatorResult.cancel }.take(1)
-        let post = viewModel.post.take(1).map { CoordinatorResult.post($0) }.take(1)
+        let cancel = viewModel.didCancel.take(1).map { _ in CoordinatorResult.cancel }
+        let post = viewModel.post.take(1).map { CoordinatorResult.post($0) }
         let result = Observable.merge(cancel, post).share(replay: 1)
         
         return result
@@ -65,9 +65,9 @@ class PostCoordinator: BaseCoordinator<PostCoordinatorResult> {
                 postViewController.moveOut()
             }
             .flatMap { _ -> Observable<CoordinatorResult> in
-                return result.take(1)
+                return result
             }
-            .do(onNext: { [weak self] re in
+            .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.rootViewController.dismiss(animated: false, completion: nil)
             })

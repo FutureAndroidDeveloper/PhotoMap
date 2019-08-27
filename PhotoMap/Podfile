@@ -16,7 +16,6 @@ target 'PhotoMap' do
   pod 'CodableFirebase'
   pod 'GeoFire'
   
-
   # Reative
   pod 'RxSwift'
   pod 'RxCocoa'
@@ -30,4 +29,7 @@ target 'PhotoMap' do
 
   # image downloading
   pod 'Kingfisher'
+
+  # progress indicator
+  pod 'UICircularProgressRing'
 end

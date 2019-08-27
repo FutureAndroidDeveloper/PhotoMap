@@ -13,7 +13,6 @@ import SkyFloatingLabelTextField
 
 class SignUpViewController: UIViewController, StoryboardInitializable {
 
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var emailTextField: SkyFloatingLabelTextFieldWithIcon!
     @IBOutlet weak var passwordTextField: SkyFloatingLabelTextFieldWithIcon!
     @IBOutlet weak var repeatPasswordTextField: SkyFloatingLabelTextFieldWithIcon!
@@ -29,7 +28,8 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
         setupView()
         
         showPasswordButton.rx.tap
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.showPasswordButton.isSelected = !self.showPasswordButton.isSelected
                 self.passwordTextField.isSecureTextEntry = !self.showPasswordButton.isSelected
                 self.repeatPasswordTextField.isSecureTextEntry = !self.showPasswordButton.isSelected
@@ -38,15 +38,22 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
 
         emailTextField.rx.controlEvent(.editingDidEnd)
             .asObservable()
-            .filter { self.isEmailValid(self.emailTextField.text) == false }
-            .subscribe(onNext: { _ in
+            .filter { [weak self] _ in
+                guard let self = self else { return true }
+                return self.isEmailValid(self.emailTextField.text) == false
+            }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.emailTextField.errorMessage = "Invalid email"
             })
             .disposed(by: bag)
         
         emailTextField.rx.text.orEmpty
-            .filter { self.isEmailValid($0) }
-            .do(onNext: { _ in
+            .filter { [weak self] email in
+                guard let self = self else { return true }
+                return self.isEmailValid(email) }
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.emailTextField.errorMessage = ""
             })
             .bind(to: viewModel.email)
@@ -54,15 +61,22 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
         
         passwordTextField.rx.controlEvent(.editingDidEnd)
             .asObservable()
-            .filter { self.isPasswordValid(self.emailTextField.text) == false }
-            .subscribe(onNext: { _ in
+            .filter { [weak self] _ in
+                guard let self = self else { return true }
+                return self.isPasswordValid(self.passwordTextField.text) == false
+            }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.passwordTextField.errorMessage = "Minimum 8 characters at least 1 Alphabet and 1 Number"
             })
             .disposed(by: bag)
         
         passwordTextField.rx.text.orEmpty
-            .filter { self.isPasswordValid($0) }
-            .do(onNext: { _ in
+            .filter { [weak self] password in
+                guard let self = self else { return true }
+                return self.isPasswordValid(password) }
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.passwordTextField.errorMessage = ""
             })
             .bind(to: viewModel.password)
@@ -70,22 +84,30 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
         
         repeatPasswordTextField.rx.controlEvent(.editingDidEnd)
             .asObservable()
-            .filter { self.passwordTextField.text != self.repeatPasswordTextField.text }
-            .subscribe(onNext: { _ in
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                return self.passwordTextField.text != self.repeatPasswordTextField.text }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.repeatPasswordTextField.errorMessage = "Passwords do not match"
             })
             .disposed(by: bag)
         
         repeatPasswordTextField.rx.text.orEmpty
-            .filter { self.passwordTextField.text == $0 }
-            .do(onNext: { _ in
+            .filter { [weak self] repeatPassword in
+                guard let self = self else { return true }
+                return self.passwordTextField.text == repeatPassword
+            }
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
                 self.repeatPasswordTextField.errorMessage = ""
             })
             .bind(to: viewModel.repeatPassword)
             .disposed(by: bag)
 
         tapGesture.rx.event
-            .subscribe(onNext: { _ in
+            .subscribe(onNext: { [weak self ] _ in
+                guard let self = self else { return }
                 self.emailTextField.endEditing(true)
                 self.passwordTextField.endEditing(true)
                 self.repeatPasswordTextField.endEditing(true)
@@ -93,8 +115,9 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         createButton.rx.tap
-            .filter {
-                self.isEmailValid(self.emailTextField.text) &&
+            .filter { [weak self] _ in
+                guard let self = self else { return true }
+                return self.isEmailValid(self.emailTextField.text) &&
                     self.isPasswordValid(self.passwordTextField.text) &&
                     self.repeatPasswordTextField.text == self.passwordTextField.text
             }
@@ -102,7 +125,8 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         viewModel.error
-            .subscribe(onNext: { message in
+            .subscribe(onNext: { [weak self] message in
+                guard let self = self else { return }
                 self.showSigInError(message: message)
             })
             .disposed(by: bag)

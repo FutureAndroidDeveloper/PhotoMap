@@ -114,7 +114,8 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
         navigationItem.hidesBackButton = true
         footerBot.constant = footerHeight.constant
         
-        UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
+        UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [weak self] in
+            guard let self = self else { return }
             self.view.layoutIfNeeded()
             self.headerView.alpha = 0
             self.view.backgroundColor = .black
@@ -126,7 +127,8 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
         navigationItem.hidesBackButton = false
         footerBot.constant = 0
         
-        UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
+        UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [weak self] in
+            guard let self = self else { return }
             self.view.layoutIfNeeded()
             self.headerView.alpha = 1
             self.view.backgroundColor = .white

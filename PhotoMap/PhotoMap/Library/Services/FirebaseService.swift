@@ -131,9 +131,7 @@ class FirebaseService {
                     return
                 }
                 self.databaseRef.child(key).observe(.value, with: { snapshot in
-                    guard let value = snapshot.value as? [String: Any] else {
-                        return
-                    }
+                    guard let value = snapshot.value as? [String: Any] else { return }
                     
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
