@@ -114,7 +114,7 @@ class FirebaseService {
         }
     }
     
-    func download(region: MKCoordinateRegion) -> Observable<[PostAnnotation]> {
+    func download(region: MKCoordinateRegion, coreDataService: CoreDataService) -> Observable<[PostAnnotation]> {
         return Observable.create { [weak self] observer  in
             guard let self = self else { return Disposables.create() }
             if region.span.latitudeDelta > self.zoomDelta && region.span.longitudeDelta > self.zoomDelta {
@@ -136,8 +136,13 @@ class FirebaseService {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
                         let post = try JSONDecoder().decode(PostAnnotation.self, from: jsonData)
-                        observer.onNext([post])
-                        observer.onCompleted()
+                        if coreDataService.isUnique(postAnnotation: post) {
+                            observer.onNext([post])
+                            observer.onCompleted()
+                        } else {
+                            observer.onNext([])
+                            observer.onCompleted()
+                        }
                     } catch {
                         observer.onError(error)
                         observer.onCompleted()

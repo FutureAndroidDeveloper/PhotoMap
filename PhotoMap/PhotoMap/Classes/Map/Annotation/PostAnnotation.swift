@@ -41,6 +41,17 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
         self.coordinate = coordinate
         super.init()
     }
+    
+    init(date: Int, category: String, postDescription: String?,
+         imageUrl: String?,coordinate: CLLocationCoordinate2D) {
+        self.date = date
+        self.category = category
+        self.postDescription = postDescription
+        self.coordinate = coordinate
+        self.imageUrl = imageUrl
+        super.init()
+    }
+    
 
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -55,7 +66,7 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let imageData = try NSKeyedArchiver.archivedData(withRootObject: image, requiringSecureCoding: false)
+        let imageData = try NSKeyedArchiver.archivedData(withRootObject: image!, requiringSecureCoding: false)
         try container.encode(imageData, forKey: .image)
         try container.encode(date, forKey: .date)
         try container.encode(category, forKey: .category)

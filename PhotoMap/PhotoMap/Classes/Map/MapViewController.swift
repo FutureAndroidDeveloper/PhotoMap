@@ -159,8 +159,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
         viewModel.post
             .subscribe(onNext: { [weak self] post in
                 guard let self = self else { return }
-                guard let coordinate = self.location?.coordinate else { return }
-                post.coordinate = coordinate
                 self.mapView.addAnnotation(post)
             })
             .disposed(by: bag)

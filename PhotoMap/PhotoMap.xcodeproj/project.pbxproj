@@ -10,6 +10,8 @@
 		59069D4D22FA08D1009D317B /* Categories in Resources */ = {isa = PBXBuildFile; fileRef = 59069D4C22FA08D1009D317B /* Categories */; };
 		59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59069D4E22FA35C4009D317B /* CategoriesService.swift */; };
 		59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59069D5022FA482E009D317B /* PickerViewViewAdapter.swift */; };
+		590A7C032315CFB30010BEFC /* PhotoMap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 590A7C012315CFB20010BEFC /* PhotoMap.xcdatamodeld */; };
+		590A7C052315D1570010BEFC /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590A7C042315D1570010BEFC /* CoreDataService.swift */; };
 		590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */; };
 		590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B675322F0FD0B00D439B0 /* TimelineViewController.swift */; };
 		590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B675522F0FD1E00D439B0 /* MoreViewController.swift */; };
@@ -64,6 +66,8 @@
 		59069D4C22FA08D1009D317B /* Categories */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Categories; sourceTree = "<group>"; };
 		59069D4E22FA35C4009D317B /* CategoriesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesService.swift; sourceTree = "<group>"; };
 		59069D5022FA482E009D317B /* PickerViewViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewViewAdapter.swift; sourceTree = "<group>"; };
+		590A7C022315CFB30010BEFC /* PhotoMap.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhotoMap.xcdatamodel; sourceTree = "<group>"; };
+		590A7C042315D1570010BEFC /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		590B671A22F0D9DE00D439B0 /* StoryboardInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardInitializable.swift; sourceTree = "<group>"; };
 		590B675322F0FD0B00D439B0 /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		590B675522F0FD1E00D439B0 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				5929CC4522F0B6450089947C /* AppDelegate.swift */,
+				590A7C012315CFB20010BEFC /* PhotoMap.xcdatamodeld */,
 				590B676322F1053400D439B0 /* AppCoordinator.swift */,
 			);
 			path = Application;
@@ -252,6 +257,7 @@
 				59FB8C1022F8C7E800F987EF /* DateService.swift */,
 				59069D4E22FA35C4009D317B /* CategoriesService.swift */,
 				59D74C012304C3C600C5E7FD /* FirebaseService.swift */,
+				590A7C042315D1570010BEFC /* CoreDataService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -451,6 +457,7 @@
 				59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */,
 				59E24B9A23076ADC00DDE574 /* SignUpViewModel.swift in Sources */,
 				590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */,
+				590A7C052315D1570010BEFC /* CoreDataService.swift in Sources */,
 				5929CC4822F0B6450089947C /* MapViewController.swift in Sources */,
 				59FB8C1122F8C7E800F987EF /* DateService.swift in Sources */,
 				590B675E22F102DF00D439B0 /* MapCoordinator.swift in Sources */,
@@ -475,6 +482,7 @@
 				5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */,
 				59D74C022304C3C600C5E7FD /* FirebaseService.swift in Sources */,
 				590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */,
+				590A7C032315CFB30010BEFC /* PhotoMap.xcdatamodeld in Sources */,
 				59DA4AB82302420B00843954 /* AdaptiveScrollView.swift in Sources */,
 				590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */,
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
@@ -690,6 +698,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		590A7C012315CFB20010BEFC /* PhotoMap.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				590A7C022315CFB30010BEFC /* PhotoMap.xcdatamodel */,
+			);
+			currentVersion = 590A7C022315CFB30010BEFC /* PhotoMap.xcdatamodel */;
+			path = PhotoMap.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5929CC3A22F0B6450089947C /* Project object */;
 }

@@ -63,7 +63,9 @@ class MapViewModel {
     init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
          locationService: LocationService = LocationService(),
          dateService: DateService = DateService(),
-         firebaseService: FirebaseService = FirebaseService()) {
+         firebaseService: FirebaseService = FirebaseService(),
+         coreDaraService: CoreDataService = CoreDataService(appDelegate:
+        UIApplication.shared.delegate as! AppDelegate)) {
         
         let _locationButtonTapped = PublishSubject<Void>()
         locationButtonTapped = _locationButtonTapped.asObserver()
@@ -103,21 +105,34 @@ class MapViewModel {
         var set = Set<String>()
         var uniqPosts = [PostAnnotation]()
         
-        let _posts = PublishSubject<[PostAnnotation]>()
+        let _posts = ReplaySubject<[PostAnnotation]>.create(bufferSize: 1)
         posts = _posts.asObservable()
+        
+        coreDaraService.fetch()
+            .do(onNext: { savedPosts in
+                _ = savedPosts.map { set.insert($0.imageUrl!) }
+                uniqPosts.append(contentsOf: savedPosts)
+                _posts.onNext(uniqPosts)
+            })
+            .subscribe()
+            .dispose()
 
-        _ = _coordinateInterval.flatMapLatest { firebaseService.download(region: $0) }
-            .map { posts -> [PostAnnotation] in
-                var test = [PostAnnotation]()
-                for post in posts {
-                    if set.contains(post.imageUrl!) {
-                        continue
-                    } else {
-                        set.insert(post.imageUrl!)
-                        test.append(post)
-                    }
+        _ = _coordinateInterval
+            .flatMapLatest {
+                firebaseService.download(region: $0, coreDataService: coreDaraService)
+            }
+            .flatMap { loadedPosts -> Observable<PostAnnotation> in
+                guard let loadedPost = loadedPosts.first else { return .empty() }
+                return coreDaraService.save(postAnnotation: loadedPost)
+                    .andThen(Observable.just(loadedPost))
+            }
+            .map { loadedPost -> [PostAnnotation] in
+                if set.contains(loadedPost.imageUrl!) {
+                    return []
+                } else {
+                    set.insert(loadedPost.imageUrl!)
+                    return [loadedPost]
                 }
-                return test
             }
             .map { uniq in
                 uniqPosts.append(contentsOf: uniq)
@@ -141,10 +156,14 @@ class MapViewModel {
             .flatMap { (post, location) -> Observable<PostAnnotation> in
                 post.coordinate = location.coordinate
                 return firebaseService.upload(post: post)
+                    .andThen(coreDaraService.save(postAnnotation: post))
                     .andThen(Observable.just(post))
             }
-            .do(onNext: { _ in
+            .do(onNext: { newPost in
                 _isLoading.onNext(false)
+                set.insert(newPost.imageUrl!)
+                uniqPosts.append(newPost)
+                _posts.onNext(uniqPosts)
             }, onError: { error in
                 _error.onNext(error.localizedDescription)
             })
