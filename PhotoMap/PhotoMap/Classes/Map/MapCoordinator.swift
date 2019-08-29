@@ -54,6 +54,16 @@ class MapCoordinator: BaseCoordinator<Void> {
             }
             .subscribe(onNext: {})
             .disposed(by: disposeBag)
+        
+        viewModel.categoriesTapped
+            .flatMap { [weak self] _ -> Observable<Void> in
+                guard let self = self else { return .empty() }
+                return self.showCategoriesViewController(on: mapViewController)
+            }
+            .bind(to: viewModel.categoriesDidSelected)
+            .disposed(by: disposeBag)
+        
+        
 
         return .never()
     }
@@ -98,6 +108,11 @@ class MapCoordinator: BaseCoordinator<Void> {
                 case .cancel: return nil
                 }
             }
+    }
+    
+    private func showCategoriesViewController(on rootViewController: UIViewController) -> Observable<Void> {
+        let categoriesCoordinator = CategoriesCoordinator(rootViewController: rootViewController)
+        return coordinate(to: categoriesCoordinator)
     }
     
     private func requestPermissions(in viewController: UIViewController, title: String, message: String) {

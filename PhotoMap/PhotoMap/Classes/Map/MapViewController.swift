@@ -20,6 +20,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var categoriesMenuButton: UIButton!
     
     // MARK: - Properties
     
@@ -64,6 +65,10 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.register(PostAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         mapView.register(PostClusterView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
         
+        categoriesMenuButton.rx.tap
+            .bind(to: viewModel.showCategoriesFilter)
+            .disposed(by: bag)
+        
         calloutView.detailButton.rx.tap
             .compactMap { [weak self] _ in
                 guard let self = self else { fatalError() }
@@ -101,6 +106,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 indicator.translatesAutoresizingMaskIntoConstraints = false
                 self.calloutView.photoImage.addSubview(indicator)
                 indicator.isHidden = false
+                self.calloutView.detailButton.isUserInteractionEnabled = indicator.isHidden
                 
                 NSLayoutConstraint.activate([
                     indicator.centerXAnchor.constraint(equalTo: self.calloutView.photoImage.centerXAnchor),
@@ -124,6 +130,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
                             case .failure(let error): print(error)
                             }
                             indicator.isHidden = true
+                            self.calloutView.detailButton.isUserInteractionEnabled = indicator.isHidden
                         })
                 
                 self.calloutView.photoImage.image = self.postAnnotation.image
@@ -134,7 +141,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         mapView.rx.didDeselectAnnotationView
-            .filter { $0 is PostAnnotationView }
+//            .filter { $0 is PostAnnotationView }
             .bind(onNext: { view in
                 for subview in view.subviews {
                     subview.removeFromSuperview()

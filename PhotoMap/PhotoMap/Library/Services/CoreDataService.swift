@@ -48,13 +48,21 @@ class CoreDataService {
         }
     }
     
-    func fetch() -> Observable<[PostAnnotation]> {
+    func fetch(without categories: [String] = []) -> Observable<[PostAnnotation]> {
         return Observable.create { [weak self] observer  in
             guard let self = self else { return Disposables.create() }
             
             let managedContext = self.appDelegate.persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
+            var subpredicates = [NSPredicate]()
+            
+            categories.forEach { category in
+                subpredicates.append(NSPredicate(format: "category != %@", "\(category)"))
+            }
+            let predicateCompound = NSCompoundPredicate(type: .and, subpredicates: subpredicates)
+            fetchRequest.predicate = predicateCompound
             var posts = [PostAnnotation]()
+            
             do {
                 let results = try managedContext.fetch(fetchRequest)
                 

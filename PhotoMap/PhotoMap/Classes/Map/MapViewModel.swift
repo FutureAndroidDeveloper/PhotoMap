@@ -35,6 +35,10 @@ class MapViewModel {
     
     let coordinateInterval: AnyObserver<MKCoordinateRegion>
     
+    let showCategoriesFilter: AnyObserver<Void>
+    
+    let categoriesDidSelected: AnyObserver<Void>
+    
     
     
     // MARK: - Outputs
@@ -58,6 +62,8 @@ class MapViewModel {
     
     let posts: Observable<[PostAnnotation]>
     
+    let categoriesTapped: Observable<Void>
+    
     // MARK: - Initialization
     
     init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
@@ -72,6 +78,10 @@ class MapViewModel {
         
         let _cameraButtopTapped = PublishSubject<Void>()
         cameraButtonTapped = _cameraButtopTapped.asObserver()
+        
+        let _showCategories = PublishSubject<Void>()
+        showCategoriesFilter = _showCategories.asObserver()
+        categoriesTapped = _showCategories.asObservable()
     
         let _showPermissionMessage = PublishSubject<String>()
         showPermissionMessage = _showPermissionMessage.asObservable()
@@ -108,7 +118,12 @@ class MapViewModel {
         let _posts = ReplaySubject<[PostAnnotation]>.create(bufferSize: 1)
         posts = _posts.asObservable()
         
-        coreDaraService.fetch()
+        let _categories = PublishSubject<Void>()
+        categoriesDidSelected = _categories.asObserver()
+        
+        let defaults = UserDefaults.standard
+        
+        coreDaraService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
             .do(onNext: { savedPosts in
                 _ = savedPosts.map { set.insert($0.imageUrl!) }
                 uniqPosts.append(contentsOf: savedPosts)
@@ -117,9 +132,24 @@ class MapViewModel {
             .subscribe()
             .dispose()
 
+        _ = _categories
+            .flatMap { _ in
+                coreDaraService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
+            }
+            .do(onNext: { filteredPosts in
+                set.removeAll()
+                uniqPosts.removeAll()
+                _ = filteredPosts.map { set.insert($0.imageUrl!) }
+                uniqPosts.append(contentsOf: filteredPosts)
+                _posts.onNext(uniqPosts)
+            })
+            .subscribe(onNext: { _ in })
+        
         _ = _coordinateInterval
-            .flatMapLatest {
-                firebaseService.download(region: $0, coreDataService: coreDaraService)
+            .flatMapLatest { region in
+                firebaseService.download(region: region,
+                                         uncheckedCategories: defaults.array(forKey: "savedCategories") as? [String] ?? [],
+                                         coreDataService: coreDaraService)
             }
             .flatMap { loadedPosts -> Observable<PostAnnotation> in
                 guard let loadedPost = loadedPosts.first else { return .empty() }
