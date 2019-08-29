@@ -112,9 +112,6 @@ class MapViewModel {
         fullPhotoTapped = _showFullPhoto.asObserver()
         showFullPhoto = _showFullPhoto.asObservable()
         
-        var set = Set<String>()
-        var uniqPosts = [PostAnnotation]()
-        
         let _posts = ReplaySubject<[PostAnnotation]>.create(bufferSize: 1)
         posts = _posts.asObservable()
         
@@ -123,11 +120,12 @@ class MapViewModel {
         
         let defaults = UserDefaults.standard
         
+        var visiblePosts = [PostAnnotation]()
+        
         coreDaraService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
             .do(onNext: { savedPosts in
-                _ = savedPosts.map { set.insert($0.imageUrl!) }
-                uniqPosts.append(contentsOf: savedPosts)
-                _posts.onNext(uniqPosts)
+                visiblePosts.append(contentsOf: savedPosts)
+                _posts.onNext(savedPosts)
             })
             .subscribe()
             .dispose()
@@ -136,14 +134,11 @@ class MapViewModel {
             .flatMap { _ in
                 coreDaraService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
             }
-            .do(onNext: { filteredPosts in
-                set.removeAll()
-                uniqPosts.removeAll()
-                _ = filteredPosts.map { set.insert($0.imageUrl!) }
-                uniqPosts.append(contentsOf: filteredPosts)
-                _posts.onNext(uniqPosts)
+            .subscribe(onNext: { filteredPosts in
+                visiblePosts.removeAll()
+                visiblePosts.append(contentsOf: filteredPosts)
+                _posts.onNext(filteredPosts)
             })
-            .subscribe(onNext: { _ in })
         
         _ = _coordinateInterval
             .flatMapLatest { region in
@@ -156,19 +151,13 @@ class MapViewModel {
                 return coreDaraService.save(postAnnotation: loadedPost)
                     .andThen(Observable.just(loadedPost))
             }
-            .map { loadedPost -> [PostAnnotation] in
-                if set.contains(loadedPost.imageUrl!) {
-                    return []
-                } else {
-                    set.insert(loadedPost.imageUrl!)
-                    return [loadedPost]
+            .map { loadedPost in
+                if !visiblePosts.contains(loadedPost) {
+                    visiblePosts.append(loadedPost)
                 }
+                return visiblePosts
             }
-            .map { uniq in
-                uniqPosts.append(contentsOf: uniq)
-                return uniqPosts
-            }
-            .catchErrorJustReturn(uniqPosts)
+            .catchErrorJustReturn([])
             .bind(to: _posts)
         
         let _timestamp = PublishSubject<Int>()
@@ -191,9 +180,8 @@ class MapViewModel {
             }
             .do(onNext: { newPost in
                 _isLoading.onNext(false)
-                set.insert(newPost.imageUrl!)
-                uniqPosts.append(newPost)
-                _posts.onNext(uniqPosts)
+                visiblePosts.append(newPost)
+                _posts.onNext(visiblePosts)
             }, onError: { error in
                 _error.onNext(error.localizedDescription)
             })

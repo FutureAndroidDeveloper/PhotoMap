@@ -50,7 +50,13 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .bind(to: self.viewModel.coordinateInterval)
             .disposed(by: bag)
         
-        mapView.rx.annotations(viewModel.posts)
+        viewModel.posts
+            .subscribe(onNext: { [weak self] posts in
+                guard let self = self else { return }
+                let allAnnotations = self.mapView.annotations
+                self.mapView.removeAnnotations(allAnnotations)
+                self.mapView.addAnnotations(posts)
+            })
             .disposed(by: bag)
         
         viewModel.isLoading
