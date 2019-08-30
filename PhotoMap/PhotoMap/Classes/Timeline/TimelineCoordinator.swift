@@ -27,7 +27,7 @@ class TimelineCoordinator: BaseCoordinator<Void> {
                 guard let self = self else { return .empty() }
                 return self.showCategoriesViewController(on: timelineViewController)
             }
-            .subscribe(onNext: { })
+            .bind(to: viewModel.categoriesSelected)
             .disposed(by: disposeBag)
         
         return .never()

@@ -23,6 +23,7 @@
 		590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */; };
 		5917FD6C22FCBF4200D98225 /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */; };
 		5917FD6E22FCBF6500D98225 /* CustomCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */; };
+		591C6DE22319AB8B00AB00B1 /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */; };
 		5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4522F0B6450089947C /* AppDelegate.swift */; };
 		5929CC4822F0B6450089947C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4722F0B6450089947C /* MapViewController.swift */; };
 		5929CC4B22F0B6450089947C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4922F0B6450089947C /* Main.storyboard */; };
@@ -32,8 +33,13 @@
 		593A055822F39F5500FCD118 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593A055722F39F5500FCD118 /* LocationService.swift */; };
 		593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593D193522FB97FB00B98E07 /* PostAnnotationView.swift */; };
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
+		59728E982319962500B3BEF5 /* SectionOfPostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */; };
 		5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024822FE218500A66145 /* FullPhotoCoordinator.swift */; };
 		5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024A22FE219C00A66145 /* FullPhotoViewController.swift */; };
+		5999CA8D2319B18400610BB6 /* TablePostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5999CA8C2319B18400610BB6 /* TablePostView.xib */; };
+		5999CA8F2319B68800610BB6 /* TablePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5999CA8E2319B68800610BB6 /* TablePostView.swift */; };
+		5999CA912319BC7200610BB6 /* TimelineTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */; };
+		5999CA932319BE2200610BB6 /* TimelineTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */; };
 		59ABFBEC231055F000C938AD /* PostClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ABFBEB231055F000C938AD /* PostClusterView.swift */; };
 		59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */; };
 		59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */; };
@@ -85,6 +91,7 @@
 		590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
 		5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
 		5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCalloutView.xib; sourceTree = "<group>"; };
+		591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
 		5929CC4222F0B6450089947C /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5929CC4522F0B6450089947C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5929CC4722F0B6450089947C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -96,8 +103,13 @@
 		593A055722F39F5500FCD118 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		593D193522FB97FB00B98E07 /* PostAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotationView.swift; sourceTree = "<group>"; };
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfPostAnnotation.swift; sourceTree = "<group>"; };
 		5975024822FE218500A66145 /* FullPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoCoordinator.swift; sourceTree = "<group>"; };
 		5975024A22FE219C00A66145 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
+		5999CA8C2319B18400610BB6 /* TablePostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TablePostView.xib; sourceTree = "<group>"; };
+		5999CA8E2319B68800610BB6 /* TablePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TablePostView.swift; sourceTree = "<group>"; };
+		5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimelineTableHeader.xib; sourceTree = "<group>"; };
+		5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableHeader.swift; sourceTree = "<group>"; };
 		59ABFBEB231055F000C938AD /* PostClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostClusterView.swift; sourceTree = "<group>"; };
 		59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
@@ -194,6 +206,11 @@
 				590B675322F0FD0B00D439B0 /* TimelineViewController.swift */,
 				59F238B723186DE50057A50C /* TimelineViewModel.swift */,
 				590B675F22F103C400D439B0 /* TimelineCoordinator.swift */,
+				591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */,
+				5999CA8C2319B18400610BB6 /* TablePostView.xib */,
+				5999CA8E2319B68800610BB6 /* TablePostView.swift */,
+				5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */,
+				5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */,
 			);
 			path = Timeline;
 			sourceTree = "<group>";
@@ -312,6 +329,7 @@
 			isa = PBXGroup;
 			children = (
 				59E70DCC230E11A300238630 /* CoordinatInterval.swift */,
+				59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -434,8 +452,10 @@
 				5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */,
 				5929CC4D22F0B6460089947C /* Assets.xcassets in Resources */,
 				59ED5E8E2317381D000B53F6 /* CheckBox.xib in Resources */,
+				5999CA8D2319B18400610BB6 /* TablePostView.xib in Resources */,
 				5929CC4B22F0B6450089947C /* Main.storyboard in Resources */,
 				5917FD6E22FCBF6500D98225 /* CustomCalloutView.xib in Resources */,
+				5999CA912319BC7200610BB6 /* TimelineTableHeader.xib in Resources */,
 				59069D4D22FA08D1009D317B /* Categories in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,6 +511,7 @@
 			files = (
 				59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */,
 				59E24B9A23076ADC00DDE574 /* SignUpViewModel.swift in Sources */,
+				591C6DE22319AB8B00AB00B1 /* TimelineTableViewCell.swift in Sources */,
 				590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */,
 				590A7C052315D1570010BEFC /* CoreDataService.swift in Sources */,
 				5929CC4822F0B6450089947C /* MapViewController.swift in Sources */,
@@ -503,6 +524,7 @@
 				59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */,
 				59FB8C0D22F89D0D00F987EF /* PostView.swift in Sources */,
 				593A055622F363D900FCD118 /* PhotoLibraryService.swift in Sources */,
+				5999CA8F2319B68800610BB6 /* TablePostView.swift in Sources */,
 				5917FD6C22FCBF4200D98225 /* CustomCalloutView.swift in Sources */,
 				59FB8C0F22F8B29C00F987EF /* PostAnnotation.swift in Sources */,
 				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
@@ -526,6 +548,8 @@
 				59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */,
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
 				59ED5E842317370F000B53F6 /* CategoriesViewController.swift in Sources */,
+				59728E982319962500B3BEF5 /* SectionOfPostAnnotation.swift in Sources */,
+				5999CA932319BE2200610BB6 /* TimelineTableHeader.swift in Sources */,
 				59F238B823186DE50057A50C /* TimelineViewModel.swift in Sources */,
 				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,

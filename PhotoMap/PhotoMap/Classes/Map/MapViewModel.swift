@@ -163,7 +163,7 @@ class MapViewModel {
         let _timestamp = PublishSubject<Int>()
         timestamp = _timestamp.asObserver()
         shortDate = _timestamp.asObservable()
-            .compactMap { dateService.getShortDate(timestamp: $0) }
+            .compactMap { dateService.getShortDate(timestamp: $0, yearLength: .long) }
         
         _ = _post.asObservable()
             .map { _ in return true }

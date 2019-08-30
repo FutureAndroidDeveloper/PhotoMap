@@ -9,27 +9,62 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
+import Kingfisher
 
-class TimelineViewController: UIViewController, StoryboardInitializable {
+class TimelineViewController: UIViewController, StoryboardInitializable, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     private lazy var searchBar = UISearchBar()
-    private let categoriesButton = UIBarButtonItem(title: "Category", style: .plain, target: nil, action: nil)
+    private var categoriesButton: UIBarButtonItem!
     private let bag = DisposeBag()
     private let tapGesture = UITapGestureRecognizer()
+    private var dataSource: RxTableViewSectionedReloadDataSource<SectionOfPostAnnotation>!
     var viewModel: TimelineViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         
-        viewModel.posts
-            .bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
-                cell.textLabel?.text = element.category
-                cell.detailTextLabel?.text = "\(element.date)"
-            }
+        // TODO: - Filter categories in Category Button -- DONE
+        // TODO: - Search by hashtags
+        // TODO: - Open Full Photo
+        
+        dataSource = RxTableViewSectionedReloadDataSource<SectionOfPostAnnotation>(
+            configureCell: { [weak self] dataSource, tableView, indexPath, item in
+                guard let self = self else { fatalError(#function) }
+                let cell = tableView.dequeueReusableCell(withIdentifier: TimelineTableViewCell.reuseIdentifier, for: indexPath) as! TimelineTableViewCell
+                
+                let date = self.viewModel.getPostDate(timestamp: item.date)
+                cell.postView.dateLabel.text = "\(date) / \(item.category)"
+                cell.postView.descriptionLabel.text = item.postDescription
+                
+                let url = URL(string: item.imageUrl!)
+                cell.postView.photoImageView.kf.indicatorType = .activity
+                cell.postView.photoImageView.kf.setImage(with: url, completionHandler: { (image, _, _, _) in
+                    cell.postView.detailButton.isHighlighted = true
+                    item.image = image
+                })
+                
+                return cell
+        })
+        
+//        tableView.rx
+//            .modelSelected(PostAnnotation.self)
+//            .subscribe(onNext: { post in
+//                print(post.category)
+//            })
+//            .disposed(by: bag)
+        
+
+        viewModel.sections
+            .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
+        tableView.rx
+            .setDelegate(self)
+            .disposed(by: bag)
+
         searchBar.rx.textDidBeginEditing
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -77,6 +112,7 @@ class TimelineViewController: UIViewController, StoryboardInitializable {
         searchBar.placeholder = "Search"
         let searchTextField = searchBar.value(forKey: "_searchField") as? UITextField
         searchTextField?.backgroundColor = #colorLiteral(red: 0.8901960784, green: 0.8941176471, blue: 0.9019607843, alpha: 1)
+        categoriesButton = UIBarButtonItem(title: "Category", style: .plain, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = categoriesButton
         self.navigationItem.titleView = searchBar
         view.addGestureRecognizer(tapGesture)
@@ -84,6 +120,21 @@ class TimelineViewController: UIViewController, StoryboardInitializable {
 
 }
 
+extension TimelineViewController {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = TimelineTableHeader(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 40))
+        headerView.dateLabel.text = dataSource[section].header
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+}
 
 extension UISearchBar {
     func setCenteredPlaceHolder(with barButton: UIBarButtonItem){

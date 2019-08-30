@@ -94,8 +94,7 @@ class FirebaseService {
                 do {
                     let jsonData = try JSONSerialization.data(withJSONObject: jsonPosts, options: [])
                     let posts = try JSONDecoder().decode([PostAnnotation].self, from: jsonData)
-                    // Posts sorted by date
-                    observer.onNext(posts.sorted { $0.date > $1.date })
+                    observer.onNext(posts)
                     observer.onCompleted()
                 } catch {
                     observer.onError(error)

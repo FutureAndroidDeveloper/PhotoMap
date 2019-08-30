@@ -13,6 +13,11 @@ enum DateModifier: String {
     case dash = "-"
 }
 
+enum YearLength: String {
+    case long = "yyyy"
+    case short = "yy"
+}
+
 class DateService {
     
     private let dateFormatter = DateFormatter()
@@ -32,9 +37,15 @@ class DateService {
         return dateFormatter.string(from: date)
     }
     
-    func getShortDate(timestamp: Int) -> String? {
+    func getShortDate(timestamp: Int, yearLength: YearLength) -> String {
         let date = Date(timeIntervalSince1970: Double(timestamp))
-        dateFormatter.dateFormat = "MM-dd-yyyy"
+        dateFormatter.dateFormat = "MM-dd-\(yearLength.rawValue)"
+        return dateFormatter.string(from: date)
+    }
+    
+    func getMonthAndYear(timestamp: Int) -> String {
+        let date = Date(timeIntervalSince1970: Double(timestamp))
+        dateFormatter.dateFormat = "MMMM yyyy"
         return dateFormatter.string(from: date)
     }
 }
