@@ -53,6 +53,7 @@
 		59ED5E8923173737000B53F6 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E8823173737000B53F6 /* CategoriesViewModel.swift */; };
 		59ED5E8C231737DC000B53F6 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E8B231737DC000B53F6 /* CheckBox.swift */; };
 		59ED5E8E2317381D000B53F6 /* CheckBox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59ED5E8D2317381D000B53F6 /* CheckBox.xib */; };
+		59F238B823186DE50057A50C /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F238B723186DE50057A50C /* TimelineViewModel.swift */; };
 		59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0622F89C4A00F987EF /* PostViewController.swift */; };
 		59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0822F89C5600F987EF /* PostViewModel.swift */; };
 		59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0A22F89C6100F987EF /* PostCoordinator.swift */; };
@@ -116,6 +117,7 @@
 		59ED5E8823173737000B53F6 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		59ED5E8B231737DC000B53F6 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		59ED5E8D2317381D000B53F6 /* CheckBox.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckBox.xib; sourceTree = "<group>"; };
+		59F238B723186DE50057A50C /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
 		59FB8C0622F89C4A00F987EF /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		59FB8C0822F89C5600F987EF /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		59FB8C0A22F89C6100F987EF /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				590B675322F0FD0B00D439B0 /* TimelineViewController.swift */,
+				59F238B723186DE50057A50C /* TimelineViewModel.swift */,
 				590B675F22F103C400D439B0 /* TimelineCoordinator.swift */,
 			);
 			path = Timeline;
@@ -523,6 +526,7 @@
 				59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */,
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
 				59ED5E842317370F000B53F6 /* CategoriesViewController.swift in Sources */,
+				59F238B823186DE50057A50C /* TimelineViewModel.swift in Sources */,
 				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,
 				59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */,
