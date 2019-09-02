@@ -203,14 +203,11 @@
 		590B675922F0FDA600D439B0 /* Timeline */ = {
 			isa = PBXGroup;
 			children = (
+				598DC6BC231DCA9400965FC2 /* Custom View */,
 				590B675322F0FD0B00D439B0 /* TimelineViewController.swift */,
 				59F238B723186DE50057A50C /* TimelineViewModel.swift */,
 				590B675F22F103C400D439B0 /* TimelineCoordinator.swift */,
 				591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */,
-				5999CA8C2319B18400610BB6 /* TablePostView.xib */,
-				5999CA8E2319B68800610BB6 /* TablePostView.swift */,
-				5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */,
-				5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */,
 			);
 			path = Timeline;
 			sourceTree = "<group>";
@@ -303,6 +300,17 @@
 				59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */,
 			);
 			path = "Full Photo";
+			sourceTree = "<group>";
+		};
+		598DC6BC231DCA9400965FC2 /* Custom View */ = {
+			isa = PBXGroup;
+			children = (
+				5999CA8C2319B18400610BB6 /* TablePostView.xib */,
+				5999CA8E2319B68800610BB6 /* TablePostView.swift */,
+				5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */,
+				5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */,
+			);
+			path = "Custom View";
 			sourceTree = "<group>";
 		};
 		59D74BFA2304BCE500C5E7FD /* Authentication */ = {

@@ -22,10 +22,13 @@ class TimelineViewModel {
     let downloadUserPost: AnyObserver<Void>
     let updateFilteredPosts: AnyObserver<[PostAnnotation]>
     let categoriesSelected: AnyObserver<Void>
+    let showFullPhoto: AnyObserver<PostAnnotation>
+    let searchText: AnyObserver<String>
     
     // MARK: - Output
     let categoriesTapped: Observable<Void>
     let sections: Observable<[SectionOfPostAnnotation]>
+    let selectedPost: Observable<PostAnnotation>
     
     init(firebaseService: FirebaseService = FirebaseService(),
          dateService: DateService = DateService()) {
@@ -46,6 +49,29 @@ class TimelineViewModel {
         
         let _categoriesSelected = PublishSubject<Void>()
         categoriesSelected = _categoriesSelected.asObserver()
+        
+        let _showFullPhoto = PublishSubject<PostAnnotation>()
+        showFullPhoto = _showFullPhoto.asObserver()
+        selectedPost = _showFullPhoto.asObservable()
+        
+        let _searchText = PublishSubject<String>()
+        searchText = _searchText.asObserver()
+        
+        _ = _searchText
+            .filter { $0 == "" }
+            .map { _ in self.filter() }
+            .flatMap { self.buildSections(posts: $0) }
+            .subscribe(onNext: { _sections.onNext($0) })
+        
+        _ = _searchText
+            .filter { $0.count > 1 }
+            .map { $0.hashtags() }
+            .map { [weak self] hashtags -> [PostAnnotation] in
+                guard let self = self else { return [] }
+                return self.getPosts(with: hashtags)
+            }
+            .flatMap { self.buildSections(posts: $0) }
+            .subscribe(onNext: { _sections.onNext($0) })
         
         _ = _categoriesSelected
             .map { [weak self] _ -> [PostAnnotation] in
@@ -96,6 +122,21 @@ class TimelineViewModel {
         return filteredPosts
     }
     
+    private func getPosts(with hashtags: [String]) -> [PostAnnotation] {
+        var resultPosts = [PostAnnotation]()
+        self.savedsectionModels.forEach { section in
+            section.items.forEach { post in
+                guard let postHashtags = post.postDescription?.hashtags() else { return }
+                hashtags.forEach{ hashtag in
+                    if postHashtags.contains(hashtag) && !resultPosts.contains(post) {
+                        resultPosts.append(post)
+                    }
+                }
+            }
+        }
+        return resultPosts
+    }
+    
     private func buildSections(posts: [PostAnnotation]) -> Observable<[SectionOfPostAnnotation]> {
         sectionData.removeAll()
         for post in posts {
@@ -112,5 +153,18 @@ class TimelineViewModel {
         }
         // Sections sorted by date
         return Observable.just(sections.sorted { $0 > $1 })
+    }
+}
+
+extension String {
+    func hashtags() -> [String] {
+        var hashtags: [String] = []
+        let regex = try? NSRegularExpression(pattern: "(#[a-zA-Z0-9_\\p{Arabic}\\p{N}]*)", options: [])
+        if let matches = regex?.matches(in: self, options: [], range: NSMakeRange(0, self.count)) {
+            for match in matches {
+                hashtags.append(NSString(string: self).substring(with: NSRange(location: match.range.location, length: match.range.length )))
+            }
+        }
+        return hashtags
     }
 }

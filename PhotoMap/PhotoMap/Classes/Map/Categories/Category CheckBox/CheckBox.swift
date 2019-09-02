@@ -14,6 +14,8 @@ class CheckBox: UIView {
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var categoryLabel: UILabel!
     
+    private var tapGesture: UITapGestureRecognizer!
+    
     var color: UIColor = .green {
         willSet {
             checkButton.backgroundColor = newValue
@@ -60,9 +62,20 @@ class CheckBox: UIView {
 
         checkButton.layer.cornerRadius = checkButton.bounds.height / 2
         checkButton.layer.borderWidth = 2
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(frameTapped))
+        contentView.addGestureRecognizer(tapGesture)
     }
     
     @IBAction func checkTapped(_ sender: UIButton) {
+        animateCheckBox()
+    }
+    
+    @objc private func frameTapped() {
+        animateCheckBox()
+    }
+    
+    private func animateCheckBox() {
         UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
             if self.checkButton.backgroundColor == .white {
                 self.checkButton.backgroundColor = self.color

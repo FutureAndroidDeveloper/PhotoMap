@@ -26,39 +26,43 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
         super.viewDidLoad()
         setupView()
         
-        // TODO: - Filter categories in Category Button -- DONE
-        // TODO: - Search by hashtags
-        // TODO: - Open Full Photo
-        
         dataSource = RxTableViewSectionedReloadDataSource<SectionOfPostAnnotation>(
             configureCell: { [weak self] dataSource, tableView, indexPath, item in
                 guard let self = self else { fatalError(#function) }
                 let cell = tableView.dequeueReusableCell(withIdentifier: TimelineTableViewCell.reuseIdentifier, for: indexPath) as! TimelineTableViewCell
-                
+
+                cell.isUserInteractionEnabled = false
                 let date = self.viewModel.getPostDate(timestamp: item.date)
                 cell.postView.dateLabel.text = "\(date) / \(item.category)"
                 cell.postView.descriptionLabel.text = item.postDescription
-                
+
                 let url = URL(string: item.imageUrl!)
                 cell.postView.photoImageView.kf.indicatorType = .activity
                 cell.postView.photoImageView.kf.setImage(with: url, completionHandler: { (image, _, _, _) in
-                    cell.postView.detailButton.isHighlighted = true
+                    cell.isUserInteractionEnabled = true
                     item.image = image
                 })
                 
                 return cell
         })
         
-//        tableView.rx
-//            .modelSelected(PostAnnotation.self)
-//            .subscribe(onNext: { post in
-//                print(post.category)
-//            })
-//            .disposed(by: bag)
-        
+        searchBar.rx.text
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(to: viewModel.searchText)
+            .disposed(by: bag)
 
         viewModel.sections
             .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        
+        tableView.rx
+            .itemSelected
+            .map { indexPath in
+                return self.dataSource[indexPath]
+            }
+            .bind(to: viewModel.showFullPhoto)
             .disposed(by: bag)
         
         tableView.rx
@@ -105,7 +109,9 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        searchBar.setCenteredPlaceHolder(with: navigationItem.rightBarButtonItem!)
+        if !(searchBar.positionAdjustment(for: .search) == .zero) {
+            searchBar.setCenteredPlaceHolder(with: navigationItem.rightBarButtonItem!)
+        }
     }
     
     private func setupView() {
@@ -117,7 +123,6 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
         self.navigationItem.titleView = searchBar
         view.addGestureRecognizer(tapGesture)
     }
-
 }
 
 extension TimelineViewController {
@@ -128,7 +133,7 @@ extension TimelineViewController {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return 45
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -30,11 +30,24 @@ class TimelineCoordinator: BaseCoordinator<Void> {
             .bind(to: viewModel.categoriesSelected)
             .disposed(by: disposeBag)
         
+        viewModel.selectedPost
+            .flatMap { [weak self] post -> Observable<Void> in
+                guard let self = self else { return .empty() }
+                return self.showFullPhotoViewController(post: post)
+            }
+            .subscribe(onNext: {  })
+            .disposed(by: disposeBag)
+        
         return .never()
     }
     
     private func showCategoriesViewController(on rootViewController: UIViewController) -> Observable<Void> {
         let categoriesCoordinator = CategoriesCoordinator(rootViewController: rootViewController)
         return coordinate(to: categoriesCoordinator)
+    }
+    
+    private func showFullPhotoViewController(post: PostAnnotation) -> Observable<Void> {
+        let fullPhotoCoordinator = FullPhotoCoordinator(navigationController: navigationController, post: post)
+        return coordinate(to: fullPhotoCoordinator)
     }
 }
