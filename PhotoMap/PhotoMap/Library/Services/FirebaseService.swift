@@ -79,6 +79,32 @@ class FirebaseService {
         }
     }
     
+    func downloadUserPosts() -> Observable<[PostAnnotation]> {
+        return Observable.create { [weak self] observer  in
+            guard let self = self else { return Disposables.create() }
+            
+            // Query posts created by current user
+            let myPostsQuery = self.databaseRef.queryOrdered(byChild: "userID")
+                .queryEqual(toValue: Auth.auth().currentUser!.uid)
+
+            myPostsQuery.observe(.value, with: { (snapshot) in
+                guard let value = snapshot.value as? [AnyHashable: [String: Any]] else { return }
+                let jsonPosts = value.map { $1 }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: jsonPosts, options: [])
+                    let posts = try JSONDecoder().decode([PostAnnotation].self, from: jsonData)
+                    observer.onNext(posts)
+                    observer.onCompleted()
+                } catch {
+                    observer.onError(error)
+                    observer.onCompleted()
+                }
+            })
+            return Disposables.create { myPostsQuery.removeAllObservers() }
+        }
+    }
+    
     func upload(post: PostAnnotation) -> Completable {
         // upload post model
         return Completable.create { [weak self] completable in
@@ -99,6 +125,9 @@ class FirebaseService {
                         completable(.completed)
                         return
                     }
+                    // append user id to filter posts by it
+                    postReference.updateChildValues(["userID": Auth.auth().currentUser!.uid])
+                    
                     // set helpfull inforamtion for geo quary
                     GeoFire(firebaseRef: self.databaseRef).setLocation(CLLocation(latitude: post.coordinate.latitude, longitude: post.coordinate.longitude), forKey: postReference.key!, withCompletionBlock: { geoError in
                         if let geoError = geoError {

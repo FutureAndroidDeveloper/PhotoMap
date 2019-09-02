@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class TabBarCoordinator: BaseCoordinator<Void> {
     private let window: UIWindow
@@ -32,6 +33,15 @@ class TabBarCoordinator: BaseCoordinator<Void> {
         // Setup TabBarViewController
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [mapNavigation, timelineNavigation, moreNavigation]
+        
+        // A request is sent to download user posts each time the user clicks the timeline icon
+        tabBarController.rx.didSelect
+            .compactMap { ($0 as? UINavigationController)?.viewControllers.first }
+            .compactMap { $0 as? TimelineViewController }
+            .subscribe(onNext: { viewController in
+                viewController.viewModel.downloadUserPost.onNext(Void())
+            })
+            .disposed(by: disposeBag)
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()

@@ -18,8 +18,36 @@ class TimelineCoordinator: BaseCoordinator<Void> {
     
     override func start() -> Observable<Void> {
         let timelineViewController = TimelineViewController.initFromStoryboard(name: "Main")
+        let viewModel = TimelineViewModel()
+        timelineViewController.viewModel = viewModel
         navigationController.pushViewController(timelineViewController, animated: true)
         
+        viewModel.categoriesTapped
+            .flatMap { [weak self] _ -> Observable<Void> in
+                guard let self = self else { return .empty() }
+                return self.showCategoriesViewController(on: timelineViewController)
+            }
+            .bind(to: viewModel.categoriesSelected)
+            .disposed(by: disposeBag)
+        
+        viewModel.selectedPost
+            .flatMap { [weak self] post -> Observable<Void> in
+                guard let self = self else { return .empty() }
+                return self.showFullPhotoViewController(post: post)
+            }
+            .subscribe(onNext: {  })
+            .disposed(by: disposeBag)
+        
         return .never()
+    }
+    
+    private func showCategoriesViewController(on rootViewController: UIViewController) -> Observable<Void> {
+        let categoriesCoordinator = CategoriesCoordinator(rootViewController: rootViewController)
+        return coordinate(to: categoriesCoordinator)
+    }
+    
+    private func showFullPhotoViewController(post: PostAnnotation) -> Observable<Void> {
+        let fullPhotoCoordinator = FullPhotoCoordinator(navigationController: navigationController, post: post)
+        return coordinate(to: fullPhotoCoordinator)
     }
 }

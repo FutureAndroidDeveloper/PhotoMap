@@ -20,6 +20,7 @@ target 'PhotoMap' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod "RxMKMapView"
+  pod 'RxDataSources'
 
   # Keyboard
   pod 'IQKeyboardManagerSwift'
