@@ -35,9 +35,9 @@ extension FirebaseError: LocalizedError {
 
 class FirebaseService {
     private let bag = DisposeBag()
-    let auth = Auth.auth()
-    let databaseRef = Database.database().reference().child("model")
-    let storage = Storage.storage().reference()
+    private let auth = Auth.auth()
+    private let databaseRef = Database.database().reference().child("model")
+    private let storage = Storage.storage().reference()
     
     static private let defaultMetadata: StorageMetadata = {
         let uploadMetadata = StorageMetadata()

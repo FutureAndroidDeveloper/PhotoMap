@@ -11,8 +11,10 @@ import RxSwift
 
 class CategoriesViewModel {
     
+    // MARK: - Input
     let done: AnyObserver<Void>
     
+    // MARK: - Output
     let categories: Observable<[String]>
     let didCancel: Observable<Void>
     

@@ -28,8 +28,6 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-        // TODO: - Handle forgot password (if it is possible)
-        // TODO: - Change color of show/hide password button
         emailTextField.rx.controlEvent(.editingDidEnd)
             .asObservable()
             .filter { [weak self] _ in

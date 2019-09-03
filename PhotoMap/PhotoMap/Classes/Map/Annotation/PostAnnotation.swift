@@ -11,7 +11,6 @@ import CoreLocation
 import MapKit
 
 class PostAnnotation: NSObject, MKAnnotation, Codable {
-    
     var categoryImage: UIImage {
         return UIImage(named: category.lowercased())!
     }
@@ -76,14 +75,12 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
     }
 }
 
-
 extension PostAnnotation {
     override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? PostAnnotation else { return false }
         return self.imageUrl == object.imageUrl
     }
 }
-
 
 extension CLLocationCoordinate2D: Codable {
     private enum CodingKeys: String, CodingKey {

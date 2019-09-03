@@ -10,9 +10,6 @@ import Foundation
 import RxSwift
 
 class PostViewModel {
-    
-    // TODO: - Make a description.
-    
     // MARK: - Input
     let didSelectedImage: AnyObserver<UIImage>
     let cancel: AnyObserver<Void>

@@ -62,8 +62,6 @@ class MapCoordinator: BaseCoordinator<Void> {
             }
             .bind(to: viewModel.categoriesDidSelected)
             .disposed(by: disposeBag)
-        
-        
 
         return .never()
     }

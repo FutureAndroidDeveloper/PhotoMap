@@ -9,10 +9,11 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import ImageScrollView
 
 class FullPhotoViewController: UIViewController, StoryboardInitializable {
     
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageScrollView: ImageScrollView!
     
     // MARK: - Properties
     private var headerHeight: NSLayoutConstraint!
@@ -32,6 +33,10 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+        addFooter()
+        addHeaderView()
+        imageScrollView.setup()
         
         tapGesture.rx.event
             .observeOn(MainScheduler.instance)
@@ -44,15 +49,7 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
                 }
             })
             .disposed(by: bag)
-        
-        doubleTapGesture.rx.event
-            .observeOn(MainScheduler.instance)
-            .bind(onNext: { recognizer in
-                // TODO: - Handle double tap
-                print("double tap")
-            })
-            .disposed(by: bag)
-        
+
         let post = viewModel.post.share(replay: 1)
         
         post
@@ -61,17 +58,16 @@ class FullPhotoViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         post
-            .map { $0.image }
-            .bind(to: imageView.rx.image)
+            .compactMap { $0.image }
+            .subscribe(onNext: { [weak self] image in
+                guard let self = self else { return }
+                self.imageScrollView.display(image: image)
+            })
             .disposed(by: bag)
         
         viewModel.longDate
             .bind(to: footerView.dateLabel.rx.text)
             .disposed(by: bag)
-        
-        setupView()
-        addFooter()
-        addHeaderView()
     }
 
     override func viewWillDisappear(_ animated: Bool) {

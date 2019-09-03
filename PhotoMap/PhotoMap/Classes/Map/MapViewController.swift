@@ -147,7 +147,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         mapView.rx.didDeselectAnnotationView
-//            .filter { $0 is PostAnnotationView }
             .bind(onNext: { view in
                 for subview in view.subviews {
                     subview.removeFromSuperview()

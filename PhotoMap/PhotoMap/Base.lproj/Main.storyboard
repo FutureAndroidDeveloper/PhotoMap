@@ -481,22 +481,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T52-63-u7d">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jVv-Se-LVZ" customClass="ImageScrollView" customModule="ImageScrollView">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                            </imageView>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="zTZ-xf-fco" firstAttribute="trailing" secondItem="T52-63-u7d" secondAttribute="trailing" id="366-rw-TEo"/>
-                            <constraint firstItem="zTZ-xf-fco" firstAttribute="bottom" secondItem="T52-63-u7d" secondAttribute="bottom" id="61v-d1-KNO"/>
-                            <constraint firstItem="T52-63-u7d" firstAttribute="leading" secondItem="zTZ-xf-fco" secondAttribute="leading" id="GcK-Q9-sBG"/>
-                            <constraint firstItem="T52-63-u7d" firstAttribute="top" secondItem="zTZ-xf-fco" secondAttribute="top" id="chf-tJ-g52"/>
+                            <constraint firstItem="zTZ-xf-fco" firstAttribute="bottom" secondItem="jVv-Se-LVZ" secondAttribute="bottom" id="Wcd-0y-fAr"/>
+                            <constraint firstItem="zTZ-xf-fco" firstAttribute="trailing" secondItem="jVv-Se-LVZ" secondAttribute="trailing" id="YPD-Sc-Fs9"/>
+                            <constraint firstItem="jVv-Se-LVZ" firstAttribute="top" secondItem="zTZ-xf-fco" secondAttribute="top" id="e9q-oF-OBp"/>
+                            <constraint firstItem="jVv-Se-LVZ" firstAttribute="leading" secondItem="zTZ-xf-fco" secondAttribute="leading" id="pgq-vf-3hZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zTZ-xf-fco"/>
                     </view>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="imageView" destination="T52-63-u7d" id="GDb-6p-grv"/>
+                        <outlet property="imageScrollView" destination="jVv-Se-LVZ" id="Mon-7y-8ng"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fW9-IR-Rab" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -33,9 +33,6 @@ final class PickerViewViewAdapter
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let parentView = UIView()
-        
-        // TODO: - Replace constants in enum or make snap to screen
-        
         let label = UILabel(frame: CGRect(x: 60, y: 10, width: 150, height: 50))
         let imageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 50, height:50))
         
@@ -48,7 +45,6 @@ final class PickerViewViewAdapter
         
     }
     
-    // TODO: - Replace constants in enum
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 150
     }
@@ -61,6 +57,6 @@ final class PickerViewViewAdapter
         Binder(self) { (adapter, items) in
             adapter.items = items
             pickerView.reloadAllComponents()
-            }.on(observedEvent)
+        }.on(observedEvent)
     }
 }

@@ -7,19 +7,18 @@
 //
 
 import Foundation
-
 import RxSwift
 
 class FullPhotoViewModel {
-    
     private let disposebag = DisposeBag()
     
+    // MARK: - Input
     let backTapped: AnyObserver<Void>
     let postDidLoad: AnyObserver<PostAnnotation>
     
+    // MARK: - Output
     let back: Observable<Void>
     let post: Observable<PostAnnotation>
-    
     let longDate: Observable<String?>
     
     init(dateService: DateService = DateService()) {

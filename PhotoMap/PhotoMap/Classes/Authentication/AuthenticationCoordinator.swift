@@ -11,7 +11,6 @@ import RxSwift
 import IQKeyboardManagerSwift
 
 class AuthenticationCoordinator: BaseCoordinator<Void> {
-    
     private let window: UIWindow
     private let navigationController: UINavigationController
     
@@ -21,6 +20,7 @@ class AuthenticationCoordinator: BaseCoordinator<Void> {
         navigationController.isNavigationBarHidden = true
         IQKeyboardManager.shared.enable = true
     }
+    
     override func start() -> Observable<Void> {
         let authController = AuthenticationViewController.initFromStoryboard(name: "Main")
         let viewModel = AuthenticationViewModel()

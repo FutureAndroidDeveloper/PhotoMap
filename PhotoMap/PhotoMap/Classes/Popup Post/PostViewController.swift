@@ -25,7 +25,6 @@ class PostViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-        // TODO: - Replace in setupBind() method
         viewModel.postImage
             .bind(to: contentView.photoImageView.rx.image)
             .disposed(by: bag)
@@ -83,8 +82,6 @@ class PostViewController: UIViewController, StoryboardInitializable {
     
     func showCategoryPicker() {
         let viewController = UIViewController()
-        
-        // TODO: - Make snape to screen?
         viewController.preferredContentSize = CGSize(width: 250, height: 150)
         pickerView.frame = CGRect(x: 0, y: -20, width: 250, height: 180)
         viewController.view.addSubview(pickerView)

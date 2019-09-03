@@ -31,6 +31,9 @@ target 'PhotoMap' do
   # image downloading
   pod 'Kingfisher'
 
+  # image viewer
+  pod 'ImageScrollView'
+
   # progress indicator
   pod 'UICircularProgressRing'
 end

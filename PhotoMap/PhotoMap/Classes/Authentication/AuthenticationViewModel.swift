@@ -10,15 +10,15 @@ import Foundation
 import RxSwift
 
 class AuthenticationViewModel {
-    
     private let bag = DisposeBag()
     
+    // MARK: - Input
     let signUpTapped: AnyObserver<Void>
     let signInTapped: AnyObserver<Void>
     let email: AnyObserver<String>
     let password: AnyObserver<String>
     
-    
+    // MARK: - Output
     let signUp: Observable<Void>
     let signIn: Observable<Void>
     let error: Observable<String>

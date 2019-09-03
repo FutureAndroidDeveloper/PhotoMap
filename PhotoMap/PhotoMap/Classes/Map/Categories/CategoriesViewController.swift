@@ -55,7 +55,6 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
             checkBox.categoryLabel.font = UIFont.systemFont(ofSize: checkBox.checkButton.bounds.width / 1.8, weight: .light)
             categoriesStackView.addArrangedSubview(checkBox)
         }
-        
         stackViewHeightConstraint.constant = CGFloat(categoriesStackView.subviews.count) * (categoriesStackView.subviews.first! as! CheckBox).height
         view.layoutIfNeeded()
     }
@@ -74,5 +73,4 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         navigationController?.navigationBar.topItem?.rightBarButtonItem = doneButton
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.2117647059, green: 0.5568627451, blue: 0.8745098039, alpha: 1)]
     }
-
 }

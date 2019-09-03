@@ -10,16 +10,16 @@ import Foundation
 import RxSwift
 
 class SignUpViewModel {
-    
     private let bag = DisposeBag()
     
+    // MARK: - Input
     let willDisappear: AnyObserver<Void>
     let createTapped: AnyObserver<Void>
     let email: AnyObserver<String>
     let password: AnyObserver<String>
     let repeatPassword: AnyObserver<String>
 
-    
+    // MARK: - Output
     let disappear: Observable<Void>
     let create: Observable<Void>
     let error: Observable<String>

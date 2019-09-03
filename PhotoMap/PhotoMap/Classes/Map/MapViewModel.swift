@@ -12,60 +12,34 @@ import CoreLocation.CLLocation
 import MapKit.MKMapView
 
 class MapViewModel {
-    
     private let disposebag = DisposeBag()
     
     // MARK: - Inputs
-    
     /// Call to show Photo Sheet or request Photo Permission
     let cameraButtonTapped: AnyObserver<Void>
-    
-    /// Check location permission
     let locationButtonTapped: AnyObserver<Void>
-    
     let photoLibrarySelected: AnyObserver<Void>
-    
     let postCreated: AnyObserver<PostAnnotation>
-    
     let fullPhotoTapped: AnyObserver<PostAnnotation>
-    
     let timestamp: AnyObserver<Int>
-    
     let location: AnyObserver<CLLocation>
-    
     let coordinateInterval: AnyObserver<MKCoordinateRegion>
-    
     let showCategoriesFilter: AnyObserver<Void>
-    
     let categoriesDidSelected: AnyObserver<Void>
     
-    
-    
     // MARK: - Outputs
-    
-    /// Emits when we should provide the necessary Permissions
     let showPermissionMessage: Observable<String>
-    
     let showPhotoLibrary: Observable<Void>
-    
     let showImageSheet: Observable<Void>
-    
     let post: Observable<PostAnnotation>
-    
     let showFullPhoto: Observable<PostAnnotation>
-    
     let shortDate: Observable<String>
-    
     let isLoading: Observable<Bool>
-    
     let error: Observable<String>
-    
     let posts: Observable<[PostAnnotation]>
-    
     let categoriesTapped: Observable<Void>
     
     // MARK: - Initialization
-    
     init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
          locationService: LocationService = LocationService(),
          dateService: DateService = DateService(),

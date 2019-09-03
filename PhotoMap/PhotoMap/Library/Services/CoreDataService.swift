@@ -12,7 +12,6 @@ import CoreLocation
 import RxSwift
 
 class CoreDataService {
-    
     private let appDelegate: AppDelegate!
     
     init(appDelegate: AppDelegate) {

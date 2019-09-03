@@ -19,7 +19,6 @@ enum YearLength: String {
 }
 
 class DateService {
-    
     private let dateFormatter = DateFormatter()
     private let calendar = Calendar.current
     private let numberFormatter = NumberFormatter()
@@ -30,7 +29,6 @@ class DateService {
         numberFormatter.numberStyle = .ordinal
         
         let ordinalDay = numberFormatter.string(from: components.day! as NSNumber)
-        
         dateFormatter.amSymbol = "am"
         dateFormatter.pmSymbol = "pm"
         dateFormatter.dateFormat = "MMMM '\(ordinalDay!)', yyyy '\(modifier.rawValue)' h:mm a"

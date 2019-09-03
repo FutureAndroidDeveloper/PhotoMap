@@ -52,7 +52,6 @@
 		59E24B9623076ABC00DDE574 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9523076ABC00DDE574 /* SignUpViewController.swift */; };
 		59E24B9823076ACF00DDE574 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9723076ACF00DDE574 /* SignUpCoordinator.swift */; };
 		59E24B9A23076ADC00DDE574 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9923076ADC00DDE574 /* SignUpViewModel.swift */; };
-		59E70DCD230E11A300238630 /* CoordinatInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E70DCC230E11A300238630 /* CoordinatInterval.swift */; };
 		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		59ED5E842317370F000B53F6 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E832317370F000B53F6 /* CategoriesViewController.swift */; };
 		59ED5E872317372A000B53F6 /* CategoriesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E862317372A000B53F6 /* CategoriesCoordinator.swift */; };
@@ -122,7 +121,6 @@
 		59E24B9523076ABC00DDE574 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		59E24B9723076ACF00DDE574 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		59E24B9923076ADC00DDE574 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
-		59E70DCC230E11A300238630 /* CoordinatInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatInterval.swift; sourceTree = "<group>"; };
 		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		59ED5E832317370F000B53F6 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		59ED5E862317372A000B53F6 /* CategoriesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCoordinator.swift; sourceTree = "<group>"; };
@@ -336,7 +334,6 @@
 		59E70DCB230E118A00238630 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				59E70DCC230E11A300238630 /* CoordinatInterval.swift */,
 				59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */,
 			);
 			path = Model;
@@ -562,7 +559,6 @@
 				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,
 				59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */,
-				59E70DCD230E11A300238630 /* CoordinatInterval.swift in Sources */,
 				59DA4ABE230249DD00843954 /* FullPhotoViewModel.swift in Sources */,
 				59ED5E872317372A000B53F6 /* CategoriesCoordinator.swift in Sources */,
 				5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */,
