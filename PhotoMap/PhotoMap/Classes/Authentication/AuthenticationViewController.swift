@@ -36,7 +36,7 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
             }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.emailTextField.errorMessage = "Invalid email"
+                self.emailTextField.errorMessage = R.string.localizable.invalidEmail()
             })
             .disposed(by: bag)
         
@@ -60,7 +60,7 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
             }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.passwordTextField.errorMessage = "Minimum 8 characters at least 1 Alphabet and 1 Number"
+                self.passwordTextField.errorMessage = R.string.localizable.invalidPassword()
             })
             .disposed(by: bag)
         
@@ -101,7 +101,9 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.emailTextField.endEditing(true)
+                self.emailTextField.resignFirstResponder()
                 self.passwordTextField.endEditing(true)
+                self.passwordTextField.resignFirstResponder()
             })
             .disposed(by: bag)
         
@@ -115,10 +117,14 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
     
     private func setupView() {
         let passwordClearButton = passwordTextField.value(forKey: "_clearButton") as? UIButton
-        passwordClearButton?.setImage(UIImage(named: "clear"), for: .normal)
+        passwordClearButton?.setImage(R.image.authentication.clear(), for: .normal)
+        passwordTextField.placeholder = R.string.localizable.passwordPlaceholder()
+        passwordTextField.title = R.string.localizable.passwordTitle()
         
         let emailClearButton = emailTextField.value(forKey: "_clearButton") as? UIButton
-        emailClearButton?.setImage(UIImage(named: "clear"), for: .normal)
+        emailClearButton?.setImage(R.image.authentication.clear(), for: .normal)
+        emailTextField.placeholder = R.string.localizable.emailPlaceholder()
+        emailTextField.title = R.string.localizable.emailTitle()
         
         signInButton.layer.cornerRadius = signInButton.bounds.width / 8
         
@@ -129,7 +135,7 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
             NSAttributedString.Key.underlineStyle: 1] as [NSAttributedString.Key: Any]
         
         let attributedString = NSMutableAttributedString(string: "")
-        let buttonTitle = NSMutableAttributedString(string: "Forgot Password?", attributes: attrs)
+        let buttonTitle = NSMutableAttributedString(string: R.string.localizable.forgotPassword(), attributes: attrs)
         attributedString.append(buttonTitle)
         forgotPasswordButton.setAttributedTitle(attributedString, for: .normal)
         
@@ -137,15 +143,16 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
         let signUpAttrs = [
             NSAttributedString.Key.foregroundColor: UIColor.white,
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .semibold) ]
+        let formattedTitle = NSMutableAttributedString(string: R.string.localizable.signUp(), attributes: signUpAttrs)
+        let signUpTitle = NSMutableAttributedString(string: R.string.localizable.noAccount(),
+                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        let formattedTitle = NSMutableAttributedString(string: "Sign Up", attributes: signUpAttrs)
-        let signUpTitle = NSMutableAttributedString(string: "Don't have an account? ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         signUpTitle.append(formattedTitle)
         signUpButton.setAttributedTitle(signUpTitle, for: .normal)
         
         // Show/Hide password button
-        showPasswordButton.setImage(UIImage(named: "hide"), for: .normal)
-        showPasswordButton.setImage(UIImage(named: "show"), for: .selected)
+        showPasswordButton.setImage(R.image.authentication.hide(), for: .normal)
+        showPasswordButton.setImage(R.image.authentication.show(), for: .selected)
         
         view.addGestureRecognizer(tapGesture)
     }
@@ -165,7 +172,7 @@ class AuthenticationViewController: UIViewController, StoryboardInitializable {
     
     private func showSigInError(message: String) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: R.string.localizable.ok(), style: .default, handler: nil)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }

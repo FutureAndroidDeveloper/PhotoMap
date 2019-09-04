@@ -24,7 +24,7 @@ class TimelineTableHeader: UIView {
     }
     
     private func setupView() {
-        Bundle.main.loadNibNamed("TimelineTableHeader", owner: self, options: nil)
+        _ = R.nib.timelineTableHeader.instantiate(withOwner: self)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         

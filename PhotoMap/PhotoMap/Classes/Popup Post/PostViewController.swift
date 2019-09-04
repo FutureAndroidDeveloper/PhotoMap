@@ -33,8 +33,8 @@ class PostViewController: UIViewController, StoryboardInitializable {
             .compactMap { $0.first }
             .subscribe(onNext: { [weak self] category in
                 guard let self = self else { return }
-                self.contentView.categoryLabel.text = category.uppercased()
-                self.contentView.categoryImageView.image = UIImage(named: category)
+                self.contentView.categoryLabel.text = NSLocalizedString(category, comment: "").uppercased()
+                self.contentView.categoryImageView.image = UIImage(named: "Categories/\(category)")
             })
             .disposed(by: bag)
         
@@ -85,11 +85,12 @@ class PostViewController: UIViewController, StoryboardInitializable {
         viewController.preferredContentSize = CGSize(width: 250, height: 150)
         pickerView.frame = CGRect(x: 0, y: -20, width: 250, height: 180)
         viewController.view.addSubview(pickerView)
-        
-        let editRadiusAlert = UIAlertController(title: "Choose A Photo Category", message: "", preferredStyle: UIAlertController.Style.alert)
-        editRadiusAlert.setValue(viewController, forKey: "contentViewController")
-        editRadiusAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(editRadiusAlert, animated: true)
+        let categoryAlert = UIAlertController(title: R.string.localizable.chooseCategory(),
+                                                message: nil,
+                                                preferredStyle: UIAlertController.Style.alert)
+        categoryAlert.setValue(viewController, forKey: "contentViewController")
+        categoryAlert.addAction(UIAlertAction(title: R.string.localizable.ok(), style: .default, handler: nil))
+        present(categoryAlert, animated: true)
     }
     
     private func setupView() {

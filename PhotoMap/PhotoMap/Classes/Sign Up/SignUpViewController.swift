@@ -44,7 +44,7 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
             }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.emailTextField.errorMessage = "Invalid email"
+                self.emailTextField.errorMessage = R.string.localizable.invalidEmail()
             })
             .disposed(by: bag)
         
@@ -67,7 +67,7 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
             }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.passwordTextField.errorMessage = "Minimum 8 characters at least 1 Alphabet and 1 Number"
+                self.passwordTextField.errorMessage = R.string.localizable.invalidPassword()
             })
             .disposed(by: bag)
         
@@ -89,7 +89,7 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
                 return self.passwordTextField.text != self.repeatPasswordTextField.text }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.repeatPasswordTextField.errorMessage = "Passwords do not match"
+                self.repeatPasswordTextField.errorMessage = R.string.localizable.notMatch()
             })
             .disposed(by: bag)
         
@@ -109,8 +109,11 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
             .subscribe(onNext: { [weak self ] _ in
                 guard let self = self else { return }
                 self.emailTextField.endEditing(true)
+                self.emailTextField.resignFirstResponder()
                 self.passwordTextField.endEditing(true)
+                self.passwordTextField.resignFirstResponder()
                 self.repeatPasswordTextField.endEditing(true)
+                self.repeatPasswordTextField.resignFirstResponder()
             })
             .disposed(by: bag)
         
@@ -146,17 +149,23 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
         navigationController?.navigationBar.tintColor = .white
         
         let passwordClearButton = passwordTextField.value(forKey: "_clearButton") as? UIButton
-        passwordClearButton?.setImage(UIImage(named: "clear"), for: .normal)
+        passwordClearButton?.setImage(R.image.authentication.clear(), for: .normal)
+        passwordTextField.placeholder = R.string.localizable.passwordPlaceholder()
+        passwordTextField.title = R.string.localizable.passwordTitle()
         
         let repeatPasswordClearButton = repeatPasswordTextField.value(forKey: "_clearButton") as? UIButton
-        repeatPasswordClearButton?.setImage(UIImage(named: "clear"), for: .normal)
+        repeatPasswordClearButton?.setImage(R.image.authentication.clear(), for: .normal)
+        repeatPasswordTextField.placeholder = R.string.localizable.repeatPasswordPlaceholder()
+        repeatPasswordTextField.title = R.string.localizable.repeatPasswordTitle()
         
         let emailClearButton = emailTextField.value(forKey: "_clearButton") as? UIButton
-        emailClearButton?.setImage(UIImage(named: "clear"), for: .normal)
+        emailClearButton?.setImage(R.image.authentication.clear(), for: .normal)
+        emailTextField.placeholder = R.string.localizable.emailPlaceholder()
+        emailTextField.title = R.string.localizable.emailTitle()
         
         // Show/Hide password button
-        showPasswordButton.setImage(UIImage(named: "hide"), for: .normal)
-        showPasswordButton.setImage(UIImage(named: "show"), for: .selected)
+        showPasswordButton.setImage(R.image.authentication.hide(), for: .normal)
+        showPasswordButton.setImage(R.image.authentication.show(), for: .selected)
         
         createButton.layer.cornerRadius = createButton.bounds.width / 8
         view.addGestureRecognizer(tapGesture)
@@ -179,7 +188,7 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
     
     private func showSigInError(message: String) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: R.string.localizable.ok(), style: .default, handler: nil)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }

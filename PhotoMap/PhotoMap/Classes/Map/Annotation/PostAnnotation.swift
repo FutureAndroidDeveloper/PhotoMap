@@ -12,7 +12,7 @@ import MapKit
 
 class PostAnnotation: NSObject, MKAnnotation, Codable {
     var categoryImage: UIImage {
-        return UIImage(named: category.lowercased())!
+        return UIImage(named: "Categories/" + category.lowercased())!
     }
     
     var image: UIImage?
@@ -51,7 +51,6 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
         super.init()
     }
     
-
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let imageData = try? container.decode(Data.self, forKey: .image)

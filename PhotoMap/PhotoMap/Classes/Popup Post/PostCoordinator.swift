@@ -30,7 +30,7 @@ class PostCoordinator: BaseCoordinator<PostCoordinatorResult> {
     }
     
     override func start() -> Observable<CoordinatorResult> {
-        let postViewController = PostViewController.initFromStoryboard(name: "Main")
+        let postViewController = PostViewController.initFromStoryboard()
         let viewModel = PostViewModel()
         postViewController.viewModel = viewModel
         

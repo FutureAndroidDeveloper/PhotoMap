@@ -58,7 +58,7 @@ class TimelineViewModel {
         searchText = _searchText.asObserver()
         
         _ = _searchText
-            .filter { $0 == "" }
+            .filter { $0.isEmpty }
             .map { _ in self.filter() }
             .flatMap { self.buildSections(posts: $0) }
             .subscribe(onNext: { _sections.onNext($0) })
@@ -123,12 +123,15 @@ class TimelineViewModel {
     }
     
     private func getPosts(with hashtags: [String]) -> [PostAnnotation] {
+        let uncheckedCategories = defaults.object(forKey: "savedCategories") as? [String] ?? []
         var resultPosts = [PostAnnotation]()
+        
         self.savedsectionModels.forEach { section in
             section.items.forEach { post in
                 guard let postHashtags = post.postDescription?.hashtags() else { return }
                 hashtags.forEach{ hashtag in
-                    if postHashtags.contains(hashtag) && !resultPosts.contains(post) {
+                    if postHashtags.contains(hashtag) && !resultPosts.contains(post)
+                        && !uncheckedCategories.contains(post.category) {
                         resultPosts.append(post)
                     }
                 }
@@ -162,7 +165,8 @@ extension String {
         let regex = try? NSRegularExpression(pattern: "(#[a-zA-Z0-9_\\p{Arabic}\\p{N}]*)", options: [])
         if let matches = regex?.matches(in: self, options: [], range: NSMakeRange(0, self.count)) {
             for match in matches {
-                hashtags.append(NSString(string: self).substring(with: NSRange(location: match.range.location, length: match.range.length )))
+                hashtags.append(NSString(string: self).substring(with: NSRange(location: match.range.location,
+                                                                               length: match.range.length )))
             }
         }
         return hashtags

@@ -1,0 +1,58 @@
+/* 
+  Localizable.strings
+  PhotoMap
+
+  Created by Kiryl Klimiankou on 9/3/19.
+  Copyright © 2019 Kiryl Klimiankou. All rights reserved.
+*/
+
+// TabBar items
+"Map" = "Map";
+"Timeline" = "Timeline";
+
+// Image Sheet
+"From camera" = "Take a Picture";
+"From library" = "Choose From Library";
+"Cancel" = "Cancel";
+
+// Privacy
+"Access to location" = "Allow Access to Location";
+"Access to photos" = "Allow Asccess to Photos";
+"Permission message" = "Please go to Settings and turn on the permissions";
+"Settings" = "Settings";
+
+// TimeLine
+"Search" = "Search";
+"Category" = "Categoty";
+
+// Categories
+"Categories" = "Categories";
+
+// Post View
+"Choose category" = "Choose A Photo Category";
+"Ok" = "OK";
+"Done" = "Done";
+
+// Authentication
+"Invalid email" = "Invalid email";
+"Invalid password" = "Min. 8 characters, 1 Alphabet and 1 Number";
+"Forgot password" = "Forgot Password?";
+"No account" = "Don't have an account? ";
+"Sign up" = "Sign Up";
+"Email placeholder" = "Email";
+"Email title" = "Enter your email address";
+"Password placeholder" = "Password";
+"Password title" = "Enter Your Password";
+"Not match" = "Passwords do not match";
+"Repeat password placeholder" = "Repeat password";
+"Repeat password title" = "Repeat your password";
+
+// Date Service
+"at" = "at";
+"time Format" = "h:mm a";
+"ordinal Number" = "en";
+
+// Categories
+"friends" = "friends";
+"default" = "default";
+"nature" = "nature";

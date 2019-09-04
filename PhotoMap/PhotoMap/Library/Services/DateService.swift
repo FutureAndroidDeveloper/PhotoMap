@@ -11,6 +11,10 @@ import Foundation
 enum DateModifier: String {
     case at = "at"
     case dash = "-"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 enum YearLength: String {
@@ -27,23 +31,28 @@ class DateService {
         let date = Date(timeIntervalSince1970: Double(timestamp))
         let components = calendar.dateComponents([.day], from: date)
         numberFormatter.numberStyle = .ordinal
+        numberFormatter.locale = Locale(identifier: R.string.localizable.ordinalNumber())
         
         let ordinalDay = numberFormatter.string(from: components.day! as NSNumber)
         dateFormatter.amSymbol = "am"
         dateFormatter.pmSymbol = "pm"
-        dateFormatter.dateFormat = "MMMM '\(ordinalDay!)', yyyy '\(modifier.rawValue)' h:mm a"
-        return dateFormatter.string(from: date)
+        dateFormatter.dateFormat = """
+        LLLL '\(ordinalDay!)', yyyy '\(modifier.localizedString())' \(R.string.localizable.timeFormat())
+        """
+        let dateString = dateFormatter.string(from: date)
+        let month = dateString.split(separator: " ").first!
+        return dateString.replacingOccurrences(of: month, with: month.capitalized)
     }
     
     func getShortDate(timestamp: Int, yearLength: YearLength) -> String {
         let date = Date(timeIntervalSince1970: Double(timestamp))
-        dateFormatter.dateFormat = "MM-dd-\(yearLength.rawValue)"
+        dateFormatter.dateFormat = "LL-dd-\(yearLength.rawValue)"
         return dateFormatter.string(from: date)
     }
     
     func getMonthAndYear(timestamp: Int) -> String {
         let date = Date(timeIntervalSince1970: Double(timestamp))
-        dateFormatter.dateFormat = "MMMM yyyy"
-        return dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "LLLL yyyy"
+        return dateFormatter.string(from: date).capitalized
     }
 }

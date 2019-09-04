@@ -17,7 +17,7 @@ class TimelineCoordinator: BaseCoordinator<Void> {
     }
     
     override func start() -> Observable<Void> {
-        let timelineViewController = TimelineViewController.initFromStoryboard(name: "Main")
+        let timelineViewController = TimelineViewController.initFromStoryboard()
         let viewModel = TimelineViewModel()
         timelineViewController.viewModel = viewModel
         navigationController.pushViewController(timelineViewController, animated: true)
@@ -47,7 +47,13 @@ class TimelineCoordinator: BaseCoordinator<Void> {
     }
     
     private func showFullPhotoViewController(post: PostAnnotation) -> Observable<Void> {
+        let defaultTintColor = navigationController.navigationBar.tintColor
+        navigationController.navigationBar.tintColor = .white
         let fullPhotoCoordinator = FullPhotoCoordinator(navigationController: navigationController, post: post)
         return coordinate(to: fullPhotoCoordinator)
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.navigationController.navigationBar.tintColor = defaultTintColor
+            })
     }
 }

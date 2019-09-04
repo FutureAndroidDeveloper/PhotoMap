@@ -22,7 +22,7 @@ class SignUpCoordinator: BaseCoordinator<SignUpCoordinatorResult> {
     }
     
     override func start() -> Observable<CoordinatorResult> {
-        let signUpViewController = SignUpViewController.initFromStoryboard(name: "Main")
+        let signUpViewController = SignUpViewController.initFromStoryboard()
         let viewModel = SignUpViewModel()
         signUpViewController.viewModel = viewModel
  

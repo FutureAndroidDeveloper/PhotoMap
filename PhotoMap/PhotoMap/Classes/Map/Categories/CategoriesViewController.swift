@@ -51,11 +51,12 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         for index in 0..<categories.count {
             let checkBox = CheckBox()
             checkBox.color = colors[index]
-            checkBox.categoryLabel.text = categories[index].uppercased()
+            checkBox.categoryLabel.text = NSLocalizedString(categories[index], comment: "").uppercased()
             checkBox.categoryLabel.font = UIFont.systemFont(ofSize: checkBox.checkButton.bounds.width / 1.8, weight: .light)
             categoriesStackView.addArrangedSubview(checkBox)
         }
-        stackViewHeightConstraint.constant = CGFloat(categoriesStackView.subviews.count) * (categoriesStackView.subviews.first! as! CheckBox).height
+        stackViewHeightConstraint.constant = CGFloat(categoriesStackView.subviews.count) *
+            (categoriesStackView.subviews.first! as! CheckBox).height
         view.layoutIfNeeded()
     }
     
@@ -68,9 +69,10 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     }
     
     private func setupView() {
-        navigationController?.navigationBar.topItem?.title = "Categories"
+        navigationController?.navigationBar.topItem?.title = R.string.localizable.categories()
         doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
         navigationController?.navigationBar.topItem?.rightBarButtonItem = doneButton
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.2117647059, green: 0.5568627451, blue: 0.8745098039, alpha: 1)]
+        let defaultTintColor = navigationController!.navigationBar.tintColor!
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: defaultTintColor]
     }
 }

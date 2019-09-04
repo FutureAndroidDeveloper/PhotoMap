@@ -20,6 +20,7 @@ final class PickerViewViewAdapter
     private var items: [[CustomStringConvertible]] = []
     
     func model(at indexPath: IndexPath) throws -> Any {
+        print(items[indexPath.section][indexPath.row])
         return items[indexPath.section][indexPath.row]
     }
     
@@ -35,9 +36,8 @@ final class PickerViewViewAdapter
         let parentView = UIView()
         let label = UILabel(frame: CGRect(x: 60, y: 10, width: 150, height: 50))
         let imageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 50, height:50))
-        
-        imageView.image = UIImage(named: items[component][row] as! String)
-        label.text = (items[component][row] as! String).uppercased()
+        imageView.image = UIImage(named: "Categories/\(items[component][row] as! String)")
+        label.text = NSLocalizedString(items[component][row] as! String, comment: "").uppercased()
         parentView.addSubview(label)
         parentView.addSubview(imageView)
         

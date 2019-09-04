@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app saves photos and videos to your photo library.</string>
+	<string>This will allow you to select a photo from the gallery</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app</string>
+	<string>This will allow you to post photos according to your location</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

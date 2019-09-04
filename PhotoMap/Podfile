@@ -36,4 +36,7 @@ target 'PhotoMap' do
 
   # progress indicator
   pod 'UICircularProgressRing'
+
+  # resource manager
+  pod 'R.swift'
 end

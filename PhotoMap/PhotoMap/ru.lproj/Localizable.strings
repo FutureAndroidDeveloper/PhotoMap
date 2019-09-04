@@ -1,0 +1,58 @@
+/* 
+  Localizable.strings
+  PhotoMap
+
+  Created by Kiryl Klimiankou on 9/3/19.
+  Copyright © 2019 Kiryl Klimiankou. All rights reserved.
+*/
+
+// TabBar items
+"Map" = "Карта";
+"Timeline" = "История";
+
+// Image Sheet
+"From camera" = "Сфотографировать";
+"From library" = "Выбрать из Библиотеки";
+"Cancel" = "Закрыть";
+
+// Privacy
+"Access to location" = "Разрешите доступ к Местоположению";
+"Access to photos" = "Разрешите доступ к Фотографиям";
+"Permission message" = "Пожалуйста, перейдите в Настройки и включите разрешения";
+"Settings" = "Настройки";
+
+// TimeLine
+"Search" = "Поиск";
+"Category" = "Категории";
+
+// Categories
+"Categories" = "Категории";
+
+// Post View
+"Choose category" = "Выберите Категорию Фотографии";
+"Ok" = "OK";
+"Done" = "Готово";
+
+// Authentication
+"Invalid email" = "Неправильная эл.почта";
+"Invalid password" = "Мин. 8 символов, 1 Буква и 1 Цифра";
+"Forgot password" = "Забыли Пароль?";
+"No account" = "Нет учетной записи? ";
+"Sign up" = "Присоединиться";
+"Email placeholder" = "Эл.Почта";
+"Email title" = "Введите вашу эл.Почту";
+"Password placeholder" = "Пароль";
+"Password title" = "Введите Ваш Пароль";
+"Not match" = "Пароли не совпадают";
+"Repeat password placeholder" = "Повторите Пароль";
+"Repeat password title" = "Повторите Ваш Пароль";
+
+// Date Service
+"at" = "в";
+"time Format" = "HH:mm";
+"ordinal Number" = "fr";
+
+// Categories
+"friends" = "друзья";
+"default" = "стандартное";
+"nature" = "природа";

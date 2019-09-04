@@ -29,7 +29,7 @@ class FooterView: UIView {
     }
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("FooterView", owner: self, options: nil)
+        _ = R.nib.footerView(owner: self)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         

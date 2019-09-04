@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  PhotoMap
+
+  Created by Kiryl Klimiankou on 9/3/19.
+  Copyright © 2019 Kiryl Klimiankou. All rights reserved.
+*/
+NSPhotoLibraryUsageDescription = "Это позволит выбирать фотографии из галереи";
+NSLocationWhenInUseUsageDescription = "Это позволит размещать фотографии в соответствии с Вашим местоположением";

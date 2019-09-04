@@ -20,7 +20,7 @@ class FullPhotoCoordinator: BaseCoordinator<Void> {
     
     override func start() -> Observable<Void> {
         let viewModel = FullPhotoViewModel()
-        let fullPhotoViewController = FullPhotoViewController.initFromStoryboard(name: "Main")
+        let fullPhotoViewController = FullPhotoViewController.initFromStoryboard()
         navigationController.pushViewController(fullPhotoViewController, animated: true)
         
         fullPhotoViewController.viewModel = viewModel

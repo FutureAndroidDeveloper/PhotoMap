@@ -1,0 +1,15 @@
+
+/* Class = "UIButton"; normalTitle = "Don't have an account? Sign Up"; ObjectID = "LL6-Bz-8Gj"; */
+"LL6-Bz-8Gj.normalTitle" = "Don't have an account? Sign Up";
+
+/* Class = "UIButton"; normalTitle = "Sign In"; ObjectID = "OIK-Zr-3jd"; */
+"OIK-Zr-3jd.normalTitle" = "Войти";
+
+/* Class = "UIButton"; normalTitle = "Forgot Password?"; ObjectID = "d8K-M2-dPc"; */
+"d8K-M2-dPc.normalTitle" = "Forgot Password?";
+
+/* Class = "UIButton"; normalTitle = "Create"; ObjectID = "hsV-B2-QN0"; */
+"hsV-B2-QN0.normalTitle" = "Создать";
+
+/* Class = "UILabel"; text = "Sign Up"; ObjectID = "oID-Zj-HzV"; */
+"oID-Zj-HzV.text" = "Присоединиться";

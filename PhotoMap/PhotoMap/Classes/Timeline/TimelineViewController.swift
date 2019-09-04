@@ -15,6 +15,7 @@ import Kingfisher
 class TimelineViewController: UIViewController, StoryboardInitializable, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private lazy var searchBar = UISearchBar()
     private var categoriesButton: UIBarButtonItem!
     private let bag = DisposeBag()
@@ -33,7 +34,7 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
 
                 cell.isUserInteractionEnabled = false
                 let date = self.viewModel.getPostDate(timestamp: item.date)
-                cell.postView.dateLabel.text = "\(date) / \(item.category)"
+                cell.postView.dateLabel.text = "\(date) / \(NSLocalizedString(item.category.lowercased(), comment: "").uppercased())"
                 cell.postView.descriptionLabel.text = item.postDescription
 
                 let url = URL(string: item.imageUrl!)
@@ -51,6 +52,15 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
             .distinctUntilChanged()
             .compactMap { $0 }
             .bind(to: viewModel.searchText)
+            .disposed(by: bag)
+        
+        viewModel.sections
+            .map { _ in return true }
+            .subscribe(onNext: { [weak self] value in
+                guard let self = self else { return }
+                self.activityIndicator.stopAnimating()
+                self.tableView.separatorStyle = .singleLine
+            })
             .disposed(by: bag)
 
         viewModel.sections
@@ -79,7 +89,7 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
         searchBar.rx.textDidEndEditing
             .withLatestFrom(searchBar.rx.text)
             .compactMap { $0 }
-            .filter { $0 == "" }
+            .filter { $0.isEmpty }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.searchBar.setCenteredPlaceHolder(with: self.navigationItem.rightBarButtonItem!)
@@ -87,11 +97,13 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
             .disposed(by: bag)
         
         searchBar.rx.searchButtonClicked
-            .subscribe(onNext: { [weak self] _ in
+            .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.searchBar.endEditing(true)
                 self.searchBar.resignFirstResponder()
             })
+            .compactMap { self.searchBar.text }
+            .bind(to: viewModel.searchText)
             .disposed(by: bag)
         
         categoriesButton.rx.tap
@@ -115,12 +127,14 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
     }
     
     private func setupView() {
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = R.string.localizable.search()
         let searchTextField = searchBar.value(forKey: "_searchField") as? UITextField
         searchTextField?.backgroundColor = #colorLiteral(red: 0.8901960784, green: 0.8941176471, blue: 0.9019607843, alpha: 1)
-        categoriesButton = UIBarButtonItem(title: "Category", style: .plain, target: nil, action: nil)
+        categoriesButton = UIBarButtonItem(title: R.string.localizable.category(), style: .plain, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = categoriesButton
         self.navigationItem.titleView = searchBar
+        activityIndicator.startAnimating()
+        tableView.separatorStyle = .none
         view.addGestureRecognizer(tapGesture)
     }
 }

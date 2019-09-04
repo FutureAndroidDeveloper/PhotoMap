@@ -49,7 +49,7 @@ class CheckBox: UIView {
     }
 
     private func setupView() {
-        Bundle.main.loadNibNamed("CheckBox", owner: self, options: nil)
+        _ = R.nib.checkBox(owner: self)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
 

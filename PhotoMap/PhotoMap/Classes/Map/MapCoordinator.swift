@@ -20,7 +20,7 @@ class MapCoordinator: BaseCoordinator<Void> {
     
     override func start() -> Observable<Void> {
         let viewModel = MapViewModel()
-        let mapViewController = MapViewController.initFromStoryboard(name: "Main")
+        let mapViewController = MapViewController.initFromStoryboard()
         navigationController.pushViewController(mapViewController, animated: true)
         
         mapViewController.viewModel = viewModel
@@ -29,7 +29,8 @@ class MapCoordinator: BaseCoordinator<Void> {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] title in
                 guard let self = self else { return }
-                self.requestPermissions(in: mapViewController, title: title, message: "Please go to Settings and turn on the permissions")
+                self.requestPermissions(in: mapViewController, title: title,
+                                        message: R.string.localizable.permissionMessage())
             })
             .disposed(by: disposeBag)
         
@@ -96,7 +97,8 @@ class MapCoordinator: BaseCoordinator<Void> {
             })
     }
 
-    private func showPostViewController(on rootViewController: UIViewController, image: UIImage, date: Date) -> Observable<PostAnnotation?> {
+    private func showPostViewController(on rootViewController: UIViewController,
+                                        image: UIImage, date: Date) -> Observable<PostAnnotation?> {
         let postCoordinator = PostCoordinator(rootViewController: rootViewController, image: image, date: date)
         return coordinate(to: postCoordinator)
             .take(1)
@@ -115,7 +117,7 @@ class MapCoordinator: BaseCoordinator<Void> {
     
     private func requestPermissions(in viewController: UIViewController, title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let settingsAction = UIAlertAction(title: "Settings", style: .default) { _ in
+        let settingsAction = UIAlertAction(title: R.string.localizable.settings(), style: .default) { _ in
             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
             
             if UIApplication.shared.canOpenURL(settingsUrl) {
@@ -123,7 +125,7 @@ class MapCoordinator: BaseCoordinator<Void> {
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: R.string.localizable.cancel(), style: .default, handler: nil)
         alertController.addAction(cancelAction)
         alertController.addAction(settingsAction)
         viewController.present(alertController, animated: true, completion: nil)

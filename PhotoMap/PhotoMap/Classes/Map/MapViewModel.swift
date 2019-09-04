@@ -163,11 +163,14 @@ class MapViewModel {
         _locationButtonTapped.asObservable()
             .flatMap { locationService.authorized }
             .filter { $0 == false }
-            .map { _ in "Allow access to location." }
+            .map { _ in R.string.localizable.accessToLocation() }
             .bind(to: _showPermissionMessage)
             .disposed(by: disposebag)
         
         _cameraButtopTapped.asObservable()
+            .do(onNext: { _ in
+                _locationButtonTapped.onNext(Void())
+            })
             .subscribe(onNext: { _ in
                 let authorized = photoLibraryService.authorized
                     .share()
@@ -185,7 +188,7 @@ class MapViewModel {
                     .takeLast(1)
                     .filter { $0 == false }
                     .subscribe(onNext: { (_) in
-                        _showPermissionMessage.onNext("Allow access to photos.")
+                        _showPermissionMessage.onNext(R.string.localizable.accessToPhotos())
                     })
                     .disposed(by: self.disposebag)
             })

@@ -22,10 +22,14 @@ class TabBarCoordinator: BaseCoordinator<Void> {
         let mapNavigation = UINavigationController()
         mapNavigation.isNavigationBarHidden = true
         mapNavigation.navigationBar.tintColor = .white
-        mapNavigation.tabBarItem = UITabBarItem(title: "Map", image: UIImage(named: "compass"), selectedImage: nil)
+        mapNavigation.tabBarItem = UITabBarItem(title: R.string.localizable.map(),
+                                                image: R.image.tabBarItems.compass(),
+                                                selectedImage: nil)
         
         let timelineNavigation = UINavigationController()
-        timelineNavigation.tabBarItem = UITabBarItem(title: "Timeline", image: UIImage(named: "timeline"), selectedImage: nil)
+        timelineNavigation.tabBarItem = UITabBarItem(title: R.string.localizable.timeline(),
+                                                     image: R.image.tabBarItems.timeline(),
+                                                     selectedImage: nil)
         
         let moreNavigation = UINavigationController()
         moreNavigation.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)

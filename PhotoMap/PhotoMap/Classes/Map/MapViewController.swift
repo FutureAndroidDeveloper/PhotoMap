@@ -182,13 +182,28 @@ class MapViewController: UIViewController, StoryboardInitializable {
             })
             .disposed(by: bag)
         
-        cameraButton.rx.tap
+        let cameraWithLocation = cameraButton.rx.tap
+            .map { [weak self] _ -> Bool in
+                guard let self = self, let _ = self.locationManager.location else { return false }
+                return true
+            }
+            .share(replay: 1)
+        
+        cameraWithLocation
+            .filter { $0 }
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 self.location = self.locationManager.location
                 self.viewModel.location.onNext(self.location!)
             })
+            .map { _ in return Void() }
             .bind(to: viewModel.cameraButtonTapped)
+            .disposed(by: bag)
+        
+        cameraWithLocation
+            .filter { !$0 }
+            .map { _ in return Void() }
+            .bind(to: viewModel.locationButtonTapped)
             .disposed(by: bag)
 
         locationButton.rx.tap
@@ -251,22 +266,20 @@ class MapViewController: UIViewController, StoryboardInitializable {
         mapView.showsUserLocation = true
         view.addSubview(spinner)
         spinner.center = view.center
-        
-        locationButton.setImage(UIImage(named: "discover"), for: .normal)
-        locationButton.setImage(UIImage(named: "follow"), for: .selected)
+        locationButton.setImage(R.image.map.discover(), for: .normal)
+        locationButton.setImage(R.image.map.follow(), for: .selected)
     }
     
     private func displayImageSheet() {
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let cameraAction = UIAlertAction(title: "Take a Picture", style: .default, handler: { _ in
+        let cameraAction = UIAlertAction(title: R.string.localizable.fromCamera(), style: .default, handler: { _ in
             // TODO: - Camera
         })
-        let libraryAction = UIAlertAction(title: "Choose From Library", style: .default, handler: { [weak self] _ in
+        let libraryAction = UIAlertAction(title: R.string.localizable.fromLibrary(), style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
             self.viewModel.photoLibrarySelected.onNext(Void())
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: R.string.localizable.cancel(), style: .cancel)
         
         photoMenu.addAction(cameraAction)
         photoMenu.addAction(libraryAction)

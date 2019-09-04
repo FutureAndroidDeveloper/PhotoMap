@@ -20,9 +20,6 @@ extension UIView {
 }
 
 class PostView: UIView {
-    
-    let placeholder = "Placeholder"
-    
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView(image: nil)
         imageView.contentMode = .scaleAspectFit
@@ -41,14 +38,14 @@ class PostView: UIView {
     }()
     
     lazy var categoryImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "default"))
+        let imageView = UIImageView(image: R.image.categories.default())
         imageView.setContentHuggingPriority(UILayoutPriority(251), for: .horizontal)
         return imageView
     }()
     
     lazy var categoryLabel: UILabel = {
         let label = UILabel()
-        label.text = "DEFAULT"
+        label.text = NSLocalizedString("default", comment: "").uppercased()
         
         return label
     }()
@@ -77,7 +74,7 @@ class PostView: UIView {
     lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle(R.string.localizable.cancel(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.setTitleColor(.red, for: .normal)
         
@@ -87,7 +84,7 @@ class PostView: UIView {
     lazy var doneButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Done", for: .normal)
+        button.setTitle(R.string.localizable.done(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.setTitleColor(.blue, for: .normal)
         

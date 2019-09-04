@@ -22,7 +22,7 @@ class AuthenticationCoordinator: BaseCoordinator<Void> {
     }
     
     override func start() -> Observable<Void> {
-        let authController = AuthenticationViewController.initFromStoryboard(name: "Main")
+        let authController = AuthenticationViewController.initFromStoryboard()
         let viewModel = AuthenticationViewModel()
         authController.viewModel = viewModel
         

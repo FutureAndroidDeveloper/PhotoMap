@@ -26,7 +26,7 @@ class TablePostView: UIView {
     }
     
     private func setupView() {
-        Bundle.main.loadNibNamed("TablePostView", owner: self, options: nil)
+        _ = R.nib.tablePostView.instantiate(withOwner: self)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         

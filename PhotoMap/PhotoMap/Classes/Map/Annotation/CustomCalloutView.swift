@@ -27,7 +27,8 @@ class CustomCalloutView: UIView {
     }
 
     private func commonInit() {
-        Bundle.main.loadNibNamed("CustomCalloutView", owner: self, options: nil)
+//        Bundle.main.loadNibNamed("CustomCalloutView", owner: self, options: nil)
+        _ = R.nib.customCalloutView(owner: self)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
         
