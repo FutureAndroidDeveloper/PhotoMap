@@ -19,7 +19,6 @@ class PhotoLibraryService {
                     observer.onNext(true)
                     observer.onCompleted()
                 } else {
-                    observer.onNext(false)
                     PHPhotoLibrary.requestAuthorization { newStatus in
                         observer.onNext(newStatus == .authorized)
                         observer.onCompleted()

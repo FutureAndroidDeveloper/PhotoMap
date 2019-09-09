@@ -167,31 +167,23 @@ class MapViewModel {
             .bind(to: _showPermissionMessage)
             .disposed(by: disposebag)
         
-        _cameraButtopTapped.asObservable()
+        let isAuthorized = _cameraButtopTapped.asObservable()
             .do(onNext: { _ in
                 _locationButtonTapped.onNext(Void())
             })
-            .subscribe(onNext: { _ in
-                let authorized = photoLibraryService.authorized
-                    .share()
-
-                authorized
-                    .skipWhile { $0 == false }
-                    .take(1)
-                    .subscribe(onNext: { _ in
-                        _showImageSheet.onNext(Void())
-                    })
-                    .disposed(by: self.disposebag)
-
-                authorized
-                    .skip(1)
-                    .takeLast(1)
-                    .filter { $0 == false }
-                    .subscribe(onNext: { (_) in
-                        _showPermissionMessage.onNext(R.string.localizable.accessToPhotos())
-                    })
-                    .disposed(by: self.disposebag)
-            })
+            .flatMap { photoLibraryService.authorized }
+            .share(replay: 1)
+        
+        isAuthorized
+            .filter { $0 }
+            .map { _ in return Void() }
+            .bind(to: _showImageSheet)
+            .disposed(by: disposebag)
+        
+        isAuthorized
+            .filter { !$0 }
+            .map { _ in R.string.localizable.accessToPhotos() }
+            .bind(to: _showPermissionMessage)
             .disposed(by: disposebag)
     }
 }

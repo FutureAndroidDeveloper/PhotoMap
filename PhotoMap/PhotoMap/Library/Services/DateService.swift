@@ -27,6 +27,10 @@ class DateService {
     private let calendar = Calendar.current
     private let numberFormatter = NumberFormatter()
     
+    init () {
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    }
+    
     func getLongDate(timestamp: Int, modifier: DateModifier) -> String {
         let date = Date(timeIntervalSince1970: Double(timestamp))
         let components = calendar.dateComponents([.day], from: date)

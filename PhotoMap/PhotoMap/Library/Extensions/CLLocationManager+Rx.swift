@@ -34,13 +34,6 @@ extension Reactive where Base: CLLocationManager {
         return RxCLLocationManagerDelegateProxy.proxy(for: base)
     }
     
-    var didUpdateLocations: Observable<[CLLocation]> {
-        return delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManager(_:didUpdateLocations:)))
-            .map { parameters in
-                return parameters[1] as! [CLLocation]
-        }
-    }
-    
     var didChangeAuthorization: Observable<CLAuthorizationStatus> {
         return delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManager(_:didChangeAuthorization:)))
             .map { parameters in

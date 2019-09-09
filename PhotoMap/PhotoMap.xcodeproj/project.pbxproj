@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4768450855ECA8AC5BBCF954 /* Pods_PhotoMap_PhotoMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF14625D30BD6AF469CB2B55 /* Pods_PhotoMap_PhotoMapTests.framework */; };
 		59069D4D22FA08D1009D317B /* Categories in Resources */ = {isa = PBXBuildFile; fileRef = 59069D4C22FA08D1009D317B /* Categories */; };
 		59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59069D4E22FA35C4009D317B /* CategoriesService.swift */; };
 		59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59069D5022FA482E009D317B /* PickerViewViewAdapter.swift */; };
@@ -40,10 +41,14 @@
 		5999CA8F2319B68800610BB6 /* TablePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5999CA8E2319B68800610BB6 /* TablePostView.swift */; };
 		5999CA912319BC7200610BB6 /* TimelineTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */; };
 		5999CA932319BE2200610BB6 /* TimelineTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */; };
+		599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599F5B4B2327175F000188E0 /* SignupTest.swift */; };
 		59ABFBEC231055F000C938AD /* PostClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ABFBEB231055F000C938AD /* PostClusterView.swift */; };
 		59BCB88E231F182F00C1DECA /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BCB88D231F182E00C1DECA /* R.generated.swift */; };
 		59BCB893231F193700C1DECA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59BCB895231F193700C1DECA /* Localizable.strings */; };
 		59BCB8A0231F666B00C1DECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59BCB8A2231F666B00C1DECA /* InfoPlist.strings */; };
+		59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */; };
+		59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1623231557008D5B06 /* AuthenticationTest.swift */; };
+		59CEAC1923231ABB008D5B06 /* ValidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1823231ABB008D5B06 /* ValidateService.swift */; };
 		59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */; };
 		59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */; };
 		59D74C002304BD7E00C5E7FD /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */; };
@@ -68,15 +73,28 @@
 		59FB8C0D22F89D0D00F987EF /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0C22F89D0D00F987EF /* PostView.swift */; };
 		59FB8C0F22F8B29C00F987EF /* PostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0E22F8B29C00F987EF /* PostAnnotation.swift */; };
 		59FB8C1122F8C7E800F987EF /* DateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C1022F8C7E800F987EF /* DateService.swift */; };
+		59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FC6E982321BA4A00673513 /* PhotoMapTests.swift */; };
 		59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */; };
 		59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */; };
 		59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF9122F27BD0004178AC /* MapViewModel.swift */; };
 		6D1EA8D621E01ABA6C7FC786 /* Pods_PhotoMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		59FC6E9B2321BA4A00673513 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5929CC3A22F0B6450089947C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5929CC4122F0B6450089947C;
+			remoteInfo = PhotoMap;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1080D7247CEDCAB46288F2A3 /* Pods-PhotoMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.release.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.release.xcconfig"; sourceTree = "<group>"; };
+		1227CBE6A6E15C28E688DBB7 /* Pods-PhotoMap-PhotoMapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap-PhotoMapTests.release.xcconfig"; path = "Target Support Files/Pods-PhotoMap-PhotoMapTests/Pods-PhotoMap-PhotoMapTests.release.xcconfig"; sourceTree = "<group>"; };
 		236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		39F3EE21FCBB3A934D98AC3B /* Pods-PhotoMap-PhotoMapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap-PhotoMapTests.debug.xcconfig"; path = "Target Support Files/Pods-PhotoMap-PhotoMapTests/Pods-PhotoMap-PhotoMapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		59069D4C22FA08D1009D317B /* Categories */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Categories; sourceTree = "<group>"; };
 		59069D4E22FA35C4009D317B /* CategoriesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesService.swift; sourceTree = "<group>"; };
 		59069D5022FA482E009D317B /* PickerViewViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewViewAdapter.swift; sourceTree = "<group>"; };
@@ -112,6 +130,7 @@
 		5999CA8E2319B68800610BB6 /* TablePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TablePostView.swift; sourceTree = "<group>"; };
 		5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimelineTableHeader.xib; sourceTree = "<group>"; };
 		5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableHeader.swift; sourceTree = "<group>"; };
+		599F5B4B2327175F000188E0 /* SignupTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTest.swift; sourceTree = "<group>"; };
 		59ABFBEB231055F000C938AD /* PostClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostClusterView.swift; sourceTree = "<group>"; };
 		59BCB88D231F182E00C1DECA /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		59BCB890231F18F400C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -120,6 +139,9 @@
 		59BCB898231F5E3400C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		59BCB8A1231F666B00C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		59BCB8A3231F666C00C1DECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateServiceTest.swift; sourceTree = "<group>"; };
+		59CEAC1623231557008D5B06 /* AuthenticationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTest.swift; sourceTree = "<group>"; };
+		59CEAC1823231ABB008D5B06 /* ValidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateService.swift; sourceTree = "<group>"; };
 		59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
@@ -144,9 +166,13 @@
 		59FB8C0C22F89D0D00F987EF /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		59FB8C0E22F8B29C00F987EF /* PostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotation.swift; sourceTree = "<group>"; };
 		59FB8C1022F8C7E800F987EF /* DateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateService.swift; sourceTree = "<group>"; };
+		59FC6E962321BA4A00673513 /* PhotoMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		59FC6E982321BA4A00673513 /* PhotoMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMapTests.swift; sourceTree = "<group>"; };
+		59FC6E9A2321BA4A00673513 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+RxCreate.swift"; sourceTree = "<group>"; };
 		59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Rx.swift"; sourceTree = "<group>"; };
 		59FEEF9122F27BD0004178AC /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		AF14625D30BD6AF469CB2B55 /* Pods_PhotoMap_PhotoMapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoMap_PhotoMapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD69C4753C329D6D88A1504 /* Pods-PhotoMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.debug.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +185,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		59FC6E932321BA4A00673513 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4768450855ECA8AC5BBCF954 /* Pods_PhotoMap_PhotoMapTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -167,6 +201,8 @@
 			children = (
 				CFD69C4753C329D6D88A1504 /* Pods-PhotoMap.debug.xcconfig */,
 				1080D7247CEDCAB46288F2A3 /* Pods-PhotoMap.release.xcconfig */,
+				39F3EE21FCBB3A934D98AC3B /* Pods-PhotoMap-PhotoMapTests.debug.xcconfig */,
+				1227CBE6A6E15C28E688DBB7 /* Pods-PhotoMap-PhotoMapTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -255,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				5929CC4422F0B6450089947C /* PhotoMap */,
+				59FC6E972321BA4A00673513 /* PhotoMapTests */,
 				5929CC4322F0B6450089947C /* Products */,
 				3EF3BC6E2D59B895F998A989 /* Pods */,
 				6EE61FC1DBF8B2A9FD5E4B03 /* Frameworks */,
@@ -265,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				5929CC4222F0B6450089947C /* PhotoMap.app */,
+				59FC6E962321BA4A00673513 /* PhotoMapTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -297,6 +335,7 @@
 				59069D4E22FA35C4009D317B /* CategoriesService.swift */,
 				59D74C012304C3C600C5E7FD /* FirebaseService.swift */,
 				590A7C042315D1570010BEFC /* CoreDataService.swift */,
+				59CEAC1823231ABB008D5B06 /* ValidateService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -397,10 +436,23 @@
 			path = "Popup Post";
 			sourceTree = "<group>";
 		};
+		59FC6E972321BA4A00673513 /* PhotoMapTests */ = {
+			isa = PBXGroup;
+			children = (
+				59FC6E982321BA4A00673513 /* PhotoMapTests.swift */,
+				59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */,
+				59CEAC1623231557008D5B06 /* AuthenticationTest.swift */,
+				599F5B4B2327175F000188E0 /* SignupTest.swift */,
+				59FC6E9A2321BA4A00673513 /* Info.plist */,
+			);
+			path = PhotoMapTests;
+			sourceTree = "<group>";
+		};
 		6EE61FC1DBF8B2A9FD5E4B03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */,
+				AF14625D30BD6AF469CB2B55 /* Pods_PhotoMap_PhotoMapTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -428,6 +480,26 @@
 			productReference = 5929CC4222F0B6450089947C /* PhotoMap.app */;
 			productType = "com.apple.product-type.application";
 		};
+		59FC6E952321BA4A00673513 /* PhotoMapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 59FC6E9D2321BA4A00673513 /* Build configuration list for PBXNativeTarget "PhotoMapTests" */;
+			buildPhases = (
+				DACA27EFB4140358E6099594 /* [CP] Check Pods Manifest.lock */,
+				59FC6E922321BA4A00673513 /* Sources */,
+				59FC6E932321BA4A00673513 /* Frameworks */,
+				59FC6E942321BA4A00673513 /* Resources */,
+				079CD3223FB8E0469F59A71A /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				59FC6E9C2321BA4A00673513 /* PBXTargetDependency */,
+			);
+			name = PhotoMapTests;
+			productName = PhotoMapTests;
+			productReference = 59FC6E962321BA4A00673513 /* PhotoMapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -440,6 +512,10 @@
 				TargetAttributes = {
 					5929CC4122F0B6450089947C = {
 						CreatedOnToolsVersion = 10.2.1;
+					};
+					59FC6E952321BA4A00673513 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 5929CC4122F0B6450089947C;
 					};
 				};
 			};
@@ -458,6 +534,7 @@
 			projectRoot = "";
 			targets = (
 				5929CC4122F0B6450089947C /* PhotoMap */,
+				59FC6E952321BA4A00673513 /* PhotoMapTests */,
 			);
 		};
 /* End PBXProject section */
@@ -482,9 +559,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		59FC6E942321BA4A00673513 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		079CD3223FB8E0469F59A71A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoMap-PhotoMapTests/Pods-PhotoMap-PhotoMapTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PhotoMap-PhotoMapTests/Pods-PhotoMap-PhotoMapTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhotoMap-PhotoMapTests/Pods-PhotoMap-PhotoMapTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		59BCB88C231F17CD00C1DECA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -519,6 +620,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PhotoMap/Pods-PhotoMap-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DACA27EFB4140358E6099594 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhotoMap-PhotoMapTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E19362EA99A77F99FD861F5D /* [CP] Check Pods Manifest.lock */ = {
@@ -588,6 +711,7 @@
 				590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */,
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
 				59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */,
+				59CEAC1923231ABB008D5B06 /* ValidateService.swift in Sources */,
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
 				59ED5E842317370F000B53F6 /* CategoriesViewController.swift in Sources */,
 				59728E982319962500B3BEF5 /* SectionOfPostAnnotation.swift in Sources */,
@@ -605,7 +729,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		59FC6E922321BA4A00673513 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */,
+				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
+				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
+				59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		59FC6E9C2321BA4A00673513 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5929CC4122F0B6450089947C /* PhotoMap */;
+			targetProxy = 59FC6E9B2321BA4A00673513 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5929CC4922F0B6450089947C /* Main.storyboard */ = {
@@ -772,6 +915,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 49GPYK54FQ;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = PhotoMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -791,6 +935,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 49GPYK54FQ;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = PhotoMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -800,6 +945,50 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		59FC6E9E2321BA4A00673513 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 39F3EE21FCBB3A934D98AC3B /* Pods-PhotoMap-PhotoMapTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 49GPYK54FQ;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = PhotoMapTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = student.PhotoMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoMap.app/PhotoMap";
+			};
+			name = Debug;
+		};
+		59FC6E9F2321BA4A00673513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1227CBE6A6E15C28E688DBB7 /* Pods-PhotoMap-PhotoMapTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 49GPYK54FQ;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = PhotoMapTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = student.PhotoMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoMap.app/PhotoMap";
 			};
 			name = Release;
 		};
@@ -820,6 +1009,15 @@
 			buildConfigurations = (
 				5929CC5522F0B6460089947C /* Debug */,
 				5929CC5622F0B6460089947C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		59FC6E9D2321BA4A00673513 /* Build configuration list for PBXNativeTarget "PhotoMapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				59FC6E9E2321BA4A00673513 /* Debug */,
+				59FC6E9F2321BA4A00673513 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

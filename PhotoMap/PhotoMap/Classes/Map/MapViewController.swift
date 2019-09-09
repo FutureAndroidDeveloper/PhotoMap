@@ -47,7 +47,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 guard let self = self else { fatalError() }
                 return self.mapView.region
             }
-            .bind(to: self.viewModel.coordinateInterval)
+            .bind(to: viewModel.coordinateInterval)
             .disposed(by: bag)
         
         viewModel.posts

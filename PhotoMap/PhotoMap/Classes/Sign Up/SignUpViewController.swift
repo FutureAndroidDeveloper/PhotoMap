@@ -28,83 +28,81 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
         setupView()
         
         showPasswordButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
+            .bind(to: viewModel.tappedShowPassword)
+            .disposed(by: bag)
+        
+        viewModel.isPasswordHidden
+            .bind(onNext: { [weak self] isHidden in
                 guard let self = self else { return }
-                self.showPasswordButton.isSelected = !self.showPasswordButton.isSelected
-                self.passwordTextField.isSecureTextEntry = !self.showPasswordButton.isSelected
-                self.repeatPasswordTextField.isSecureTextEntry = !self.showPasswordButton.isSelected
+                self.showPasswordButton.isSelected = !isHidden
+                self.passwordTextField.isSecureTextEntry = isHidden
+                self.repeatPasswordTextField.isSecureTextEntry = isHidden
             })
             .disposed(by: bag)
 
-        emailTextField.rx.controlEvent(.editingDidEnd)
-            .asObservable()
-            .filter { [weak self] _ in
-                guard let self = self else { return true }
-                return self.isEmailValid(self.emailTextField.text) == false
+        emailTextField.rx
+            .controlEvent(.editingDidEnd)
+            .map { [weak self] _ -> String in
+                guard let self = self,
+                    let email = self.emailTextField.text else { return String() }
+                return email
             }
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.emailTextField.errorMessage = R.string.localizable.invalidEmail()
-            })
+            .bind(to: viewModel.emailEditingDidEnd)
             .disposed(by: bag)
         
         emailTextField.rx.text.orEmpty
-            .filter { [weak self] email in
-                guard let self = self else { return true }
-                return self.isEmailValid(email) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.emailTextField.errorMessage = ""
-            })
             .bind(to: viewModel.email)
             .disposed(by: bag)
         
-        passwordTextField.rx.controlEvent(.editingDidEnd)
-            .asObservable()
-            .filter { [weak self] _ in
-                guard let self = self else { return true }
-                return self.isPasswordValid(self.passwordTextField.text) == false
-            }
-            .subscribe(onNext: { [weak self] _ in
+        viewModel.emailError
+            .subscribe(onNext: { [weak self] errorMessage in
                 guard let self = self else { return }
-                self.passwordTextField.errorMessage = R.string.localizable.invalidPassword()
+                self.emailTextField.errorMessage = errorMessage
             })
+            .disposed(by: bag)
+        
+        passwordTextField.rx
+            .controlEvent(.editingDidEnd)
+            .map { [weak self] _ -> String in
+                guard let self = self,
+                    let password = self.passwordTextField.text else { return String() }
+                return password
+            }
+            .bind(to: viewModel.passwordEditingDidEnd)
             .disposed(by: bag)
         
         passwordTextField.rx.text.orEmpty
-            .filter { [weak self] password in
-                guard let self = self else { return true }
-                return self.isPasswordValid(password) }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.passwordTextField.errorMessage = ""
-            })
             .bind(to: viewModel.password)
             .disposed(by: bag)
         
-        repeatPasswordTextField.rx.controlEvent(.editingDidEnd)
-            .asObservable()
-            .filter { [weak self] _ in
-                guard let self = self else { return false }
-                return self.passwordTextField.text != self.repeatPasswordTextField.text }
-            .subscribe(onNext: { [weak self] _ in
+        viewModel.passwordError
+            .subscribe(onNext: { [weak self] errorMessage in
                 guard let self = self else { return }
-                self.repeatPasswordTextField.errorMessage = R.string.localizable.notMatch()
+                self.passwordTextField.errorMessage = errorMessage
             })
             .disposed(by: bag)
         
-        repeatPasswordTextField.rx.text.orEmpty
-            .filter { [weak self] repeatPassword in
-                guard let self = self else { return true }
-                return self.passwordTextField.text == repeatPassword
+        repeatPasswordTextField.rx
+            .controlEvent(.editingDidEnd)
+            .map { [weak self] _ -> String in
+                guard let self = self,
+                    let password = self.repeatPasswordTextField.text else { return String() }
+                return password
             }
-            .do(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.repeatPasswordTextField.errorMessage = ""
-            })
+            .bind(to: viewModel.repeatPasswordEditingDidEnd)
+            .disposed(by: bag)
+        
+        repeatPasswordTextField.rx.text.orEmpty
             .bind(to: viewModel.repeatPassword)
             .disposed(by: bag)
-
+        
+        viewModel.repeatPasswordError
+            .subscribe(onNext: { [weak self] errorMessage in
+                guard let self = self else { return }
+                self.repeatPasswordTextField.errorMessage = errorMessage
+            })
+            .disposed(by: bag)
+        
         tapGesture.rx.event
             .subscribe(onNext: { [weak self ] _ in
                 guard let self = self else { return }
@@ -118,12 +116,6 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         createButton.rx.tap
-            .filter { [weak self] _ in
-                guard let self = self else { return true }
-                return self.isEmailValid(self.emailTextField.text) &&
-                    self.isPasswordValid(self.passwordTextField.text) &&
-                    self.repeatPasswordTextField.text == self.passwordTextField.text
-            }
             .bind(to: viewModel.createTapped)
             .disposed(by: bag)
         
@@ -172,20 +164,6 @@ class SignUpViewController: UIViewController, StoryboardInitializable {
     }
     
     // MARK: - Private Methods
-    
-    private func isPasswordValid(_ password: String?) -> Bool {
-        // Minimum 8 characters at least 1 Alphabet and 1 Number:
-        let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
-        let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
-        return passwordPred.evaluate(with: password)
-    }
-    
-    private func isEmailValid(_ email: String?) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
-    }
-    
     private func showSigInError(message: String) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: R.string.localizable.ok(), style: .default, handler: nil)
