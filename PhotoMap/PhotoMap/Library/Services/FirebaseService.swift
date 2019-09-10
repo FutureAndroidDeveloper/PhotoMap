@@ -192,7 +192,7 @@ class FirebaseService {
         }
         
         let imageID = UUID().uuidString
-        let imageRef = self.storage.child(post.category.localizedKey()).child("\(imageID).jpg")
+        let imageRef = self.storage.child(post.category.lowercased()).child("\(imageID).jpg")
         return imageRef.rx.putData(imageData, metadata: metadata)
             .flatMapLatest { _ in imageRef.rx.downloadURL() }
             .take(1)

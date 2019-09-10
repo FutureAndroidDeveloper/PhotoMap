@@ -97,9 +97,12 @@ class MapViewController: UIViewController, StoryboardInitializable {
                     self.calloutView.widthAnchor.constraint(equalToConstant: 300)
                     ])
                 
-                let indicator = UICircularProgressRing()
-                self.setupIndicator(indicator)
-                self.downloadImage(with: indicator)
+                
+                if self.postAnnotation.image == nil {
+                    let indicator = UICircularProgressRing()
+                    self.setupIndicator(indicator)
+                    self.downloadImage(with: indicator)
+                }
                 self.calloutView.photoImage.image = self.postAnnotation.image
                 self.calloutView.descriptionLabel.text = self.postAnnotation.postDescription
                 self.viewModel.timestamp.onNext(self.postAnnotation.date)
