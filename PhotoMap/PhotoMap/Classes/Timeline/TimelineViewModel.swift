@@ -114,7 +114,7 @@ class TimelineViewModel {
         
         self.savedsectionModels.forEach { sectionOfPostAnnotation in
             sectionOfPostAnnotation.items.forEach { post in
-                if !uncheckedCategories.contains(post.category) {
+                if !uncheckedCategories.contains(post.category.lowercased()) {
                     filteredPosts.append(post)
                 }
             }
@@ -131,7 +131,7 @@ class TimelineViewModel {
                 guard let postHashtags = post.postDescription?.hashtags() else { return }
                 hashtags.forEach{ hashtag in
                     if postHashtags.contains(hashtag) && !resultPosts.contains(post)
-                        && !uncheckedCategories.contains(post.category) {
+                        && !uncheckedCategories.contains(post.category.lowercased()) {
                         resultPosts.append(post)
                     }
                 }
