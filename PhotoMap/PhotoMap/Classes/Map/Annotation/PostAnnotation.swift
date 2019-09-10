@@ -17,7 +17,7 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
     
     var image: UIImage?
     let date: Int
-    let category: String
+    var category: String
     let postDescription: String?
     var imageUrl: String?
     var coordinate: CLLocationCoordinate2D
@@ -78,6 +78,10 @@ extension PostAnnotation {
     override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? PostAnnotation else { return false }
         return self.imageUrl == object.imageUrl
+    }
+    
+    func setLocalizedCAtegoryKey() {
+        category = category.localizedKey().uppercased()
     }
 }
 

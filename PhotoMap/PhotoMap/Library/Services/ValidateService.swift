@@ -23,11 +23,6 @@ class ValidateService {
     }
     
     func isAccaoutDataValid(_ email: String, _ password: String) -> Bool {
-//        var isValid = false
-//        if isEmailValid(email) && isPasswordValid(password) {
-//            isValid = true
-//        }
-//        return isValid
         return isEmailValid(email) && isPasswordValid(password)
     }
     

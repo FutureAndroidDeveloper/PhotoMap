@@ -27,6 +27,8 @@ class MapViewModel {
     let showCategoriesFilter: AnyObserver<Void>
     let categoriesDidSelected: AnyObserver<Void>
     
+    let createPostAtMapPointTapped: AnyObserver<Void>
+    
     // MARK: - Outputs
     let showPermissionMessage: Observable<String>
     let showPhotoLibrary: Observable<Void>
@@ -93,7 +95,6 @@ class MapViewModel {
         categoriesDidSelected = _categories.asObserver()
         
         let defaults = UserDefaults.standard
-        
         var visiblePosts = [PostAnnotation]()
         
         coreDaraService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
@@ -164,6 +165,25 @@ class MapViewModel {
             .flatMap { locationService.authorized }
             .filter { $0 == false }
             .map { _ in R.string.localizable.accessToLocation() }
+            .bind(to: _showPermissionMessage)
+            .disposed(by: disposebag)
+        
+        let _createPostAtMapPointTapped = PublishSubject<Void>()
+        createPostAtMapPointTapped = _createPostAtMapPointTapped.asObserver()
+        
+        let isAuthorizedPhotoLibrary = _createPostAtMapPointTapped
+            .flatMap { photoLibraryService.authorized }
+            .share(replay: 1)
+        
+        isAuthorizedPhotoLibrary
+            .filter { $0 }
+            .map { _ in return Void() }
+            .bind(to: _showImageSheet)
+            .disposed(by: disposebag)
+        
+        isAuthorizedPhotoLibrary
+            .filter { !$0 }
+            .map { _ in R.string.localizable.accessToPhotos() }
             .bind(to: _showPermissionMessage)
             .disposed(by: disposebag)
         

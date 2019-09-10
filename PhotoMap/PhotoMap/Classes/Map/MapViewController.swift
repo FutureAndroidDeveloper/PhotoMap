@@ -23,7 +23,6 @@ class MapViewController: UIViewController, StoryboardInitializable {
     @IBOutlet weak var categoriesMenuButton: UIButton!
     
     // MARK: - Properties
-    
     var viewModel: MapViewModel!
     private let bag = DisposeBag()
     private let locationManager = CLLocationManager()
@@ -42,11 +41,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-        mapView.rx.regionDidChangeAnimated
-            .map { [weak self] _ in
-                guard let self = self else { fatalError() }
-                return self.mapView.region
-            }
+        mapView.rx.region
             .bind(to: viewModel.coordinateInterval)
             .disposed(by: bag)
         
@@ -103,42 +98,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
                     ])
                 
                 let indicator = UICircularProgressRing()
-                
-                indicator.maxValue = 100
-                indicator.outerRingColor = UIColor(white: 1, alpha: 0.7)
-                indicator.innerRingColor = #colorLiteral(red: 0, green: 0.5690457821, blue: 0.5746168494, alpha: 1)
-                indicator.style = .bordered(width: 1, color: #colorLiteral(red: 0.2078431373, green: 0.7294117647, blue: 0.6549019608, alpha: 1))
-                indicator.font = UIFont.systemFont(ofSize: self.calloutView.photoImage.bounds.height / 5, weight: .medium)
-                indicator.translatesAutoresizingMaskIntoConstraints = false
-                self.calloutView.photoImage.addSubview(indicator)
-                indicator.isHidden = false
-                self.calloutView.detailButton.isUserInteractionEnabled = indicator.isHidden
-                
-                NSLayoutConstraint.activate([
-                    indicator.centerXAnchor.constraint(equalTo: self.calloutView.photoImage.centerXAnchor),
-                    indicator.centerYAnchor.constraint(equalTo: self.calloutView.photoImage.centerYAnchor),
-                    indicator.widthAnchor.constraint(equalTo: self.calloutView.photoImage.widthAnchor),
-                    indicator.heightAnchor.constraint(equalTo: self.calloutView.photoImage.heightAnchor)
-                    ])
-
-                guard let imageUrl = URL(string: self.postAnnotation.imageUrl!) else { return }
-                self.calloutView.photoImage
-                    .kf.setImage(
-                        with: imageUrl,
-                        progressBlock: { receivedSize, totalSize in
-                            let percentage = (Float(receivedSize) / Float(totalSize)) * 100.0
-                            indicator.value = CGFloat(percentage)
-                        },
-                        completionHandler: { [weak self] result in
-                            guard let self = self else { return }
-                            switch result {
-                            case .success(let value): self.postAnnotation.image = value.image
-                            case .failure(let error): print(error)
-                            }
-                            indicator.isHidden = true
-                            self.calloutView.detailButton.isUserInteractionEnabled = indicator.isHidden
-                        })
-                
+                self.setupIndicator(indicator)
+                self.downloadImage(with: indicator)
                 self.calloutView.photoImage.image = self.postAnnotation.image
                 self.calloutView.descriptionLabel.text = self.postAnnotation.postDescription
                 self.viewModel.timestamp.onNext(self.postAnnotation.date)
@@ -165,9 +126,9 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 self.viewModel.location.onNext(touchLocation)
             })
             .map { _ in return Void() }
-            .bind(to: viewModel.cameraButtonTapped)
+            .bind(to: viewModel.createPostAtMapPointTapped)
             .disposed(by: bag)
-        
+
         viewModel.post
             .subscribe(onNext: { [weak self] post in
                 guard let self = self else { return }
@@ -184,7 +145,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
         
         let cameraWithLocation = cameraButton.rx.tap
             .map { [weak self] _ -> Bool in
-                guard let self = self, let _ = self.locationManager.location else { return false }
+                guard let self = self,
+                    let _ = self.locationManager.location else { return false }
                 return true
             }
             .share(replay: 1)
@@ -292,5 +254,44 @@ class MapViewController: UIViewController, StoryboardInitializable {
         let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func setupIndicator(_ indicator: UICircularProgressRing) {
+        indicator.maxValue = 100
+        indicator.outerRingColor = UIColor(white: 1, alpha: 0.7)
+        indicator.innerRingColor = #colorLiteral(red: 0, green: 0.5690457821, blue: 0.5746168494, alpha: 1)
+        indicator.style = .bordered(width: 1, color: #colorLiteral(red: 0.2078431373, green: 0.7294117647, blue: 0.6549019608, alpha: 1))
+        indicator.font = UIFont.systemFont(ofSize: calloutView.photoImage.bounds.height / 5, weight: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        calloutView.photoImage.addSubview(indicator)
+        indicator.isHidden = false
+        calloutView.detailButton.isUserInteractionEnabled = indicator.isHidden
+        
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: calloutView.photoImage.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: calloutView.photoImage.centerYAnchor),
+            indicator.widthAnchor.constraint(equalTo: calloutView.photoImage.widthAnchor),
+            indicator.heightAnchor.constraint(equalTo: calloutView.photoImage.heightAnchor)
+            ])
+    }
+    
+    private func downloadImage(with indicator: UICircularProgressRing) {
+        guard let imageUrl = URL(string: postAnnotation.imageUrl!) else { return }
+        calloutView.photoImage.kf
+            .setImage(
+                with: imageUrl,
+                progressBlock: { receivedSize, totalSize in
+                    let percentage = (Float(receivedSize) / Float(totalSize)) * 100.0
+                    indicator.value = CGFloat(percentage)
+            },
+                completionHandler: { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let value): self.postAnnotation.image = value.image
+                    case .failure(let error): print(error)
+                    }
+                    indicator.isHidden = true
+                    self.calloutView.detailButton.isUserInteractionEnabled = indicator.isHidden
+            })
     }
 }

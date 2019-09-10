@@ -23,7 +23,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        
+  
         viewModel.categories.takeLast(1)
             .subscribe(onNext: { [weak self] categories in
                 guard let self = self else { return }
@@ -38,7 +38,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
                 let categories = self.categoriesStackView.subviews
                     .compactMap { $0 as? CheckBox }
                     .filter { !$0.isChecked }
-                    .map { $0.categoryLabel.text! }
+                    .map { $0.categoryLabel.text!.localizedKey() }
                 self.defaults.set(categories, forKey: "savedCategories")
             })
             .bind(to: viewModel.done)
@@ -64,7 +64,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         let uncheckedCategories = defaults.object(forKey: "savedCategories") as? [String] ?? []
         categoriesStackView.subviews
             .compactMap { $0 as? CheckBox }
-            .filter { uncheckedCategories.contains($0.categoryLabel.text!) }
+            .filter { uncheckedCategories.contains($0.categoryLabel.text!.localizedKey()) }
             .forEach { $0.checkButton.backgroundColor = .white }
     }
     
@@ -76,3 +76,19 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: defaultTintColor]
     }
 }
+
+
+extension String {
+    /// Get key for localized string value
+    func localizedKey() -> String {
+        var resultKey = ""
+        let stringsPath = Bundle.main.path(forResource: "Localizable", ofType: "strings")
+        let dictionary = NSDictionary(contentsOfFile: stringsPath!) as! [String: String]
+        
+        dictionary.forEach({ key, value in
+            if value == self.lowercased() {
+                resultKey = key
+            }
+        })
+        return resultKey
+    }}

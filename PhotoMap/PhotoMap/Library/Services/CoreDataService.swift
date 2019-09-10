@@ -56,7 +56,7 @@ class CoreDataService {
             var subpredicates = [NSPredicate]()
             
             categories.forEach { category in
-                subpredicates.append(NSPredicate(format: "category != %@", "\(category)"))
+                subpredicates.append(NSPredicate(format: "category != %@", "\(category.uppercased())"))
             }
             let predicateCompound = NSCompoundPredicate(type: .and, subpredicates: subpredicates)
             fetchRequest.predicate = predicateCompound

@@ -109,6 +109,7 @@ class FirebaseService {
         // upload post model
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
+            post.setLocalizedCAtegoryKey()
 
             _ = self.uploadImage(post: post)
                 .flatMap { url -> Observable<DatabaseReference> in
@@ -166,7 +167,8 @@ class FirebaseService {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
                         let post = try JSONDecoder().decode(PostAnnotation.self, from: jsonData)
-                        if (coreDataService.isUnique(postAnnotation: post) && !categories.contains(post.category)) {
+                        if (coreDataService.isUnique(postAnnotation: post) &&
+                            !categories.contains(post.category.lowercased())) {
                             observer.onNext([post])
                             observer.onCompleted()
                         } else {
@@ -190,7 +192,7 @@ class FirebaseService {
         }
         
         let imageID = UUID().uuidString
-        let imageRef = self.storage.child(post.category.lowercased()).child("\(imageID).jpg")
+        let imageRef = self.storage.child(post.category.localizedKey()).child("\(imageID).jpg")
         return imageRef.rx.putData(imageData, metadata: metadata)
             .flatMapLatest { _ in imageRef.rx.downloadURL() }
             .take(1)
