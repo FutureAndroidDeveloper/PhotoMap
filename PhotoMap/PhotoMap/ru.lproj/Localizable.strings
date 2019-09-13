@@ -33,6 +33,11 @@
 "Ok" = "OK";
 "Done" = "Готово";
 
+// Admin Post View
+"Remove message" = "Вы уверены, что хотите удалить эту запись? Запись будет удалена без возможности ее восстановления.";
+"Remove title" = "Удалить Запись";
+"Remove action" = "Удалить";
+
 // Authentication
 "Invalid email" = "Неправильная эл.почта";
 "Invalid password" = "Мин. 8 символов, 1 Буква и 1 Цифра";

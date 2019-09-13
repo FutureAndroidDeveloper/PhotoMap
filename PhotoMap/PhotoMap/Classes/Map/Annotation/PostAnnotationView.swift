@@ -71,6 +71,7 @@ class PostAnnotationView: MKAnnotationView {
         willSet {
             guard let post = newValue as? PostAnnotation else { return }
             canShowCallout = false
+            centerOffset = CGPoint(x: 0, y: -22)
             image = UIImage.scale(image: post.categoryImage, by: 1.7)
             clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }

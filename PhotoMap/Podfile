@@ -37,6 +37,9 @@ target 'PhotoMap' do
   # progress indicator
   pod 'UICircularProgressRing'
 
+  # color picker
+  pod 'ChromaColorPicker'
+
   # resource manager
   pod 'R.swift'
 

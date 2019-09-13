@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import Firebase
 import RxFirebase
+import CodableFirebase
 
 class AppCoordinator: BaseCoordinator<Void> {
     private let window: UIWindow
@@ -24,10 +25,15 @@ class AppCoordinator: BaseCoordinator<Void> {
         // Applications are expected to have a root view controller at the end of application launch
         window.rootViewController = UINavigationController()
 
+//        do {
+//            try Auth.auth().signOut()
+//        } catch {}
+        
         state
             .compactMap { $0 }
-            .flatMap { [weak self] _ -> Observable<Void> in
+            .flatMap { [weak self] user -> Observable<Void> in
                 guard let self = self else { return .empty() }
+                self.checkForAdmin(user)
                 let tabBarCoordinator = TabBarCoordinator(window: self.window)
                 return self.coordinate(to: tabBarCoordinator)
             }
@@ -45,5 +51,21 @@ class AppCoordinator: BaseCoordinator<Void> {
             .disposed(by: disposeBag)
         
         return .never()
+    }
+    
+    private func checkForAdmin(_ user: User) {
+        let databaseRef = Database.database().reference().child("users").child(user.uid)
+        databaseRef.observeSingleEvent(of: .value, with: { snapshot in
+            guard let value = snapshot.value else { return }
+            
+            // TODO: - Handle Error
+            do {
+                let appUser = try FirebaseDecoder().decode(ApplicationUser.self, from: value)
+                // set user privilege to AppDelegate
+                (UIApplication.shared.delegate as! AppDelegate).isAdmin = appUser.isAdmin
+            } catch let error {
+                print(error)
+            }
+        })
     }
 }

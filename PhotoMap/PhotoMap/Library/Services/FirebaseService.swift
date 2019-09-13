@@ -49,24 +49,27 @@ class FirebaseService {
     
     func createUser(withEmail email: String, password: String) -> Observable<String?> {
         return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
             // Create a password-based account
-            self?.auth.rx.createUser(withEmail: email, password: password)
-                .subscribe(onNext: { _ in
+            self.auth.rx.createUser(withEmail: email, password: password)
+                .subscribe(onNext: { authResult in
+                    self.saveToDatabase(authResult.user)
                     observer.onNext(nil)
                     observer.onCompleted()
                 }, onError: { error in
                     observer.onNext(error.localizedDescription)
                     observer.onCompleted()
                 })
-                .disposed(by: self!.bag)
+                .disposed(by: self.bag)
             return Disposables.create()
         }
     }
     
     func signIn(withEmail email: String, password: String) -> Observable<String?> {
         return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
             // Sign in a user with an email address and password
-            self?.auth.rx.signIn(withEmail: email, password: password)
+            self.auth.rx.signIn(withEmail: email, password: password)
                 .subscribe(onNext: { _ in
                     observer.onNext(nil)
                     observer.onCompleted()
@@ -74,7 +77,7 @@ class FirebaseService {
                     observer.onNext(error.localizedDescription)
                     observer.onCompleted()
                 })
-                .disposed(by: self!.bag)
+                .disposed(by: self.bag)
             return Disposables.create()
         }
     }
@@ -82,7 +85,6 @@ class FirebaseService {
     func downloadUserPosts() -> Observable<[PostAnnotation]> {
         return Observable.create { [weak self] observer  in
             guard let self = self else { return Disposables.create() }
-            
             // Query posts created by current user
             let myPostsQuery = self.databaseRef.queryOrdered(byChild: "userID")
                 .queryEqual(toValue: Auth.auth().currentUser!.uid)
@@ -109,7 +111,7 @@ class FirebaseService {
         // upload post model
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
-            post.setLocalizedCAtegoryKey()
+            post.setLocalizedCategoryKey()
 
             _ = self.uploadImage(post: post)
                 .flatMap { url -> Observable<DatabaseReference> in
@@ -198,6 +200,44 @@ class FirebaseService {
             .take(1)
     }
     
+    // onComplited() --- ????
+    func postDidRemoved() -> Observable<PostAnnotation> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            self.databaseRef.observe(.childRemoved, with: { snapshot in
+                guard let value = snapshot.value as? [String: Any] else { return }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
+                    let post = try JSONDecoder().decode(PostAnnotation.self, from: jsonData)
+                    observer.onNext(post)
+                } catch {
+                    observer.onError(error)
+                }
+            })
+            
+            return Disposables.create()
+        }
+    }
+    
+    func removeIncorrectPost(_ post: PostAnnotation) {
+        // remove from FB ---> WORKS
+        databaseRef.queryOrdered(byChild: "imageUrl").queryEqual(toValue: post.imageUrl!).rx.observeSingleEvent(.value)
+            .map { snapshot -> String in
+                var modelID = ""
+                for snap in snapshot.children {
+                    modelID = (snap as! DataSnapshot).key
+                    break
+                }
+                return modelID
+            }
+            .subscribe(onNext: { [weak self] childKey in
+                guard let self = self else { return }
+                self.databaseRef.child(childKey).removeValue()
+            })
+            .disposed(by: bag)
+    }
+    
     func signOut() -> Bool {
         do {
             try auth.signOut()
@@ -206,5 +246,12 @@ class FirebaseService {
             print(error)
             return false
         }
+    }
+    
+    private func saveToDatabase(_ user: User) {
+        let appUser = ApplicationUser(id: user.uid, email: user.email!)
+        let encoder = FirebaseEncoder()
+        let data = try! encoder.encode(appUser)
+        databaseRef.root.child("users").child(appUser.id).setValue(data)
     }
 }

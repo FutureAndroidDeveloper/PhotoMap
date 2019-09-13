@@ -22,6 +22,10 @@ class CoreDataService {
         // save post to Core Data
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
+            if !self.isUnique(postAnnotation: postAnnotation) {
+                completable(.completed)
+                 return Disposables.create()
+            }
             
             let managedContext = self.appDelegate.persistentContainer.viewContext
             let entity = NSEntityDescription.entity(forEntityName: "Post", in: managedContext)!
@@ -97,6 +101,24 @@ class CoreDataService {
         } catch let error {
             print(error)
             return false
+        }
+    }
+    
+    func removePostFromCoredata(_ post: PostAnnotation) {
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
+        let predicate = NSPredicate(format: "imageUrl == %@", post.imageUrl!)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let posts = try context.fetch(fetchRequest)
+            for post in posts {
+                context.delete(post)
+            }
+            try context.save()
+        } catch {
+            // TODO: - Handle error (show in allert)
+            print(error)
         }
     }
 }

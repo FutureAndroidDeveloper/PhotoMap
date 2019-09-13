@@ -10,11 +10,14 @@ import UIKit
 
 class CustomCalloutView: UIView {
     
+    @IBOutlet weak var buttonCenterYConstraint: NSLayoutConstraint!
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailButton: UIButton!
     @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +30,6 @@ class CustomCalloutView: UIView {
     }
 
     private func commonInit() {
-//        Bundle.main.loadNibNamed("CustomCalloutView", owner: self, options: nil)
         _ = R.nib.customCalloutView(owner: self)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
@@ -44,4 +46,10 @@ class CustomCalloutView: UIView {
         contentView.layer.borderWidth = 1
     }
 
+    func setupViewForAdmin() {
+        buttonCenterYConstraint.constant = -15
+        editButton.isHidden = false
+        deleteButton.isHidden = false
+        layoutIfNeeded()
+    }
 }

@@ -26,6 +26,7 @@ class MapViewModel {
     let coordinateInterval: AnyObserver<MKCoordinateRegion>
     let showCategoriesFilter: AnyObserver<Void>
     let categoriesDidSelected: AnyObserver<Void>
+    let removePostTapped: AnyObserver<PostAnnotation>
     
     let createPostAtMapPointTapped: AnyObserver<Void>
     
@@ -33,7 +34,6 @@ class MapViewModel {
     let showPermissionMessage: Observable<String>
     let showPhotoLibrary: Observable<Void>
     let showImageSheet: Observable<Void>
-    let post: Observable<PostAnnotation>
     let showFullPhoto: Observable<PostAnnotation>
     let shortDate: Observable<String>
     let isLoading: Observable<Bool>
@@ -94,6 +94,28 @@ class MapViewModel {
         let _categories = PublishSubject<Void>()
         categoriesDidSelected = _categories.asObserver()
         
+        let _removePost = PublishSubject<PostAnnotation>()
+        removePostTapped = _removePost.asObserver()
+        // TODO: - REMOVE POST
+        // 1. remove from FB DB ---> Works
+        // 2. listen to remove event from FB and then remove it post from Core DB ---> Works
+        // 3. update map posts ---> Works
+        
+        // Handle Error
+        firebaseService.postDidRemoved()
+            .do(onNext: { coreDaraService.removePostFromCoredata($0) })
+            .subscribe(onNext: { _ in
+                _categories.onNext(Void())
+            })
+            .disposed(by: disposebag)
+        
+        _removePost
+            .subscribe(onNext: { (post) in
+                firebaseService.removeIncorrectPost(post)
+            })
+            .disposed(by: disposebag)
+        
+        
         let defaults = UserDefaults.standard
         var visiblePosts = [PostAnnotation]()
         
@@ -115,7 +137,7 @@ class MapViewModel {
                 _posts.onNext(filteredPosts)
             })
         
-        _ = _coordinateInterval
+        _coordinateInterval
             .flatMapLatest { region in
                 firebaseService.download(region: region,
                                          uncheckedCategories: defaults.array(forKey: "savedCategories") as? [String] ?? [],
@@ -134,32 +156,37 @@ class MapViewModel {
             }
             .catchErrorJustReturn([])
             .bind(to: _posts)
+            .disposed(by: disposebag)
         
         let _timestamp = PublishSubject<Int>()
         timestamp = _timestamp.asObserver()
         shortDate = _timestamp.asObservable()
             .compactMap { dateService.getShortDate(timestamp: $0, yearLength: .long) }
         
-        _ = _post.asObservable()
+        _post.asObservable()
             .map { _ in return true }
             .bind(to: _isLoading)
+            .disposed(by: disposebag)
         
         let lastLocation = _location.sample(_post)
         
-        post = Observable.zip(_post, lastLocation)
+        Observable.zip(_post, lastLocation)
             .flatMap { (post, location) -> Observable<PostAnnotation> in
                 post.coordinate = location.coordinate
                 return firebaseService.upload(post: post)
                     .andThen(coreDaraService.save(postAnnotation: post))
                     .andThen(Observable.just(post))
             }
-            .do(onNext: { newPost in
+            .subscribe(onNext: { newPost in
                 _isLoading.onNext(false)
-                visiblePosts.append(newPost)
+                if !visiblePosts.contains(newPost) {
+                    visiblePosts.append(newPost)
+                }
                 _posts.onNext(visiblePosts)
             }, onError: { error in
                 _error.onNext(error.localizedDescription)
             })
+            .disposed(by: disposebag)
         
         _locationButtonTapped.asObservable()
             .flatMap { locationService.authorized }

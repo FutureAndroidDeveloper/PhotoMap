@@ -33,6 +33,11 @@
 "Ok" = "OK";
 "Done" = "Done";
 
+// Admin Post View
+"Remove message" = "Are you sure you want to remove this post? The post will be deleted without the possibility of its restoration.";
+"Remove title" = "Remove Post";
+"Remove action" = "Remove";
+
 // Authentication
 "Invalid email" = "Invalid email";
 "Invalid password" = "Min. 8 characters, 1 Alphabet and 1 Number";

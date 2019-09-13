@@ -70,6 +70,20 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .bind(to: viewModel.showCategoriesFilter)
             .disposed(by: bag)
         
+        // TODO: - Better replace to view model???
+        calloutView.deleteButton.rx.tap
+            .flatMap { [weak self] _ -> Observable<Bool> in
+                guard let self = self else { return .just(false) }
+                return self.confirmRemovePost()
+            }
+            .filter { $0 }
+            .compactMap { [weak self] _ -> PostAnnotation in
+                guard let self = self else { fatalError() }
+                return self.postAnnotation
+            }
+            .bind(to: viewModel.removePostTapped)
+            .disposed(by: bag)
+        
         calloutView.detailButton.rx.tap
             .compactMap { [weak self] _ in
                 guard let self = self else { fatalError() }
@@ -90,15 +104,22 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 self.postAnnotation = view.annotation as? PostAnnotation
                 view.addSubview(self.calloutView)
                 
+                var height: CGFloat = 0
+                if (UIApplication.shared.delegate as! AppDelegate).isAdmin {
+                    self.calloutView.setupViewForAdmin()
+                    height = 115
+                } else {
+                    height = 100
+                }
+                
                 NSLayoutConstraint.activate([
                     self.calloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                     self.calloutView.bottomAnchor.constraint(equalTo: view.topAnchor),
-                    self.calloutView.heightAnchor.constraint(equalToConstant: 100),
+                    self.calloutView.heightAnchor.constraint(equalToConstant: height),
                     self.calloutView.widthAnchor.constraint(equalToConstant: 300)
                     ])
                 
-                
-                if self.postAnnotation.image == nil {
+                if self.postAnnotation.image == nil || self.postAnnotation.image?.size == .zero {
                     let indicator = UICircularProgressRing()
                     self.setupIndicator(indicator)
                     self.downloadImage(with: indicator)
@@ -131,14 +152,7 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .map { _ in return Void() }
             .bind(to: viewModel.createPostAtMapPointTapped)
             .disposed(by: bag)
-
-        viewModel.post
-            .subscribe(onNext: { [weak self] post in
-                guard let self = self else { return }
-                self.mapView.addAnnotation(post)
-            })
-            .disposed(by: bag)
-        
+ 
         viewModel.showImageSheet
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -237,10 +251,12 @@ class MapViewController: UIViewController, StoryboardInitializable {
     
     private func displayImageSheet() {
         let photoMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cameraAction = UIAlertAction(title: R.string.localizable.fromCamera(), style: .default, handler: { _ in
+        let cameraAction = UIAlertAction(title: R.string.localizable.fromCamera(),
+                                         style: .default, handler: { _ in
             // TODO: - Camera
         })
-        let libraryAction = UIAlertAction(title: R.string.localizable.fromLibrary(), style: .default, handler: { [weak self] _ in
+        let libraryAction = UIAlertAction(title: R.string.localizable.fromLibrary(),
+                                          style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
             self.viewModel.photoLibrarySelected.onNext(Void())
         })
@@ -254,9 +270,33 @@ class MapViewController: UIViewController, StoryboardInitializable {
     
     private func showStorageError(message: String) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: R.string.localizable.ok(), style: .default, handler: nil)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func confirmRemovePost() -> Observable<Bool> {
+        return Observable.create { [weak self] observer  in
+            guard let self = self else { return Disposables.create() }
+            let removeAllert = UIAlertController(title: R.string.localizable.removeTitle(),
+                                                 message: R.string.localizable.removeMessage(),
+                                                 preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: R.string.localizable.cancel(),
+                                             style: .cancel,handler: { _ in
+                                                observer.onNext(false)
+                                                observer.onCompleted()
+            })
+            let removeAction = UIAlertAction(title: R.string.localizable.removeAction(),
+                                           style: .destructive, handler: { _ in
+                                            observer.onNext(true)
+                                            observer.onCompleted()
+            })
+            removeAllert.addAction(removeAction)
+            removeAllert.addAction(cancelAction)
+            self.present(removeAllert, animated: true, completion: nil)
+            return Disposables.create { removeAllert.dismiss(animated: true, completion: nil) }
+        }
     }
     
     private func setupIndicator(_ indicator: UICircularProgressRing) {

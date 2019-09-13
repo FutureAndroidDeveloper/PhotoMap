@@ -18,6 +18,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     var viewModel: CategoriesViewModel!
     private let bag = DisposeBag()
     private var doneButton: UIBarButtonItem!
+    private var addCategory: UIBarButtonItem!
     private let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -42,6 +43,10 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
                 self.defaults.set(categories, forKey: "savedCategories")
             })
             .bind(to: viewModel.done)
+            .disposed(by: bag)
+        
+        addCategory.rx.tap
+            .bind(to: viewModel.addCategory)
             .disposed(by: bag)
     }
 
@@ -71,12 +76,19 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     private func setupView() {
         navigationController?.navigationBar.topItem?.title = R.string.localizable.categories()
         doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil)
+        addCategory = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         navigationController?.navigationBar.topItem?.rightBarButtonItem = doneButton
         let defaultTintColor = navigationController!.navigationBar.tintColor!
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: defaultTintColor]
+        setupAdminView()
+    }
+    
+    private func setupAdminView() {
+        guard let isAdmin = (UIApplication.shared.delegate as? AppDelegate)?.isAdmin else { return }
+        let adminItem = isAdmin ? addCategory : nil
+        navigationController?.navigationBar.topItem?.leftBarButtonItem = adminItem
     }
 }
-
 
 extension String {
     /// Get key for localized string value
@@ -85,10 +97,11 @@ extension String {
         let stringsPath = Bundle.main.path(forResource: "Localizable", ofType: "strings")
         let dictionary = NSDictionary(contentsOfFile: stringsPath!) as! [String: String]
         
-        dictionary.forEach({ key, value in
+        dictionary.forEach { key, value in
             if value == self.lowercased() {
                 resultKey = key
             }
-        })
+        }
         return resultKey
-    }}
+    }
+}

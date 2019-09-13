@@ -80,7 +80,7 @@ extension PostAnnotation {
         return self.imageUrl == object.imageUrl
     }
     
-    func setLocalizedCAtegoryKey() {
+    func setLocalizedCategoryKey() {
         category = category.localizedKey().uppercased()
     }
 }

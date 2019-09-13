@@ -60,6 +60,7 @@
 		59E24B9623076ABC00DDE574 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9523076ABC00DDE574 /* SignUpViewController.swift */; };
 		59E24B9823076ACF00DDE574 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9723076ACF00DDE574 /* SignUpCoordinator.swift */; };
 		59E24B9A23076ADC00DDE574 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E24B9923076ADC00DDE574 /* SignUpViewModel.swift */; };
+		59E920B9232878B300BE7B69 /* ApplicationUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E920B8232878B300BE7B69 /* ApplicationUser.swift */; };
 		59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */; };
 		59ED5E842317370F000B53F6 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E832317370F000B53F6 /* CategoriesViewController.swift */; };
 		59ED5E872317372A000B53F6 /* CategoriesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E862317372A000B53F6 /* CategoriesCoordinator.swift */; };
@@ -67,6 +68,9 @@
 		59ED5E8C231737DC000B53F6 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E8B231737DC000B53F6 /* CheckBox.swift */; };
 		59ED5E8E2317381D000B53F6 /* CheckBox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59ED5E8D2317381D000B53F6 /* CheckBox.xib */; };
 		59F238B823186DE50057A50C /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F238B723186DE50057A50C /* TimelineViewModel.swift */; };
+		59F44E3E232AF19C00943036 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F44E3D232AF19C00943036 /* AddCategoryViewController.swift */; };
+		59F44E40232AF24A00943036 /* AddCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F44E3F232AF24A00943036 /* AddCategoryViewModel.swift */; };
+		59F44E42232AF25700943036 /* AddCategoryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F44E41232AF25700943036 /* AddCategoryCoordinator.swift */; };
 		59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0622F89C4A00F987EF /* PostViewController.swift */; };
 		59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0822F89C5600F987EF /* PostViewModel.swift */; };
 		59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0A22F89C6100F987EF /* PostCoordinator.swift */; };
@@ -153,6 +157,7 @@
 		59E24B9523076ABC00DDE574 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		59E24B9723076ACF00DDE574 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		59E24B9923076ADC00DDE574 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		59E920B8232878B300BE7B69 /* ApplicationUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUser.swift; sourceTree = "<group>"; };
 		59EC38C522F0CDB50034DFF4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		59ED5E832317370F000B53F6 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		59ED5E862317372A000B53F6 /* CategoriesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCoordinator.swift; sourceTree = "<group>"; };
@@ -160,6 +165,9 @@
 		59ED5E8B231737DC000B53F6 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		59ED5E8D2317381D000B53F6 /* CheckBox.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckBox.xib; sourceTree = "<group>"; };
 		59F238B723186DE50057A50C /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
+		59F44E3D232AF19C00943036 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
+		59F44E3F232AF24A00943036 /* AddCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewModel.swift; sourceTree = "<group>"; };
+		59F44E41232AF25700943036 /* AddCategoryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryCoordinator.swift; sourceTree = "<group>"; };
 		59FB8C0622F89C4A00F987EF /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		59FB8C0822F89C5600F987EF /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		59FB8C0A22F89C6100F987EF /* PostCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCoordinator.swift; sourceTree = "<group>"; };
@@ -345,9 +353,9 @@
 			children = (
 				59DA4AB92302486D00843954 /* FooterView.swift */,
 				59DA4ABA2302486D00843954 /* FooterView.xib */,
-				5975024822FE218500A66145 /* FullPhotoCoordinator.swift */,
 				5975024A22FE219C00A66145 /* FullPhotoViewController.swift */,
 				59DA4ABD230249DD00843954 /* FullPhotoViewModel.swift */,
+				5975024822FE218500A66145 /* FullPhotoCoordinator.swift */,
 			);
 			path = "Full Photo";
 			sourceTree = "<group>";
@@ -387,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */,
+				59E920B8232878B300BE7B69 /* ApplicationUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -407,6 +416,7 @@
 		59ED5E8523173715000B53F6 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				59F44E3C232AEC3600943036 /* Add Category */,
 				59ED5E8A231737A6000B53F6 /* Category CheckBox */,
 				59ED5E832317370F000B53F6 /* CategoriesViewController.swift */,
 				59ED5E8823173737000B53F6 /* CategoriesViewModel.swift */,
@@ -422,6 +432,16 @@
 				59ED5E8D2317381D000B53F6 /* CheckBox.xib */,
 			);
 			path = "Category CheckBox";
+			sourceTree = "<group>";
+		};
+		59F44E3C232AEC3600943036 /* Add Category */ = {
+			isa = PBXGroup;
+			children = (
+				59F44E3D232AF19C00943036 /* AddCategoryViewController.swift */,
+				59F44E3F232AF24A00943036 /* AddCategoryViewModel.swift */,
+				59F44E41232AF25700943036 /* AddCategoryCoordinator.swift */,
+			);
+			path = "Add Category";
 			sourceTree = "<group>";
 		};
 		59FB8C0522F89C0A00F987EF /* Popup Post */ = {
@@ -681,6 +701,7 @@
 				5929CC4822F0B6450089947C /* MapViewController.swift in Sources */,
 				59FB8C1122F8C7E800F987EF /* DateService.swift in Sources */,
 				590B675E22F102DF00D439B0 /* MapCoordinator.swift in Sources */,
+				59F44E40232AF24A00943036 /* AddCategoryViewModel.swift in Sources */,
 				59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */,
 				593A055822F39F5500FCD118 /* LocationService.swift in Sources */,
 				59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */,
@@ -694,6 +715,7 @@
 				590B671B22F0D9DE00D439B0 /* StoryboardInitializable.swift in Sources */,
 				59BCB88E231F182F00C1DECA /* R.generated.swift in Sources */,
 				59DA4ABB2302486D00843954 /* FooterView.swift in Sources */,
+				59F44E3E232AF19C00943036 /* AddCategoryViewController.swift in Sources */,
 				59ED5E8C231737DC000B53F6 /* CheckBox.swift in Sources */,
 				59D74C002304BD7E00C5E7FD /* AuthenticationViewModel.swift in Sources */,
 				59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */,
@@ -702,6 +724,7 @@
 				59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
 				59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */,
+				59E920B9232878B300BE7B69 /* ApplicationUser.swift in Sources */,
 				5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */,
 				59D74C022304C3C600C5E7FD /* FirebaseService.swift in Sources */,
 				590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */,
@@ -719,6 +742,7 @@
 				59F238B823186DE50057A50C /* TimelineViewModel.swift in Sources */,
 				593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */,
 				59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */,
+				59F44E42232AF25700943036 /* AddCategoryCoordinator.swift in Sources */,
 				59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */,
 				59DA4ABE230249DD00843954 /* FullPhotoViewModel.swift in Sources */,
 				59ED5E872317372A000B53F6 /* CategoriesCoordinator.swift in Sources */,

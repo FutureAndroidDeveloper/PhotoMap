@@ -15,12 +15,14 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var isAdmin: Bool!
     private let disposeBag = DisposeBag()
     private var appCoordinator: AppCoordinator!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         window = UIWindow()
+        isAdmin = false
         
         appCoordinator = AppCoordinator(window: window!)
         appCoordinator.start()

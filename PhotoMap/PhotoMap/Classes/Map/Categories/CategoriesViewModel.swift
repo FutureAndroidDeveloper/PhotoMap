@@ -13,10 +13,12 @@ class CategoriesViewModel {
     
     // MARK: - Input
     let done: AnyObserver<Void>
+    let addCategory: AnyObserver<Void>
     
     // MARK: - Output
     let categories: Observable<[String]>
     let didCancel: Observable<Void>
+    let addCategoryTapped: Observable<Void>
     
     init(categoriesService: CategoriesService = CategoriesService()) {
         categories = categoriesService.getCategories()
@@ -24,5 +26,9 @@ class CategoriesViewModel {
         let _done = PublishSubject<Void>()
         done = _done.asObserver()
         didCancel = _done.asObservable()
+        
+        let _addCategory = PublishSubject<Void>()
+        addCategory = _addCategory.asObserver()
+        addCategoryTapped = _addCategory.asObservable()
     }
 }
