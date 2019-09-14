@@ -30,4 +30,23 @@ class ValidateService {
         return isEmailValid(email) && isPasswordValid(password)
             && repeatPassword == password
     }
+    
+    func isHexColor(_ hex: String) -> Bool {
+        let hexColorRegEx = "^#([A-Fa-f0-9]{6})$"
+        let hexColorPred = NSPredicate(format:"SELF MATCHES %@", hexColorRegEx)
+        return hexColorPred.evaluate(with: hex)
+        
+    }
+    
+    func isRussian(text: String) -> Bool {
+        let inRussianRegEx = "^[а-яА-Я0-9_ ]*$"
+        let redicate = NSPredicate(format:"SELF MATCHES %@", inRussianRegEx)
+        return redicate.evaluate(with: text)
+    }
+    
+    func isEnglish(text: String) -> Bool {
+        let inEnglishRegEx = "^[a-zA-Z0-9_ ]*$"
+        let redicate = NSPredicate(format:"SELF MATCHES %@", inEnglishRegEx)
+        return redicate.evaluate(with: text)
+    }
 }
