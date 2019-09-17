@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import IQKeyboardManagerSwift
 
 class AddCategoryCoordinator: BaseCoordinator<Void> {
     private let navigationController: UINavigationController
@@ -20,6 +21,7 @@ class AddCategoryCoordinator: BaseCoordinator<Void> {
         let addCategoryViewController = AddCategoryViewController.initFromStoryboard()
         let addCategoryViewModel = AddCategoryViewModel()
         addCategoryViewController.viewModel = addCategoryViewModel
+        IQKeyboardManager.shared.enable = true
         
         navigationController.pushViewController(addCategoryViewController, animated: true)
         

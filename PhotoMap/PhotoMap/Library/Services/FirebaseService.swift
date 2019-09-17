@@ -234,8 +234,72 @@ class FirebaseService {
             .subscribe(onNext: { [weak self] childKey in
                 guard let self = self else { return }
                 self.databaseRef.child(childKey).removeValue()
+                
+                // remove image from FB
+                let mainString = post.imageUrl!.split(separator: "/").last!
+                let startIndex = mainString.index(mainString.startIndex, offsetBy: post.category.count + 3)
+                let endIndex = mainString.firstIndex(of: "?")!
+                let imageName = String(mainString[startIndex..<endIndex])
+                self.storage.child(post.category.lowercased()).child(imageName).delete(completion: nil)
             })
             .disposed(by: bag)
+    }
+    
+    func addNewCategory(_ category: Category) -> Observable<Void> {
+        // upload category model
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            let encoder = FirebaseEncoder()
+            do {
+                let data = try encoder.encode(category)
+                self.databaseRef.root.child("categories").childByAutoId().setValue(data)
+                observer.onNext(Void())
+            } catch {
+                observer.onError(error)
+            }
+            
+            observer.onCompleted()
+            return Disposables.create()
+        }
+    }
+    
+    func categoryAdded() -> Observable<Category> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            self.databaseRef.root.child("categories").observe(.childAdded, with: { snapshot in
+                guard let value = snapshot.value as? [String: Any] else { return }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
+                    let category = try JSONDecoder().decode(Category.self, from: jsonData)
+                    observer.onNext(category)
+                } catch {
+                    observer.onError(error)
+                }
+            })
+            
+            return Disposables.create()
+        }
+    }
+    
+    
+    func removeOldPost(posts: [PostAnnotation]) -> Observable<PostAnnotation> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+//            var invalidPosts = [PostAnnotation]()
+            for post in posts {
+                _ = self.databaseRef.queryOrdered(byChild: "imageUrl").queryEqual(toValue: post.imageUrl!).rx.observeSingleEvent(.value)
+                    .subscribe(onNext: { snapshot in
+                        guard let _ = snapshot.value as? [String: Any] else {
+//                            invalidPosts.append(post)
+                            observer.onNext(post)
+                            return
+                        }
+                    })
+            }
+            
+            return Disposables.create()
+        }
     }
     
     func signOut() -> Bool {

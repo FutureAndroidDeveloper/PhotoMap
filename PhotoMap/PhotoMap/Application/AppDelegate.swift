@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         isAdmin = false
         
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print(urls[urls.count-1] as URL)
+        
         appCoordinator = AppCoordinator(window: window!)
         appCoordinator.start()
             .subscribe()

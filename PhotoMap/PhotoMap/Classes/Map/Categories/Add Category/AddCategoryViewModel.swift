@@ -20,17 +20,23 @@ class AddCategoryViewModel {
     let ruCategory: AnyObserver<String?>
     let engCategoryEditingDidEnd: AnyObserver<String?>
     let ruCategoryEditingDidEnd: AnyObserver<String?>
+    let addNewCategory: AnyObserver<Category?>
     
     // MARK: - Output
     let backTapped: Observable<Void>
     let newColor: Observable<UIColor>
-    let hexError: Observable<String>
+    let hexError: Observable<String?>
     let engCategoryError: Observable<String?>
     let ruCategoryError: Observable<String?>
     let engProvenText: Observable<String>
     let ruProvenText: Observable<String>
+    let isLoading: Observable<Bool>
+    let showError: Observable<String>
     
-    init(validateService: ValidateService = ValidateService()) {
+    init(validateService: ValidateService = ValidateService(),
+         firebaseService: FirebaseService = FirebaseService(),
+         coreDataService: CoreDataService = CoreDataService(appDelegate:
+        UIApplication.shared.delegate as! AppDelegate)) {
         let _back = PublishSubject<Void>()
         goBack = _back.asObserver()
         backTapped = _back.asObservable()
@@ -53,9 +59,55 @@ class AddCategoryViewModel {
         let _ruCategoryEditingDidEnd = PublishSubject<String?>()
         ruCategoryEditingDidEnd = _ruCategoryEditingDidEnd.asObserver()
         
+        let _addNewCategory = PublishSubject<Category?>()
+        addNewCategory = _addNewCategory.asObserver()
+        
+        let _isLoading = PublishSubject<Bool>()
+        isLoading = _isLoading.asObservable()
+        
+        let _showError = PublishSubject<String>()
+        showError = _showError.asObservable()
+        
         let _hex = PublishSubject<String?>()
         hexColor = _hex.asObserver()
         
+//        firebaseService.categoryAdded()
+//            .flatMap { coreDataService.save(category: $0).andThen(Observable.just(Void())) }
+//            .subscribe(onError: { error in
+//                _showError.onNext(error.localizedDescription)
+//            })
+//            .disposed(by: bag)
+        
+        let isUniqueCategory =  _addNewCategory
+            .compactMap { $0 }
+            .do(onNext: { _ in
+                _isLoading.onNext(true)
+            })
+            .map { coreDataService.isUnique(category: $0) }
+            .share(replay: 1, scope: .whileConnected)
+        
+        isUniqueCategory
+            .filter { $0 }
+            .withLatestFrom(_addNewCategory)
+            .compactMap { $0 }
+            .flatMap { firebaseService.addNewCategory($0).take(1) }
+            .subscribe(onNext: { _ in
+                _isLoading.onNext(false)
+            }, onError: { error in
+                _showError.onNext(error.localizedDescription)
+                _isLoading.onNext(false)
+            })
+            .disposed(by: bag)
+        
+        isUniqueCategory
+            .filter { !$0 }
+            .do(onNext: { _ in
+                _isLoading.onNext(false)
+            })
+            .map { _ in "This category already exists!" }
+            .bind(to: _showError)
+            .disposed(by: bag)
+
         let isValidHex = _hex
             .compactMap { $0 }
             .map { "#\($0)" }
@@ -119,7 +171,7 @@ class AddCategoryViewModel {
             .map { category in
                 var newCategory = category
                 return newCategory.capitalizeFirstLetter()
-        }
+            }
     }
 }
 

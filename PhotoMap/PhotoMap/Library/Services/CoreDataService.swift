@@ -51,6 +51,36 @@ class CoreDataService {
         }
     }
     
+    func save(category: Category) -> Completable {
+        // save new category to Core Data
+        return Completable.create { [weak self] completable in
+            guard let self = self else { return Disposables.create() }
+            if !self.isUnique(category: category) {
+                completable(.completed)
+                return Disposables.create()
+            }
+            
+            let managedContext = self.appDelegate.persistentContainer.viewContext
+            let entity = NSEntityDescription.entity(forEntityName: "Categories", in: managedContext)!
+            let newCategory = NSManagedObject(entity: entity, insertInto: managedContext)
+            
+            newCategory.setValue(category.hexColor , forKey: "hexColor")
+            newCategory.setValue(category.engName, forKey: "engName")
+            newCategory.setValue(category.ruName, forKey: "ruName")
+            
+            do {
+                try managedContext.save()
+                completable(.completed)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+                completable(.error(error))
+                completable(.completed)
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
     func fetch(without categories: [String] = []) -> Observable<[PostAnnotation]> {
         return Observable.create { [weak self] observer  in
             guard let self = self else { return Disposables.create() }
@@ -97,6 +127,25 @@ class CoreDataService {
         
         do {
             let result = try context.fetch(myRequest)
+            return result.isEmpty
+        } catch let error {
+            print(error)
+            return false
+        }
+    }
+    
+    func isUnique(category: Category) -> Bool {
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
+        var subpredicates = [NSPredicate]()
+        subpredicates.append(NSPredicate(format: "hexColor = %@", "\(category.hexColor)"))
+        subpredicates.append(NSPredicate(format: "engName = %@", "\(category.engName)"))
+        subpredicates.append(NSPredicate(format: "ruName = %@", "\(category.ruName)"))
+        let predicateCompound = NSCompoundPredicate(type: .or, subpredicates: subpredicates)
+        fetchRequest.predicate = predicateCompound
+        
+        do {
+            let result = try context.fetch(fetchRequest)
             return result.isEmpty
         } catch let error {
             print(error)

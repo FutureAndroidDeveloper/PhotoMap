@@ -18,6 +18,7 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
     @IBOutlet weak var ruCategoryTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var engCategoryTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var hexColorTextField: SkyFloatingLabelTextField!
+    @IBOutlet weak var categoryMarkerPreview: CategoryMarker!
     
     var viewModel: AddCategoryViewModel!
     private let bag = DisposeBag()
@@ -28,15 +29,28 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
     private var centerYConstraint: NSLayoutConstraint!
     private var centerXConstraint: NSLayoutConstraint!
     private var colorPickerleadingConstraint: NSLayoutConstraint!
+    private let spinner = UIActivityIndicatorView(style: .gray)
+    private var tapGesture: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-//        setPreview()
         
         // DONT WORK
         navigationController?.navigationBar.topItem?.backBarButtonItem?.rx.tap.asControlEvent()
             .bind(to: viewModel.goBack)
+            .disposed(by: bag)
+        
+        tapGesture.rx.event
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.engCategoryTextField.endEditing(true)
+                self.engCategoryTextField.resignFirstResponder()
+                self.ruCategoryTextField.endEditing(true)
+                self.ruCategoryTextField.resignFirstResponder()
+                self.hexColorTextField.endEditing(true)
+                self.hexColorTextField.resignFirstResponder()
+            })
             .disposed(by: bag)
         
         engCategoryTextField.rx
@@ -68,6 +82,16 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
             })
             .bind(to: hexColorTextField.rx.text)
             .disposed(by: bag)
+        
+        colorPicker.hexLabel.rx.observe(String.self, "text")
+            .compactMap { $0 }
+            .map { UIColor(hex: $0) }
+            .compactMap { $0 }
+            .subscribe(onNext: { [weak self] color in
+                guard let self = self else { return }
+                self.categoryMarkerPreview.color = color
+            })
+            .disposed(by: bag)
 
         hexColorTextField.rx.controlEvent(.editingDidEnd)
             .withLatestFrom(hexColorTextField.rx.text)
@@ -79,6 +103,32 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
             .filter { $0.count > 6 }
             .map { String($0.prefix(6)) }
             .bind(to: hexColorTextField.rx.text)
+            .disposed(by: bag)
+        
+        addButton.rx.tap
+            .map { [weak self] _ -> Category? in
+                guard let self = self else { return nil }
+                return Category(hexColor: self.colorPicker.hexLabel.text!,
+                         engName: self.engCategoryTextField.text!,
+                         ruName: self.ruCategoryTextField.text!)
+            }
+            .bind(to: viewModel.addNewCategory)
+            .disposed(by: bag)
+        
+        viewModel.isLoading
+            .map { !$0 }
+            .bind(to: spinner.rx.isHidden)
+            .disposed(by: bag)
+        
+        viewModel.isLoading
+            .bind(to: spinner.rx.isAnimating)
+            .disposed(by: bag)
+        
+        viewModel.showError
+            .subscribe(onNext: { [weak self] errorMessage in
+                guard let self = self else { return }
+                self.showFirebaseError(errorMessage)
+            })
             .disposed(by: bag)
         
         viewModel.newColor
@@ -117,6 +167,29 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
                 self.ruCategoryTextField.errorMessage = errorMessage
             })
             .disposed(by: bag)
+
+        Observable.combineLatest(engCategoryTextField.rx.controlEvent(.editingDidEnd).withLatestFrom(engCategoryTextField.rx.text.orEmpty),
+                                 ruCategoryTextField.rx.controlEvent(.editingDidEnd).withLatestFrom(ruCategoryTextField.rx.text.orEmpty),
+                                 hexColorTextField.rx.text.orEmpty)
+            .filter { !($0.0.isEmpty || $0.1.isEmpty || $0.2.isEmpty) }
+            .filter { [weak self] _ -> Bool in
+                guard let self = self else { return false }
+                if self.engCategoryTextField.errorMessage != nil ||
+                    self.ruCategoryTextField.errorMessage != nil ||
+                    self.hexColorTextField.errorMessage != nil {
+                    return false
+                }
+                return true
+            }
+            .map { _ in true }
+            .bind(to: addButton.rx.isEnabled)
+            .disposed(by: bag)
+        
+        Observable.merge([viewModel.engCategoryError, viewModel.ruCategoryError, viewModel.hexError])
+            .compactMap { $0 }
+            .map { _ in false }
+            .bind(to: addButton.rx.isEnabled)
+            .disposed(by: bag)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -126,36 +199,16 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setPreview()
-    }
-    
-    private func setPreview() {
-        print(colorPicker.addButton.frame)
-        print(colorPicker.addButton.bounds)
-        
-//        let view = UIView(frame: colorPicker.addButton.bounds)
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = .black
-//        
-//        colorPicker.addSubview(view)
-//        
-//        let aa = CGPoint(x: colorPicker.center.x + colorPicker.addButton.center.x / 4.5, y: colorPicker.center.y + colorPicker.addButton.center.y / 4.5)
-//        
-//        view.center = aa
-        
-        
-        
-//        colorPicker.handleView.isHidden = true
-    }
-    
     private func setupView() {
+        tapGesture = UITapGestureRecognizer()
+        view.addGestureRecognizer(tapGesture)
         addButton = UIBarButtonItem(title: "Add New Category", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = addButton
         addButton.isEnabled = false
-        containerView.backgroundColor = UIColor.clear
-//        hexColorLabel.textAlignment = .center
+        containerView.backgroundColor = .clear
+        categoryMarkerPreview.backgroundColor = .clear
+        view.addSubview(spinner)
+        spinner.center = view.center
         setupColorPicker()
     }
     
@@ -163,6 +216,8 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
         colorPicker.translatesAutoresizingMaskIntoConstraints = false
         colorPicker.delegate = self
         colorPicker.stroke = 3
+        colorPicker.addButton.isHidden = true
+        colorPicker.handleLine.isHidden = true
         containerView.addSubview(colorPicker)
         resizeColorPicker(to: .width, with: 0.9)
         
@@ -193,6 +248,15 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
             colorPickerWidthConstraint,
             colorPickerHeightConstraint
         ])
+    }
+    
+    private func showFirebaseError(_ error: String) {
+        let alert = UIAlertController(title: "Firebase Category Error", message: error, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: R.string.localizable.ok(), style: .default, handler: { _ in
+            alert.dismiss(animated: true, completion: nil)
+        })
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 }
 

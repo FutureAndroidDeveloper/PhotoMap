@@ -78,6 +78,9 @@
 		59FB8C0F22F8B29C00F987EF /* PostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C0E22F8B29C00F987EF /* PostAnnotation.swift */; };
 		59FB8C1122F8C7E800F987EF /* DateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FB8C1022F8C7E800F987EF /* DateService.swift */; };
 		59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FC6E982321BA4A00673513 /* PhotoMapTests.swift */; };
+		59FD131423302F0C00E76BFE /* CategoryMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FD131323302F0C00E76BFE /* CategoryMarker.swift */; };
+		59FD131623302F2B00E76BFE /* CategoryMarker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59FD131523302F2B00E76BFE /* CategoryMarker.xib */; };
+		59FD131823303CC300E76BFE /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FD131723303CC300E76BFE /* Category.swift */; };
 		59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */; };
 		59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */; };
 		59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF9122F27BD0004178AC /* MapViewModel.swift */; };
@@ -177,6 +180,9 @@
 		59FC6E962321BA4A00673513 /* PhotoMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59FC6E982321BA4A00673513 /* PhotoMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMapTests.swift; sourceTree = "<group>"; };
 		59FC6E9A2321BA4A00673513 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		59FD131323302F0C00E76BFE /* CategoryMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMarker.swift; sourceTree = "<group>"; };
+		59FD131523302F2B00E76BFE /* CategoryMarker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryMarker.xib; sourceTree = "<group>"; };
+		59FD131723303CC300E76BFE /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+RxCreate.swift"; sourceTree = "<group>"; };
 		59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Rx.swift"; sourceTree = "<group>"; };
 		59FEEF9122F27BD0004178AC /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -396,6 +402,7 @@
 			children = (
 				59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */,
 				59E920B8232878B300BE7B69 /* ApplicationUser.swift */,
+				59FD131723303CC300E76BFE /* Category.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -416,6 +423,7 @@
 		59ED5E8523173715000B53F6 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				59FD131223302EE600E76BFE /* Category Marker */,
 				59F44E3C232AEC3600943036 /* Add Category */,
 				59ED5E8A231737A6000B53F6 /* Category CheckBox */,
 				59ED5E832317370F000B53F6 /* CategoriesViewController.swift */,
@@ -466,6 +474,15 @@
 				59FC6E9A2321BA4A00673513 /* Info.plist */,
 			);
 			path = PhotoMapTests;
+			sourceTree = "<group>";
+		};
+		59FD131223302EE600E76BFE /* Category Marker */ = {
+			isa = PBXGroup;
+			children = (
+				59FD131323302F0C00E76BFE /* CategoryMarker.swift */,
+				59FD131523302F2B00E76BFE /* CategoryMarker.xib */,
+			);
+			path = "Category Marker";
 			sourceTree = "<group>";
 		};
 		6EE61FC1DBF8B2A9FD5E4B03 /* Frameworks */ = {
@@ -568,6 +585,7 @@
 				59BCB8A0231F666B00C1DECA /* InfoPlist.strings in Resources */,
 				5929CC5022F0B6460089947C /* LaunchScreen.storyboard in Resources */,
 				59BCB893231F193700C1DECA /* Localizable.strings in Resources */,
+				59FD131623302F2B00E76BFE /* CategoryMarker.xib in Resources */,
 				5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */,
 				5929CC4D22F0B6460089947C /* Assets.xcassets in Resources */,
 				59ED5E8E2317381D000B53F6 /* CheckBox.xib in Resources */,
@@ -733,6 +751,7 @@
 				59DA4AB82302420B00843954 /* AdaptiveScrollView.swift in Sources */,
 				590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */,
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
+				59FD131823303CC300E76BFE /* Category.swift in Sources */,
 				59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */,
 				59CEAC1923231ABB008D5B06 /* ValidateService.swift in Sources */,
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
@@ -746,6 +765,7 @@
 				59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */,
 				59DA4ABE230249DD00843954 /* FullPhotoViewModel.swift in Sources */,
 				59ED5E872317372A000B53F6 /* CategoriesCoordinator.swift in Sources */,
+				59FD131423302F0C00E76BFE /* CategoryMarker.swift in Sources */,
 				5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */,
 				590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */,
 				590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */,

@@ -46,7 +46,7 @@ class MapViewModel {
          locationService: LocationService = LocationService(),
          dateService: DateService = DateService(),
          firebaseService: FirebaseService = FirebaseService(),
-         coreDaraService: CoreDataService = CoreDataService(appDelegate:
+         coreDataService: CoreDataService = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
         
         let _locationButtonTapped = PublishSubject<Void>()
@@ -100,10 +100,17 @@ class MapViewModel {
         // 1. remove from FB DB ---> Works
         // 2. listen to remove event from FB and then remove it post from Core DB ---> Works
         // 3. update map posts ---> Works
+    
+        // WORKS. Когда запускаю прилагу - получаю все категории. Когда сижу онлайн и добавляется новая категория - получаю новую категорию
+        _ = firebaseService.categoryAdded()
+            .flatMap { coreDataService.save(category: $0).andThen(Observable.just($0)) }
+            .subscribe(onNext: { cat in
+                print(cat.engName)
+            })
         
         // Handle Error
         firebaseService.postDidRemoved()
-            .do(onNext: { coreDaraService.removePostFromCoredata($0) })
+            .do(onNext: { coreDataService.removePostFromCoredata($0) })
             .subscribe(onNext: { _ in
                 _categories.onNext(Void())
             })
@@ -115,11 +122,24 @@ class MapViewModel {
             })
             .disposed(by: disposebag)
         
-        
         let defaults = UserDefaults.standard
         var visiblePosts = [PostAnnotation]()
         
-        coreDaraService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
+        // remove old posts then user connects to application
+        _ = coreDataService.fetch()
+            .flatMap { firebaseService.removeOldPost(posts: $0) }
+            .do(onNext: { post in
+                coreDataService.removePostFromCoredata(post)
+            })
+            .subscribe(onNext: { oldPost in
+                if visiblePosts.contains(oldPost) {
+                    let index = visiblePosts.firstIndex(of: oldPost)!
+                    visiblePosts.remove(at: index)
+                }
+                _posts.onNext(visiblePosts)
+            })
+        
+        coreDataService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
             .do(onNext: { savedPosts in
                 visiblePosts.append(contentsOf: savedPosts)
                 _posts.onNext(savedPosts)
@@ -129,7 +149,7 @@ class MapViewModel {
 
         _ = _categories
             .flatMap { _ in
-                coreDaraService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
+                coreDataService.fetch(without: defaults.array(forKey: "savedCategories") as? [String] ?? [])
             }
             .subscribe(onNext: { filteredPosts in
                 visiblePosts.removeAll()
@@ -141,11 +161,11 @@ class MapViewModel {
             .flatMapLatest { region in
                 firebaseService.download(region: region,
                                          uncheckedCategories: defaults.array(forKey: "savedCategories") as? [String] ?? [],
-                                         coreDataService: coreDaraService)
+                                         coreDataService: coreDataService)
             }
             .flatMap { loadedPosts -> Observable<PostAnnotation> in
                 guard let loadedPost = loadedPosts.first else { return .empty() }
-                return coreDaraService.save(postAnnotation: loadedPost)
+                return coreDataService.save(postAnnotation: loadedPost)
                     .andThen(Observable.just(loadedPost))
             }
             .map { loadedPost in
@@ -174,7 +194,7 @@ class MapViewModel {
             .flatMap { (post, location) -> Observable<PostAnnotation> in
                 post.coordinate = location.coordinate
                 return firebaseService.upload(post: post)
-                    .andThen(coreDaraService.save(postAnnotation: post))
+                    .andThen(coreDataService.save(postAnnotation: post))
                     .andThen(Observable.just(post))
             }
             .subscribe(onNext: { newPost in
