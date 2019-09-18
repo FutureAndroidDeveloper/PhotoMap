@@ -14,7 +14,6 @@ class AddCategoryViewModel {
     private let bag = DisposeBag()
     
     // MARK: - Input
-    let goBack: AnyObserver<Void>
     let hexColor: AnyObserver<String?>
     let engCategory: AnyObserver<String?>
     let ruCategory: AnyObserver<String?>
@@ -23,7 +22,6 @@ class AddCategoryViewModel {
     let addNewCategory: AnyObserver<Category?>
     
     // MARK: - Output
-    let backTapped: Observable<Void>
     let newColor: Observable<UIColor>
     let hexError: Observable<String?>
     let engCategoryError: Observable<String?>
@@ -37,9 +35,6 @@ class AddCategoryViewModel {
          firebaseService: FirebaseService = FirebaseService(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
-        let _back = PublishSubject<Void>()
-        goBack = _back.asObserver()
-        backTapped = _back.asObservable()
         
         let _engCategory = PublishSubject<String?>()
         engCategory = _engCategory.asObserver()
@@ -70,13 +65,6 @@ class AddCategoryViewModel {
         
         let _hex = PublishSubject<String?>()
         hexColor = _hex.asObserver()
-        
-//        firebaseService.categoryAdded()
-//            .flatMap { coreDataService.save(category: $0).andThen(Observable.just(Void())) }
-//            .subscribe(onError: { error in
-//                _showError.onNext(error.localizedDescription)
-//            })
-//            .disposed(by: bag)
         
         let isUniqueCategory =  _addNewCategory
             .compactMap { $0 }

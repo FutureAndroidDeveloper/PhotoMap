@@ -132,7 +132,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         mapView.rx.didDeselectAnnotationView
-            .bind(onNext: { view in
+            .bind(onNext: { [weak self] view in
+                self?.calloutView.photoImage.kf.cancelDownloadTask()
                 for subview in view.subviews {
                     subview.removeFromSuperview()
                 }

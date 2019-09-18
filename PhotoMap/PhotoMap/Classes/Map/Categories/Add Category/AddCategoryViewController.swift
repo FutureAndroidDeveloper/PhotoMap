@@ -36,11 +36,6 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
         super.viewDidLoad()
         setupView()
         
-        // DONT WORK
-        navigationController?.navigationBar.topItem?.backBarButtonItem?.rx.tap.asControlEvent()
-            .bind(to: viewModel.goBack)
-            .disposed(by: bag)
-        
         tapGesture.rx.event
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -60,6 +55,15 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         engCategoryTextField.rx.text
+            .compactMap { $0 }
+            .filter { $0.count > 20 }
+            .map { String($0.prefix(20)) }
+            .bind(to: engCategoryTextField.rx.text)
+            .disposed(by: bag)
+        
+        engCategoryTextField.rx.text
+            .compactMap { $0 }
+            .filter { $0.count <= 20 }
             .bind(to: viewModel.engCategory)
             .disposed(by: bag)
         
@@ -70,6 +74,15 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         ruCategoryTextField.rx.text
+            .compactMap { $0 }
+            .filter { $0.count > 20 }
+            .map { String($0.prefix(20)) }
+            .bind(to: ruCategoryTextField.rx.text)
+            .disposed(by: bag)
+        
+        ruCategoryTextField.rx.text
+            .compactMap { $0 }
+            .filter { $0.count <= 20 }
             .bind(to: viewModel.ruCategory)
             .disposed(by: bag)
         

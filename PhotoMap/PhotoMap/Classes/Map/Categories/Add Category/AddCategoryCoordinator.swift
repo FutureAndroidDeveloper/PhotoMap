@@ -25,12 +25,11 @@ class AddCategoryCoordinator: BaseCoordinator<Void> {
         
         navigationController.pushViewController(addCategoryViewController, animated: true)
         
-        addCategoryViewModel.backTapped
-            .subscribe(onNext: { _ in
-                print("dsadsad")
-            })
-            .disposed(by: disposeBag)
+        let result = navigationController.rx.willShow.asControlEvent()
+            .compactMap { $0.viewController as? CategoriesViewController  }
+            .map { _ in Void() }
+            .take(1)
         
-        return .never()
+        return result.take(1)
     }
 }

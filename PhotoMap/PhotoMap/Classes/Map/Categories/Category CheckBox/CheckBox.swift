@@ -28,6 +28,13 @@ class CheckBox: UIView {
         get {
             return checkButton.backgroundColor != .white
         }
+        set {
+            if newValue {
+                checkButton.backgroundColor = color
+            } else {
+                checkButton.backgroundColor = .white
+            }
+        }
     }
     
     var verticalSpacing: CGFloat = 10

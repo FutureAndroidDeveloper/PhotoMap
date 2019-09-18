@@ -282,16 +282,36 @@ class FirebaseService {
         }
     }
     
+    // categoryAdded can works as getCategories
+    func getCategories() ->Observable<[Category]> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            self.databaseRef.root.child("categories").observeSingleEvent(of: .value, with: { snapshot in
+                guard let value = snapshot.value as? [AnyHashable: [String: Any]] else { return }
+                let jsonCategories = value.map { $1 }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: jsonCategories, options: [])
+                    let categories = try JSONDecoder().decode([Category].self, from: jsonData)
+                    observer.onNext(categories)
+                    observer.onCompleted()
+                } catch {
+                    observer.onError(error)
+                    observer.onCompleted()
+                }
+            })
+            
+            return Disposables.create()
+        }
+    }
     
     func removeOldPost(posts: [PostAnnotation]) -> Observable<PostAnnotation> {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
-//            var invalidPosts = [PostAnnotation]()
             for post in posts {
                 _ = self.databaseRef.queryOrdered(byChild: "imageUrl").queryEqual(toValue: post.imageUrl!).rx.observeSingleEvent(.value)
                     .subscribe(onNext: { snapshot in
                         guard let _ = snapshot.value as? [String: Any] else {
-//                            invalidPosts.append(post)
                             observer.onNext(post)
                             return
                         }

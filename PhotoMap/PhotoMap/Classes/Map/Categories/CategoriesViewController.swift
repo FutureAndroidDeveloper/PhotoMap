@@ -9,38 +9,46 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 class CategoriesViewController: UIViewController, StoryboardInitializable {
 
     @IBOutlet weak var categoriesStackView: UIStackView!
-    @IBOutlet weak var stackViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var viewModel: CategoriesViewModel!
     private let bag = DisposeBag()
     private var doneButton: UIBarButtonItem!
     private var addCategory: UIBarButtonItem!
     private let defaults = UserDefaults.standard
+    private var categories: [Category]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-  
-        viewModel.categories.takeLast(1)
-            .subscribe(onNext: { [weak self] categories in
+        
+        searchBar.rx.searchButtonClicked
+            .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.setupCategories(categories: categories)
-                self.configureCategoriesState()
+                self.searchBar.endEditing(true)
             })
+            .disposed(by: bag)
+        
+        searchBar.rx.text
+            .skip(1)
+            .do(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.updateCategoriesState()
+            })
+            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+            .compactMap { $0 }
+            .bind(to: viewModel.searchText)
             .disposed(by: bag)
         
         doneButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let categories = self.categoriesStackView.subviews
-                    .compactMap { $0 as? CheckBox }
-                    .filter { !$0.isChecked }
-                    .map { $0.categoryLabel.text!.localizedKey() }
-                self.defaults.set(categories, forKey: "savedCategories")
+                self.saveCategoriesState()
             })
             .bind(to: viewModel.done)
             .disposed(by: bag)
@@ -48,29 +56,136 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         addCategory.rx.tap
             .bind(to: viewModel.addCategory)
             .disposed(by: bag)
-    }
-
-    private func setupCategories(categories: [String]) {
-        let colors: [UIColor] = [#colorLiteral(red: 0.2117647059, green: 0.5568627451, blue: 0.8745098039, alpha: 1), #colorLiteral(red: 0.3411764706, green: 0.5568627451, blue: 0.09411764706, alpha: 1), #colorLiteral(red: 0.9568627451, green: 0.6470588235, blue: 0.137254902, alpha: 1)]
         
-        for index in 0..<categories.count {
-            let checkBox = CheckBox()
-            checkBox.color = colors[index]
-            checkBox.categoryLabel.text = NSLocalizedString(categories[index], comment: "").uppercased()
-            checkBox.categoryLabel.font = UIFont.systemFont(ofSize: checkBox.checkButton.bounds.width / 1.8, weight: .light)
-            categoriesStackView.addArrangedSubview(checkBox)
+        viewModel.filteredCategories
+            .subscribe(onNext: { [weak self] categories in
+                guard let self = self else { return }
+                self.categoriesStackView.subviews.forEach { view in
+                    view.removeFromSuperview()
+                }
+                self.categories = categories
+                self.setupCategories(categories: categories)
+                self.configureCategoriesState(categories)
+            })
+            .disposed(by: bag)
+        
+        viewModel.categories
+            .subscribe(onNext: { [weak self] categories in
+                guard let self = self else { return }
+                self.categories = categories
+                self.updateCategoriesState()
+                self.setupCategories(categories: categories)
+                self.configureCategoriesState(categories)
+            })
+            .disposed(by: bag)
+    }
+    
+    private func configureCategoriesState(_ categories: [Category]) {
+        let uncheckedCategories = defaults.object(forKey: "savedCategories") as? [String] ?? []
+        categoriesStackView.subviews
+            .compactMap { $0 as? CheckBox}
+            .filter { checkBox in                
+                return categories.contains(where: { category -> Bool in
+                    let checkBoxCategory = checkBox.categoryLabel.text!.lowercased()
+                    return uncheckedCategories.contains(category.engName) &&
+                        (category.ruName.lowercased() == checkBoxCategory ||
+                            category.engName.lowercased() == checkBoxCategory)
+                })
+            }
+            .forEach { $0.checkButton.backgroundColor = .white }
+    }
+    
+    private func setupCategories(categories: [Category]) {
+        self.categoriesStackView.subviews.forEach { view in
+            view.removeFromSuperview()
         }
-        stackViewHeightConstraint.constant = CGFloat(categoriesStackView.subviews.count) *
-            (categoriesStackView.subviews.first! as! CheckBox).height
+        for category in categories {
+            let checkBox = CheckBox()
+            var localizedCategoryName = String()
+            
+            if let language = Locale.current.languageCode {
+                switch language {
+                case "ru":
+                    localizedCategoryName = category.ruName
+                default:
+                    localizedCategoryName = category.engName
+                }
+            }
+            checkBox.color = UIColor(hex: category.hexColor)!
+            checkBox.categoryLabel.text = localizedCategoryName.uppercased()
+            checkBox.categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
+            categoriesStackView.addArrangedSubview(checkBox)
+            checkBox.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        }
         view.layoutIfNeeded()
     }
     
-    private func configureCategoriesState() {
-        let uncheckedCategories = defaults.object(forKey: "savedCategories") as? [String] ?? []
-        categoriesStackView.subviews
-            .compactMap { $0 as? CheckBox }
-            .filter { uncheckedCategories.contains($0.categoryLabel.text!.localizedKey()) }
-            .forEach { $0.checkButton.backgroundColor = .white }
+    // TODO: - To service or ViewModel?
+    private func saveCategoriesState() {
+        let categories = categoriesStackView.subviews
+            .compactMap { $0 as? CheckBox}
+            .filter { !$0.isChecked }
+            .map { [weak self] checkBox -> String? in
+                guard let self = self else { return nil }
+                
+                let categoryName = checkBox.categoryLabel.text!.uppercased()
+                let category = self.categories.first { category -> Bool in
+                    category.engName.uppercased() == categoryName
+                        || category.ruName.uppercased() == categoryName
+                }
+                return category?.engName
+            }
+            .compactMap { $0 }
+        
+        self.defaults.set(categories, forKey: "savedCategories")
+    }
+    
+    // TODO: - To service or ViewModel?
+    private func updateCategoriesState() {
+        var uncheckedCategories = defaults.object(forKey: "savedCategories") as? [String] ?? []
+        let categories = categoriesStackView.subviews
+            .compactMap { $0 as? CheckBox}
+            .filter { !$0.isChecked }
+            .map { [weak self] checkBox -> String? in
+                guard let self = self else { return nil }
+                
+                let categoryName = checkBox.categoryLabel.text!.uppercased()
+                let category = self.categories.first { category -> Bool in
+                    category.engName.uppercased() == categoryName
+                        || category.ruName.uppercased() == categoryName
+                }
+                return category?.engName
+            }
+            .compactMap { $0 }
+        
+        let checkedCategories = categoriesStackView.subviews
+            .compactMap { $0 as? CheckBox}
+            .filter { $0.isChecked }
+            .map { [weak self] checkBox -> String? in
+                guard let self = self else { return nil }
+                
+                let categoryName = checkBox.categoryLabel.text!.uppercased()
+                let category = self.categories.first { category -> Bool in
+                    category.engName.uppercased() == categoryName
+                        || category.ruName.uppercased() == categoryName
+                }
+                return category?.engName
+            }
+            .compactMap { $0 }
+        
+        categories.forEach { category in
+            if !uncheckedCategories.contains(category) {
+                uncheckedCategories.append(category)
+            }
+        }
+    
+        checkedCategories.forEach { category in
+            if uncheckedCategories.contains(category) {
+                let index = uncheckedCategories.firstIndex(of: category)!
+                uncheckedCategories.remove(at: index)
+            }
+        }
+        self.defaults.set(uncheckedCategories, forKey: "savedCategories")
     }
     
     private func setupView() {
