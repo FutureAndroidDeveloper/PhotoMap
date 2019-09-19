@@ -46,11 +46,11 @@ class CoreDataService {
                 completable(.error(error))
                 completable(.completed)
             }
-            
             return Disposables.create()
         }
     }
     
+    // WHY????????
     func save(category: Category) -> Completable {
         // save new category to Core Data
         return Completable.create { [weak self] completable in
@@ -63,7 +63,6 @@ class CoreDataService {
             let managedContext = self.appDelegate.persistentContainer.viewContext
             let entity = NSEntityDescription.entity(forEntityName: "Categories", in: managedContext)!
             let newCategory = NSManagedObject(entity: entity, insertInto: managedContext)
-            
             newCategory.setValue(category.hexColor , forKey: "hexColor")
             newCategory.setValue(category.engName, forKey: "engName")
             newCategory.setValue(category.ruName, forKey: "ruName")
@@ -76,7 +75,6 @@ class CoreDataService {
                 completable(.error(error))
                 completable(.completed)
             }
-            
             return Disposables.create()
         }
     }
@@ -134,6 +132,7 @@ class CoreDataService {
         }
     }
     
+    // WHY????????
     func isUnique(category: Category) -> Bool {
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")

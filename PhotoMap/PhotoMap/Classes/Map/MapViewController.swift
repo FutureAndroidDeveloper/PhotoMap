@@ -279,8 +279,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
     private func confirmRemovePost() -> Observable<Bool> {
         return Observable.create { [weak self] observer  in
             guard let self = self else { return Disposables.create() }
-            let removeAllert = UIAlertController(title: R.string.localizable.removeTitle(),
-                                                 message: R.string.localizable.removeMessage(),
+            let removeAllert = UIAlertController(title: R.string.localizable.removePostTitle(),
+                                                 message: R.string.localizable.removePostMessage(),
                                                  preferredStyle: .alert)
             
             let cancelAction = UIAlertAction(title: R.string.localizable.cancel(),

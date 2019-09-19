@@ -96,17 +96,13 @@ class MapViewModel {
         
         let _removePost = PublishSubject<PostAnnotation>()
         removePostTapped = _removePost.asObserver()
-        // TODO: - REMOVE POST
-        // 1. remove from FB DB ---> Works
-        // 2. listen to remove event from FB and then remove it post from Core DB ---> Works
-        // 3. update map posts ---> Works
-    
-        // WORKS. Когда запускаю прилагу - получаю все категории. Когда сижу онлайн и добавляется новая категория - получаю новую категорию
-        _ = firebaseService.categoryAdded()
-            .flatMap { coreDataService.save(category: $0).andThen(Observable.just($0)) }
-            .subscribe(onNext: { cat in
-                print(cat.engName)
-            })
+
+        // why i save categories in CoreData?
+//        _ = firebaseService.categoryAdded()
+//            .flatMap { coreDataService.save(category: $0).andThen(Observable.just($0)) }
+//            .subscribe(onNext: { cat in
+//                print(cat.engName)
+//            })
         
         // Handle Error
         firebaseService.postDidRemoved()

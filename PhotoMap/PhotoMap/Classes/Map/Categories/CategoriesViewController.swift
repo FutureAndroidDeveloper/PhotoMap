@@ -15,6 +15,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
 
     @IBOutlet weak var categoriesStackView: UIStackView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var selectButton: UIButton!
     
     var viewModel: CategoriesViewModel!
     private let bag = DisposeBag()
@@ -26,6 +27,16 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
+        selectButton.rx.controlEvent(.touchUpInside)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.selectButton.isSelected = !self.selectButton.isSelected
+                self.categoriesStackView.arrangedSubviews
+                    .compactMap { $0 as? CheckBox}
+                    .forEach { $0.isChecked = self.selectButton.isSelected }
+            })
+            .disposed(by: bag)
         
         searchBar.rx.searchButtonClicked
             .subscribe(onNext: { [weak self] _ in
@@ -48,7 +59,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         doneButton.rx.tap
             .do(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.saveCategoriesState()
+                self.updateCategoriesState()
             })
             .bind(to: viewModel.done)
             .disposed(by: bag)
@@ -93,6 +104,10 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
                 })
             }
             .forEach { $0.checkButton.backgroundColor = .white }
+        guard let selectButtonState = (categoriesStackView.arrangedSubviews.first as? CheckBox)?.isChecked else {
+            return
+        }
+        selectButton.isSelected = selectButtonState
     }
     
     private func setupCategories(categories: [Category]) {
@@ -111,9 +126,10 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
                     localizedCategoryName = category.engName
                 }
             }
+            checkBox.delegate = self
             checkBox.color = UIColor(hex: category.hexColor)!
-            checkBox.categoryLabel.text = localizedCategoryName.uppercased()
-            checkBox.categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: .light)
+            checkBox.categoryName = localizedCategoryName.uppercased()
+            checkBox.removeCategoryButton.isHidden = !(UIApplication.shared.delegate as! AppDelegate).isAdmin
             categoriesStackView.addArrangedSubview(checkBox)
             checkBox.heightAnchor.constraint(equalToConstant: 70).isActive = true
         }
@@ -121,6 +137,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     }
     
     // TODO: - To service or ViewModel?
+    // I DONT USE THIS METHOD!!!!
     private func saveCategoriesState() {
         let categories = categoriesStackView.subviews
             .compactMap { $0 as? CheckBox}
@@ -136,7 +153,6 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
                 return category?.engName
             }
             .compactMap { $0 }
-        
         self.defaults.set(categories, forKey: "savedCategories")
     }
     
@@ -195,6 +211,9 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         navigationController?.navigationBar.topItem?.rightBarButtonItem = doneButton
         let defaultTintColor = navigationController!.navigationBar.tintColor!
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: defaultTintColor]
+        
+        selectButton.setImage(R.image.selectAll(), for: .normal)
+        selectButton.setImage(R.image.deselectAll(), for: .selected)
         setupAdminView()
     }
     
@@ -202,6 +221,38 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         guard let isAdmin = (UIApplication.shared.delegate as? AppDelegate)?.isAdmin else { return }
         let adminItem = isAdmin ? addCategory : nil
         navigationController?.navigationBar.topItem?.leftBarButtonItem = adminItem
+    }
+}
+
+extension CategoriesViewController: CheckBoxDelegate {
+    func removeCategoryTapped(with color: UIColor, name: String) {
+        confirmСategoryDeletion()
+            .filter { $0 }
+            .map { _ in name }
+            .bind(to: viewModel.removeCategory)
+            .disposed(by: bag)
+    }
+    
+    private func confirmСategoryDeletion() -> Observable<Bool> {
+        return Observable.create { [weak self] observer  in
+            guard let self = self else { return Disposables.create() }
+            let removeAllert = UIAlertController(title: R.string.localizable.removeCategoryTitle(),
+                                                 message: R.string.localizable.removeCategoryMessage(),
+                                                 preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: R.string.localizable.cancel(),
+                                             style: .cancel,handler: { _ in
+                                                observer.onNext(false)
+            })
+            let removeAction = UIAlertAction(title: R.string.localizable.removeAction(),
+                                             style: .destructive, handler: { _ in
+                                                observer.onNext(true)
+            })
+            removeAllert.addAction(removeAction)
+            removeAllert.addAction(cancelAction)
+            self.present(removeAllert, animated: true, completion: nil)
+            return Disposables.create()
+        }
     }
 }
 

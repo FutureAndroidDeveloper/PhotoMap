@@ -20,6 +20,7 @@ import GeoFire
 enum FirebaseError: Error {
     case badImage
     case badJson
+    case badCategory
 }
 
 extension FirebaseError: LocalizedError {
@@ -27,9 +28,12 @@ extension FirebaseError: LocalizedError {
         switch self {
         case .badImage:
             return NSLocalizedString("Unkown Image", comment: "FirebaseError")
+        case .badCategory:
+            return NSLocalizedString("Unkown category", comment: "FirebaseError")
         case .badJson:
             return NSLocalizedString("Unkown JSON", comment: "FirebaseError")
         }
+        
     }
 }
 
@@ -301,6 +305,48 @@ class FirebaseService {
                 }
             })
             
+            return Disposables.create()
+        }
+    }
+    
+    func removeCategory(_ category: Category) -> Completable {
+        return Completable.create { [weak self] completable in
+            guard let self = self else { return Disposables.create() }
+            _ = self.databaseRef.root.child("categories")
+                .queryOrdered(byChild: "hexColor")
+                .queryEqual(toValue: category.hexColor).rx
+                .observeEvent(.value)
+                .subscribe(onNext: { snapshot in
+                    guard let value = snapshot.value as? [String: Any] else {
+                        completable(.error(FirebaseError.badCategory))
+                        return }
+                    self.databaseRef.root.child("categories").child(value.keys.first!).removeValue()
+                    completable(.completed)
+                }, onError: { error in
+                    completable(.error(error))
+                })
+            
+            return Disposables.create()
+        }
+    }
+
+    func categoryRemoved() -> Observable<Category> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            _ = self.databaseRef.root.child("categories").rx
+                .observeEvent(.childRemoved)
+                .subscribe(onNext: { snapshot in
+                    guard let value = snapshot.value as? [String: Any] else { return }
+
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: value, options: [])
+                        let removedCategory = try JSONDecoder().decode(Category.self, from: jsonData)
+                        observer.onNext(removedCategory)
+                    } catch {
+                        observer.onError(error)
+                    }
+                })
+
             return Disposables.create()
         }
     }

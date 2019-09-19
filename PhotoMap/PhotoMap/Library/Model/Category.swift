@@ -19,3 +19,11 @@ struct Category: Codable {
         case ruName
     }
 }
+
+extension Category: Equatable {
+    static func == (lhs: Category, rhs: Category) -> Bool {
+        return lhs.engName == rhs.engName &&
+            lhs.ruName == rhs.ruName &&
+            lhs.hexColor == rhs.hexColor
+    }
+}

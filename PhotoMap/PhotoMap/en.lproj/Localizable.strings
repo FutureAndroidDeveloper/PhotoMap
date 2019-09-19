@@ -34,8 +34,10 @@
 "Done" = "Done";
 
 // Admin Post View
-"Remove message" = "Are you sure you want to remove this post? The post will be deleted without the possibility of its restoration.";
-"Remove title" = "Remove Post";
+"Remove post message" = "Are you sure you want to remove this post? The post will be deleted without the possibility of its restoration.";
+"Remove post title" = "Remove Post";
+"Remove category message" = "Are you sure you want to remove this category? The category will be deleted without the possibility of its restoration.";
+"Remove category title" = "Remove Category";
 "Remove action" = "Remove";
 
 // Authentication

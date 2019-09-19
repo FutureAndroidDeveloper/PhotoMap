@@ -16,6 +16,7 @@ class CategoriesViewModel {
     let done: AnyObserver<Void>
     let addCategory: AnyObserver<Void>
     let searchText: AnyObserver<String>
+    let removeCategory: AnyObserver<String>
     
     // MARK: - Output
     let categories: Observable<[Category]>
@@ -41,6 +42,9 @@ class CategoriesViewModel {
         let _filteredCategories = PublishSubject<[Category]>()
         filteredCategories = _filteredCategories.asObservable()
         
+        let _removeCategory = PublishSubject<String>()
+        removeCategory = _removeCategory.asObserver()
+        
         let search = Observable.combineLatest(_searchText, _categories).share(replay: 1, scope: .whileConnected)
             
         search
@@ -64,17 +68,60 @@ class CategoriesViewModel {
         
         firebaseService.categoryAdded()
             .do(onNext: { fetchedCategories.append($0) })
-            .map { _ in
-                var sortedCategories = fetchedCategories
-                if let language = Locale.current.languageCode {
-                    switch language {
-                    case "ru": sortedCategories.sort { $0.ruName < $1.ruName }
-                    default: sortedCategories.sort { $0.engName < $1.engName }
-                    }
-                }
-                return sortedCategories
+            .map { [weak self] _ -> [Category] in
+                guard let self = self else { return [] }
+                return self.sortCategoriesWithLocale(fetchedCategories)
             }
             .bind(to: _categories)
             .disposed(by: bag)
+        
+        _removeCategory
+            .map { categoryName -> Category? in
+                if let language = Locale.current.languageCode {
+                    switch language {
+                    case "ru": return fetchedCategories.first(where: { category -> Bool in
+                        return category.ruName.uppercased() == categoryName
+                    })
+                    default: return fetchedCategories.first(where: { category -> Bool in
+                        return category.engName.uppercased() == categoryName
+                    })
+                    }
+                }
+                return nil
+            }
+            .compactMap { $0 }
+            .flatMap { firebaseService.removeCategory($0)}
+            .subscribe()
+            .disposed(by: bag)
+        
+        firebaseService.categoryRemoved()
+            .do(onNext: { removedCategory in
+                for category in fetchedCategories {
+                    if category == removedCategory {
+                        let index = fetchedCategories.firstIndex(of: category)!
+                        fetchedCategories.remove(at: index)
+                        break
+                    }
+                }
+            })
+            .map { [weak self] _ -> [Category] in
+                guard let self = self else { return [] }
+                return self.sortCategoriesWithLocale(fetchedCategories)
+            }
+            .bind(to: _categories)
+            .disposed(by: bag)
+
+    }
+    
+    private func sortCategoriesWithLocale(_ categories: [Category]) -> [Category] {
+        var sortedCategories = categories
+        
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru": sortedCategories.sort { $0.ruName < $1.ruName }
+            default: sortedCategories.sort { $0.engName < $1.engName }
+            }
+        }
+        return sortedCategories
     }
 }

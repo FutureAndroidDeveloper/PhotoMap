@@ -13,14 +13,15 @@ class CheckBox: UIView {
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var removeCategoryButton: UIButton!
     
     private var tapGesture: UITapGestureRecognizer!
     
+    weak var delegate: CheckBoxDelegate?
     var color: UIColor = .green {
         willSet {
             checkButton.backgroundColor = newValue
             checkButton.layer.borderColor = newValue.cgColor
-            categoryLabel.textColor = newValue
         }
     }
 
@@ -34,6 +35,21 @@ class CheckBox: UIView {
             } else {
                 checkButton.backgroundColor = .white
             }
+        }
+    }
+    
+    var categoryName: String = "" {
+        willSet {
+            let strokeTextAttributes = [
+                NSAttributedString.Key.strokeColor: UIColor.black,
+                NSAttributedString.Key.foregroundColor: color,
+                NSAttributedString.Key.strokeWidth: -1.5,
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20, weight: .bold)
+                ] as [NSAttributedString.Key: Any]
+            
+            let customizedText = NSMutableAttributedString(string: newValue,
+                                                           attributes: strokeTextAttributes)
+            categoryLabel.attributedText = customizedText
         }
     }
     
@@ -69,9 +85,15 @@ class CheckBox: UIView {
 
         checkButton.layer.cornerRadius = checkButton.bounds.height / 2
         checkButton.layer.borderWidth = 2
-        
+        removeCategoryButton.setImage(R.image.removeCategory(), for: .normal)
+        removeCategoryButton.setImage(R.image.removeCategorySelected(), for: .highlighted)
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(frameTapped))
         contentView.addGestureRecognizer(tapGesture)
+    }
+    
+    @IBAction func removeCategory(_ sender: UIButton) {
+        guard let delegate = self.delegate else { return }
+            delegate.removeCategoryTapped(with: color, name: categoryLabel.text!)
     }
     
     @IBAction func checkTapped(_ sender: UIButton) {
@@ -91,4 +113,8 @@ class CheckBox: UIView {
             }
         }.startAnimation()
     }
+}
+
+protocol CheckBoxDelegate: class {
+    func removeCategoryTapped(with color: UIColor, name: String)
 }
