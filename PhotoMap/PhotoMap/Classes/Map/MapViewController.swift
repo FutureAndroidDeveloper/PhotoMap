@@ -105,7 +105,8 @@ class MapViewController: UIViewController, StoryboardInitializable {
                 view.addSubview(self.calloutView)
                 
                 var height: CGFloat = 0
-                if (UIApplication.shared.delegate as! AppDelegate).isAdmin {
+                if (UIApplication.shared.delegate as! AppDelegate).user.isAdmin ||
+                    (UIApplication.shared.delegate as! AppDelegate).user.id == self.postAnnotation.userID {
                     self.calloutView.setupViewForAdmin()
                     height = 115
                 } else {
@@ -339,3 +340,21 @@ class MapViewController: UIViewController, StoryboardInitializable {
             })
     }
 }
+
+
+//extension MapViewController: MKMapViewDelegate {
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        guard let postAnnotation = annotation as? PostAnnotation else {
+//            return nil
+//        }
+//        let view = MKMarkerAnnotationView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+//        view.animatesWhenAdded = true
+//        view.glyphTintColor = .red
+//        view.tintColor = .red
+//        view.markerTintColor = .red
+//        view
+//        view.glyphImage = R.image.categoryBack()
+//        
+//        return view
+//    }
+//}

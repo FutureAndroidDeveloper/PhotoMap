@@ -37,21 +37,20 @@ class PostView: UIView {
         return label
     }()
     
-    lazy var categoryImageView: UIImageView = {
-        let imageView = UIImageView(image: R.image.categories.default())
-        imageView.setContentHuggingPriority(UILayoutPriority(251), for: .horizontal)
-        return imageView
+    lazy var categoryMarkerView: CategoryMarker = {
+        let markerView = CategoryMarker()
+        markerView.color = .gray
+        return markerView
     }()
     
     lazy var categoryLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("default", comment: "").uppercased()
-        
+        label.text = R.string.localizable.pickCategory().uppercased()
         return label
     }()
     
     lazy var categoryStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [categoryImageView, categoryLabel])
+        let stack = UIStackView(arrangedSubviews: [categoryMarkerView, categoryLabel])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 8
         

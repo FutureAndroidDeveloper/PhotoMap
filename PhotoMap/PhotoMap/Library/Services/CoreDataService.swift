@@ -26,23 +26,23 @@ class CoreDataService {
                 completable(.completed)
                  return Disposables.create()
             }
-            
             let managedContext = self.appDelegate.persistentContainer.viewContext
             let entity = NSEntityDescription.entity(forEntityName: "Post", in: managedContext)!
             let post = NSManagedObject(entity: entity, insertInto: managedContext)
             
             post.setValue(postAnnotation.category , forKey: "category")
+            post.setValue(postAnnotation.hexColor, forKey: "hexColor")
             post.setValue(postAnnotation.date, forKey: "date")
             post.setValue(postAnnotation.imageUrl, forKey: "imageUrl")
             post.setValue(postAnnotation.coordinate.latitude, forKey: "latitude")
             post.setValue(postAnnotation.coordinate.longitude, forKey: "longitude")
             post.setValue(postAnnotation.postDescription, forKey: "postDescription")
+            post.setValue(postAnnotation.userID, forKey: "userId")
             
             do {
                 try managedContext.save()
                 completable(.completed)
             } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
                 completable(.error(error))
                 completable(.completed)
             }
@@ -99,20 +99,44 @@ class CoreDataService {
                 
                 for result in results {
                     let post = PostAnnotation(date: result.value(forKey: "date") as! Int,
+                                              hexColor: result.value(forKey: "hexColor") as! String,
                                               category: result.value(forKey: "category") as! String,
                                               postDescription: result.value(forKey: "postDescription") as? String,
                                               imageUrl: result.value(forKey: "imageUrl") as? String,
+                                              userId: result.value(forKey: "userId") as! String,
                                               coordinate: CLLocationCoordinate2D(latitude:result.value(forKey: "latitude") as! Double,
                                                                                  longitude: result.value(forKey: "longitude") as! Double))
                     posts.append(post)
                 }
             } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.userInfo)")
                 observer.onError(error)
                 observer.onCompleted()
             }
-
             observer.onNext(posts)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+    }
+    
+    func fetch() -> Observable<[Category]> {
+        return Observable.create { [weak self] observer  in
+            guard let self = self else { return Disposables.create() }
+            let managedContext = self.appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
+            var categories = [Category]()
+            
+            do {
+                let results = try managedContext.fetch(fetchRequest)
+                for result in results {
+                    let category = Category(hexColor: result.value(forKey: "hexColor") as! String,
+                                            engName: result.value(forKey: "engName") as! String,
+                                            ruName: result.value(forKey: "ruName") as! String)
+                    categories.append(category)
+                }
+            } catch let error as NSError {
+                observer.onError(error)
+            }
+            observer.onNext(categories)
             observer.onCompleted()
             return Disposables.create()
         }
@@ -169,4 +193,22 @@ class CoreDataService {
             print(error)
         }
     }
+    
+    func removeCategoryFromCoredata(_ category: Category) {
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
+        let predicate = NSPredicate(format: "hexColor == %@", category.hexColor)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let categories = try context.fetch(fetchRequest)
+            for oldCategory in categories {
+                context.delete(oldCategory)
+            }
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }
+
 }

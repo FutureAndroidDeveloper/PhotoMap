@@ -62,7 +62,7 @@ class AppCoordinator: BaseCoordinator<Void> {
             do {
                 let appUser = try FirebaseDecoder().decode(ApplicationUser.self, from: value)
                 // set user privilege to AppDelegate
-                (UIApplication.shared.delegate as! AppDelegate).isAdmin = appUser.isAdmin
+                (UIApplication.shared.delegate as! AppDelegate).user = appUser
             } catch let error {
                 print(error)
             }

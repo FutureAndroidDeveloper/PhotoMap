@@ -27,3 +27,71 @@ extension Category: Equatable {
             lhs.hexColor == rhs.hexColor
     }
 }
+
+extension Category: CustomStringConvertible {
+    var description: String {
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru": return self.ruName
+            default: return self.engName
+            }
+        }
+        return self.engName
+    }
+}
+
+extension Category: Comparable {
+    static func < (lhs: Category, rhs: Category) -> Bool {
+        var result = false
+        
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru": result = lhs.ruName < rhs.ruName
+            default: result = lhs.engName < rhs.engName
+            }
+        }
+        return result
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is less than or equal to that of the second argument.
+    static func <= (lhs: Category, rhs: Category) -> Bool {
+        var result = false
+        
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru": result = lhs.ruName <= rhs.ruName
+            default: result = lhs.engName <= rhs.engName
+            }
+        }
+        return result
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is greater than or equal to that of the second argument.
+    static func >= (lhs: Category, rhs: Category) -> Bool {
+        var result = false
+        
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru": result = lhs.ruName >= rhs.ruName
+            default: result = lhs.engName >= rhs.engName
+            }
+        }
+        return result
+    }
+    
+    /// Returns a Boolean value indicating whether the value of the first
+    /// argument is greater than that of the second argument.
+    static func > (lhs: Category, rhs: Category) -> Bool {
+        var result = false
+        
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru": result = lhs.ruName > rhs.ruName
+            default: result = lhs.engName > rhs.engName
+            }
+        }
+        return result
+    }
+}

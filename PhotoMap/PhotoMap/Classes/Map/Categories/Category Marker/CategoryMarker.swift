@@ -34,6 +34,7 @@ class CategoryMarker: UIView {
     private func setupView() {
         Bundle.main.loadNibNamed("CategoryMarker", owner: self, options: nil)
         contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.backgroundColor = .clear
         addSubview(contentView)
         
         NSLayoutConstraint.activate([

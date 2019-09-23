@@ -15,13 +15,16 @@ final class PickerViewViewAdapter
     , UIPickerViewDataSource
     , UIPickerViewDelegate
     , RxPickerViewDataSourceType
-, SectionedViewDataSourceType {
+    , SectionedViewDataSourceType {
     typealias Element = [[CustomStringConvertible]]
     private var items: [[CustomStringConvertible]] = []
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        _ = try? model(at: IndexPath(row: row, section: component))
+    }
+    
     func model(at indexPath: IndexPath) throws -> Any {
-        print(items[indexPath.section][indexPath.row])
-        return items[indexPath.section][indexPath.row]
+        return items[indexPath.section][indexPath.row] as! Category
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -34,19 +37,20 @@ final class PickerViewViewAdapter
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let parentView = UIView()
-        let label = UILabel(frame: CGRect(x: 60, y: 10, width: 150, height: 50))
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 10, width: 50, height:50))
-        imageView.image = UIImage(named: "Categories/\(items[component][row] as! String)")
-        label.text = NSLocalizedString(items[component][row] as! String, comment: "").uppercased()
+        let label = UILabel(frame: CGRect(x: 50, y: 10, width: 150, height: 50))
+        label.numberOfLines = 2
+
+        let categoryView = CategoryMarker(frame: CGRect(x: -10, y: 10, width: 50, height: 50))
+        categoryView.color = UIColor(hex: (items[component][row] as! Category).hexColor)!
+        label.text = (items[component][row] as! Category).description.uppercased()
+        
         parentView.addSubview(label)
-        parentView.addSubview(imageView)
-        
+        parentView.addSubview(categoryView)
         return parentView
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return 150
+        return 180
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -58,5 +62,10 @@ final class PickerViewViewAdapter
             adapter.items = items
             pickerView.reloadAllComponents()
         }.on(observedEvent)
+    }
+    
+    func update(_ pickerView: UIPickerView, items: [[CustomStringConvertible]]) {
+        self.items = items
+        pickerView.reloadAllComponents()
     }
 }

@@ -97,12 +97,17 @@ class MapViewModel {
         let _removePost = PublishSubject<PostAnnotation>()
         removePostTapped = _removePost.asObserver()
 
-        // why i save categories in CoreData?
-//        _ = firebaseService.categoryAdded()
-//            .flatMap { coreDataService.save(category: $0).andThen(Observable.just($0)) }
-//            .subscribe(onNext: { cat in
-//                print(cat.engName)
-//            })
+        _ = firebaseService.categoryAdded()
+            .flatMap { coreDataService.save(category: $0).andThen(Observable.just($0)) }
+            .subscribe(onNext: { category in
+                print(category.engName)
+            })
+        
+        // I can add removed category to ignore list
+        _ = firebaseService.categoryRemoved()
+            .subscribe(onNext: { category in
+                coreDataService.removeCategoryFromCoredata(category)
+            })
         
         // Handle Error
         firebaseService.postDidRemoved()

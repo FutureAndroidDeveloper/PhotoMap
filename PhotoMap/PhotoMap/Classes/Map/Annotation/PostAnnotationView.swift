@@ -72,8 +72,42 @@ class PostAnnotationView: MKAnnotationView {
             guard let post = newValue as? PostAnnotation else { return }
             canShowCallout = false
             centerOffset = CGPoint(x: 0, y: -22)
-            image = UIImage.scale(image: post.categoryImage, by: 1.7)
+            let back = R.image.categoryBack()
+            let main = R.image.categoryBack()?.tintWithColor(color: UIColor(hex: post.hexColor)!)
+            let newSize = CGSize(width: 40, height: 40)   // set this to what you need
+            
+            UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+            back!.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
+            main!.draw(in: CGRect(origin: CGPoint.zero, size: newSize))
+            
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            image = newImage
             clusteringIdentifier = MKMapViewDefaultClusterAnnotationViewReuseIdentifier
         }
+    }
+}
+
+extension UIImage {
+    func tintWithColor(color: UIColor) -> UIImage {
+        UIGraphicsBeginImageContext(self.size)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        // flip the image
+        context.scaleBy(x: 1.0, y: -1.0)
+        context.translateBy(x: 0.0, y: -self.size.height)
+        
+        // multiply blend mode
+        context.setBlendMode(.multiply)
+        
+        let rect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        context.clip(to: rect, mask: self.cgImage!)
+        color.setFill()
+        context.fill(rect)
+        
+        // create uiimage
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
     }
 }

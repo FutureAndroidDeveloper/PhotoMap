@@ -129,7 +129,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
             checkBox.delegate = self
             checkBox.color = UIColor(hex: category.hexColor)!
             checkBox.categoryName = localizedCategoryName.uppercased()
-            checkBox.removeCategoryButton.isHidden = !(UIApplication.shared.delegate as! AppDelegate).isAdmin
+            checkBox.removeCategoryButton.isHidden = !(UIApplication.shared.delegate as! AppDelegate).user.isAdmin
             categoriesStackView.addArrangedSubview(checkBox)
             checkBox.heightAnchor.constraint(equalToConstant: 70).isActive = true
         }
@@ -218,7 +218,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     }
     
     private func setupAdminView() {
-        guard let isAdmin = (UIApplication.shared.delegate as? AppDelegate)?.isAdmin else { return }
+        guard let isAdmin = (UIApplication.shared.delegate as? AppDelegate)?.user.isAdmin else { return }
         let adminItem = isAdmin ? addCategory : nil
         navigationController?.navigationBar.topItem?.leftBarButtonItem = adminItem
     }

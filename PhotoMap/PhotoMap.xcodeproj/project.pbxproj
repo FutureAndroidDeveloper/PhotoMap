@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4768450855ECA8AC5BBCF954 /* Pods_PhotoMap_PhotoMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF14625D30BD6AF469CB2B55 /* Pods_PhotoMap_PhotoMapTests.framework */; };
 		59069D4D22FA08D1009D317B /* Categories in Resources */ = {isa = PBXBuildFile; fileRef = 59069D4C22FA08D1009D317B /* Categories */; };
-		59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59069D4E22FA35C4009D317B /* CategoriesService.swift */; };
 		59069D5122FA482E009D317B /* PickerViewViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59069D5022FA482E009D317B /* PickerViewViewAdapter.swift */; };
 		590A7C032315CFB30010BEFC /* PhotoMap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 590A7C012315CFB20010BEFC /* PhotoMap.xcdatamodeld */; };
 		590A7C052315D1570010BEFC /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590A7C042315D1570010BEFC /* CoreDataService.swift */; };
@@ -103,7 +102,6 @@
 		236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39F3EE21FCBB3A934D98AC3B /* Pods-PhotoMap-PhotoMapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap-PhotoMapTests.debug.xcconfig"; path = "Target Support Files/Pods-PhotoMap-PhotoMapTests/Pods-PhotoMap-PhotoMapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		59069D4C22FA08D1009D317B /* Categories */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Categories; sourceTree = "<group>"; };
-		59069D4E22FA35C4009D317B /* CategoriesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesService.swift; sourceTree = "<group>"; };
 		59069D5022FA482E009D317B /* PickerViewViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewViewAdapter.swift; sourceTree = "<group>"; };
 		590A7C022315CFB30010BEFC /* PhotoMap.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhotoMap.xcdatamodel; sourceTree = "<group>"; };
 		590A7C042315D1570010BEFC /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
@@ -346,7 +344,6 @@
 				593A055722F39F5500FCD118 /* LocationService.swift */,
 				593A055522F363D900FCD118 /* PhotoLibraryService.swift */,
 				59FB8C1022F8C7E800F987EF /* DateService.swift */,
-				59069D4E22FA35C4009D317B /* CategoriesService.swift */,
 				59D74C012304C3C600C5E7FD /* FirebaseService.swift */,
 				590A7C042315D1570010BEFC /* CoreDataService.swift */,
 				59CEAC1823231ABB008D5B06 /* ValidateService.swift */,
@@ -739,7 +736,6 @@
 				59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */,
 				59ABFBEC231055F000C938AD /* PostClusterView.swift in Sources */,
 				59E24B9823076ACF00DDE574 /* SignUpCoordinator.swift in Sources */,
-				59069D4F22FA35C4009D317B /* CategoriesService.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
 				59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */,
 				59E920B9232878B300BE7B69 /* ApplicationUser.swift in Sources */,

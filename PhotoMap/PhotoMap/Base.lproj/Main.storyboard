@@ -662,7 +662,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🇷🇺" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3eE-XQ-hhV">
-                                <rect key="frame" x="16" y="127.33333333333331" width="34" height="36"/>
+                                <rect key="frame" x="16" y="106.66666666666667" width="34" height="36.000000000000014"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="34" id="81q-5z-gUY"/>
                                 </constraints>
@@ -681,7 +681,7 @@
                                 </variation>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QdO-Ao-Nhj" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="54" y="50" width="289.66666666666669" height="39.333333333333343"/>
+                                <rect key="frame" x="54" y="50" width="289.66666666666669" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -690,7 +690,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dqd-kg-e0i" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="54" y="119.33333333333331" width="289.66666666666669" height="39"/>
+                                <rect key="frame" x="54" y="110" width="289.66666666666669" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -699,7 +699,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🇬🇧" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJw-kd-9ke">
-                                <rect key="frame" x="16" y="58.333333333333343" width="34" height="36"/>
+                                <rect key="frame" x="16" y="46.666666666666657" width="34" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="34" id="TAB-ue-Uvn"/>
                                     <constraint firstAttribute="height" constant="36" id="xt9-IL-YUd"/>
@@ -721,13 +721,13 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hex #" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtB-3x-u5R">
-                                <rect key="frame" x="124.66666666666667" y="525.66666666666663" width="37.666666666666671" height="17"/>
+                                <rect key="frame" x="124.66666666666667" y="495.66666666666669" width="37.666666666666671" height="17.000000000000057"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.48737090826034546" green="0.48775941133499146" blue="0.48743116855621338" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q4h-kV-gqI" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                <rect key="frame" x="166.33333333333334" y="508.33333333333326" width="65" height="39"/>
+                                <rect key="frame" x="166.33333333333334" y="489.66666666666669" width="65" height="30.000000000000057"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="OjZ-vD-PNQ"/>
                                     <constraint firstAttribute="width" constant="87" id="R2x-DF-dPm">
@@ -755,7 +755,7 @@
                                 </variation>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-ia-tL3" customClass="CategoryMarker" customModule="PhotoMap" customModuleProvider="target">
-                                <rect key="frame" x="169" y="303.33333333333331" width="60" height="60"/>
+                                <rect key="frame" x="169" y="285" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.0039215686269999999" green="0.73333333329999995" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="eKQ-kd-XuY"/>
@@ -763,7 +763,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YdJ-oR-O1M">
-                                <rect key="frame" x="54" y="188.33333333333337" width="289.66666666666669" height="290"/>
+                                <rect key="frame" x="54" y="170.00000000000003" width="289.66666666666669" height="289.66666666666674"/>
                                 <color key="backgroundColor" red="0.31386451199999998" green="0.83363655820000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YdJ-oR-O1M" secondAttribute="height" multiplier="1:1" id="K6X-t4-1bX"/>

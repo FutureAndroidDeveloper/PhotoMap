@@ -22,7 +22,7 @@
 "Settings" = "Settings";
 
 // TimeLine
-"Search" = "Search";
+"Search" = "Search #tag";
 "Category" = "Categoty";
 
 // Categories
@@ -30,6 +30,9 @@
 
 // Post View
 "Choose category" = "Choose A Photo Category";
+"Pick category" = "Pick A Category";
+"Category error title" = "Wrong Category";
+"Category error message" = "You have not selected a category for the photo. Please click on the category selection box.";
 "Ok" = "OK";
 "Done" = "Done";
 

@@ -24,7 +24,9 @@ class CategoriesViewModel {
     let addCategoryTapped: Observable<Void>
     let filteredCategories: Observable<[Category]>
     
-    init(firebaseService: FirebaseService = FirebaseService()) {
+    init(firebaseService: FirebaseService = FirebaseService(),
+         coreDataService: CoreDataService = CoreDataService(appDelegate:
+        UIApplication.shared.delegate as! AppDelegate)) {
         let _categories = ReplaySubject<[Category]>.create(bufferSize: 1)
         categories = _categories.asObservable()
         
@@ -95,6 +97,9 @@ class CategoriesViewModel {
             .disposed(by: bag)
         
         firebaseService.categoryRemoved()
+            .do(onNext: { (category) in
+                coreDataService.removeCategoryFromCoredata(category)
+            })
             .do(onNext: { removedCategory in
                 for category in fetchedCategories {
                     if category == removedCategory {
@@ -110,7 +115,6 @@ class CategoriesViewModel {
             }
             .bind(to: _categories)
             .disposed(by: bag)
-
     }
     
     private func sortCategoriesWithLocale(_ categories: [Category]) -> [Category] {

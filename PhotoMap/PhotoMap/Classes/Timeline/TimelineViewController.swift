@@ -130,7 +130,7 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
         searchBar.placeholder = R.string.localizable.search()
         let searchTextField = searchBar.value(forKey: "_searchField") as? UITextField
         searchTextField?.backgroundColor = #colorLiteral(red: 0.8901960784, green: 0.8941176471, blue: 0.9019607843, alpha: 1)
-        categoriesButton = UIBarButtonItem(title: R.string.localizable.category(), style: .plain, target: nil, action: nil)
+        categoriesButton = UIBarButtonItem(title: R.string.localizable.categories(), style: .plain, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem = categoriesButton
         self.navigationItem.titleView = searchBar
         activityIndicator.startAnimating()

@@ -22,14 +22,17 @@
 "Settings" = "Настройки";
 
 // TimeLine
-"Search" = "Поиск";
-"Category" = "Категории";
+"Search" = "Поиск #tag";
+"Category" = "Категория";
 
 // Categories
 "Categories" = "Категории";
 
 // Post View
 "Choose category" = "Выберите Категорию Фотографии";
+"Pick category" = "Выбрать Категорию";
+"Category error title" = "Неправильная Категория";
+"Category error message" = "Вы не выбрали категорию для фотографии. Пожалуйста, нажмите на поле выбора категории.";
 "Ok" = "OK";
 "Done" = "Готово";
 

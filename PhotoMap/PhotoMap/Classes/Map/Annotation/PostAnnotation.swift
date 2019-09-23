@@ -6,47 +6,52 @@
 //  Copyright © 2019 Kiryl Klimiankou. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import CoreLocation
 import MapKit
 
 class PostAnnotation: NSObject, MKAnnotation, Codable {
-    var categoryImage: UIImage {
-        return UIImage(named: "Categories/" + category.lowercased())!
-    }
-    
     var image: UIImage?
     let date: Int
+    var hexColor: String
     var category: String
     let postDescription: String?
     var imageUrl: String?
+    var userID: String
     var coordinate: CLLocationCoordinate2D
     
     private enum CodingKeys: String, CodingKey {
         case image
         case date
+        case hexColor
         case category
         case postDescription
         case coordinate
+        case userID
         case imageUrl
     }
     
-    init(image: UIImage, date: Int, category: String, postDescription: String?,
+    init(image: UIImage, date: Int, hexColor: String,
+         category: String, postDescription: String?, userId: String,
          coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)) {
         self.image = image
         self.date = date
+        self.hexColor = hexColor
         self.category = category
         self.postDescription = postDescription
+        self.userID = userId
         self.coordinate = coordinate
         super.init()
     }
     
-    init(date: Int, category: String, postDescription: String?,
-         imageUrl: String?,coordinate: CLLocationCoordinate2D) {
+    init(date: Int, hexColor: String, category: String, postDescription: String?,
+         imageUrl: String?, userId: String, coordinate: CLLocationCoordinate2D) {
         self.date = date
+        self.hexColor = hexColor
         self.category = category
         self.postDescription = postDescription
         self.coordinate = coordinate
+        self.userID = userId
         self.imageUrl = imageUrl
         super.init()
     }
@@ -56,6 +61,8 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
         let imageData = try? container.decode(Data.self, forKey: .image)
         image = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(imageData ?? Data()) as? UIImage ?? UIImage()
         date = try container.decode(Int.self, forKey: .date)
+        hexColor = try container.decode(String.self, forKey: .hexColor)
+        userID = try container.decode(String.self, forKey: .userID)
         category = try container.decode(String.self, forKey: .category)
         postDescription = try container.decode(String.self, forKey: .postDescription)
         coordinate = try container.decode(CLLocationCoordinate2D.self, forKey: .coordinate)
@@ -67,6 +74,8 @@ class PostAnnotation: NSObject, MKAnnotation, Codable {
         let imageData = try NSKeyedArchiver.archivedData(withRootObject: image!, requiringSecureCoding: false)
         try container.encode(imageData, forKey: .image)
         try container.encode(date, forKey: .date)
+        try container.encode(hexColor, forKey: .hexColor)
+        try container.encode(userID, forKey: .userID)
         try container.encode(category, forKey: .category)
         try container.encode(postDescription, forKey: .postDescription)
         try container.encode(coordinate, forKey: .coordinate)

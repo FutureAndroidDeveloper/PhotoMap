@@ -8,26 +8,34 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class PostViewModel {
+    let bag = DisposeBag()
+    
     // MARK: - Input
     let didSelectedImage: AnyObserver<UIImage>
     let cancel: AnyObserver<Void>
     let done: AnyObserver<PostAnnotation>
     let creationDate: AnyObserver<Date>
     let fullPhotoTapped: AnyObserver<PostAnnotation>
+    let searchText: AnyObserver<String?>
     
     // MARK: - Output
     let postImage: Observable<UIImage>
     let date: Observable<String>
     let didCancel: Observable<Void>
     let post: Observable<PostAnnotation>
-    let categories: Observable<[String]>
+    let categories: Observable<[Category]>
     let showFullPhoto: Observable<PostAnnotation>
-    
     let timestamp: Observable<Int>
+    let filteredCategories: Observable<[Category]>
     
-    init(dateService: DateService = DateService(), categoriesService: CategoriesService = CategoriesService()) {
+    init(dateService: DateService = DateService(),
+         coreDataService: CoreDataService = CoreDataService(appDelegate:
+        UIApplication.shared.delegate as! AppDelegate),
+         firebaseService: FirebaseService = FirebaseService()) {
+        
         let _didSelectedImage = ReplaySubject<UIImage>.create(bufferSize: 1)
         didSelectedImage = _didSelectedImage.asObserver()
         postImage = _didSelectedImage.asObservable()
@@ -44,6 +52,15 @@ class PostViewModel {
         fullPhotoTapped = _fullPhoto.asObserver()
         showFullPhoto = _fullPhoto.asObservable()
 
+        let _categories = ReplaySubject<[Category]>.create(bufferSize: 1)
+        categories = _categories.asObservable()
+        
+        let _searchText = PublishSubject<String?>()
+        searchText = _searchText.asObserver()
+        
+        let _filteredCategories = PublishSubject<[Category]>()
+        filteredCategories = _filteredCategories.asObservable()
+
         let _creationDate = ReplaySubject<Date>.create(bufferSize: 1)
         creationDate = _creationDate.asObserver()
         date = _creationDate.asObservable()
@@ -52,6 +69,32 @@ class PostViewModel {
         timestamp = _creationDate.asObservable()
             .map { Int($0.timeIntervalSince1970) }
         
-        categories = categoriesService.getCategories()
+//        firebaseService.getCategories()
+//            .bind(to: _categories)
+//            .disposed(by: bag)
+        
+        var allCategories = [Category]()
+        
+        coreDataService.fetch()
+            .map { $0.sorted(by: <) }
+            .do(onNext: { allCategories = $0 })
+            .bind(to: _categories)
+            .disposed(by: bag)
+        
+        _searchText
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+            .map { searchText in
+                allCategories.filter { $0.description.uppercased().contains(searchText.uppercased()) }
+            }
+            .bind(to: _filteredCategories)
+            .disposed(by: bag)
+        
+        _searchText
+            .compactMap { $0 }
+            .filter { $0.isEmpty }
+            .map { _ in allCategories }
+            .bind(to: _filteredCategories)
+            .disposed(by: bag)
     }
 }

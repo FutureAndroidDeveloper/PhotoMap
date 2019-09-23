@@ -33,7 +33,6 @@ extension FirebaseError: LocalizedError {
         case .badJson:
             return NSLocalizedString("Unkown JSON", comment: "FirebaseError")
         }
-        
     }
 }
 
@@ -115,7 +114,6 @@ class FirebaseService {
         // upload post model
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
-            post.setLocalizedCategoryKey()
 
             _ = self.uploadImage(post: post)
                 .flatMap { url -> Observable<DatabaseReference> in
@@ -132,9 +130,6 @@ class FirebaseService {
                         completable(.completed)
                         return
                     }
-                    // append user id to filter posts by it
-                    postReference.updateChildValues(["userID": Auth.auth().currentUser!.uid])
-                    
                     // set helpfull inforamtion for geo quary
                     GeoFire(firebaseRef: self.databaseRef).setLocation(CLLocation(latitude: post.coordinate.latitude, longitude: post.coordinate.longitude), forKey: postReference.key!, withCompletionBlock: { geoError in
                         if let geoError = geoError {
