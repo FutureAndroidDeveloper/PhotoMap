@@ -20,6 +20,7 @@ class PostViewModel {
     let creationDate: AnyObserver<Date>
     let fullPhotoTapped: AnyObserver<PostAnnotation>
     let searchText: AnyObserver<String?>
+    let editablePost: AnyObserver<PostAnnotation?>
     
     // MARK: - Output
     let postImage: Observable<UIImage>
@@ -30,6 +31,8 @@ class PostViewModel {
     let showFullPhoto: Observable<PostAnnotation>
     let timestamp: Observable<Int>
     let filteredCategories: Observable<[Category]>
+    let editablePostSelected: Observable<PostAnnotation>
+    let editableCategory: Observable<Category>
     
     init(dateService: DateService = DateService(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:
@@ -39,6 +42,13 @@ class PostViewModel {
         let _didSelectedImage = ReplaySubject<UIImage>.create(bufferSize: 1)
         didSelectedImage = _didSelectedImage.asObserver()
         postImage = _didSelectedImage.asObservable()
+        
+        let _editablePost = ReplaySubject<PostAnnotation?>.create(bufferSize: 1)
+        editablePost = _editablePost.asObserver()
+        editablePostSelected = _editablePost.asObservable().compactMap { $0 }
+        
+//        let _editableCategory = PublishSubject<Category>()
+//        editableCategory = _editableCategory.asObservable()
         
         let _cancel = PublishSubject<Void>()
         cancel = _cancel.asObserver()
@@ -80,6 +90,19 @@ class PostViewModel {
             .do(onNext: { allCategories = $0 })
             .bind(to: _categories)
             .disposed(by: bag)
+        
+        
+        editableCategory = editablePostSelected
+            .compactMap { post in
+                allCategories.first(where: { (category) -> Bool in
+                    category.hexColor == post.hexColor
+                })
+            }.take(1)
+        
+//            .map { $0.sorted(by: <) }
+//            .do(onNext: { allCategories = $0 })
+//            .bind(to: _categories)
+//            .disposed(by: bag)
         
         _searchText
             .compactMap { $0 }

@@ -20,13 +20,16 @@ enum PostCoordinatorResult {
 
 class PostCoordinator: BaseCoordinator<PostCoordinatorResult> {
     private let rootViewController: UIViewController
+    private var editablePost: PostAnnotation?
     private let postImage: UIImage
     private let creationDate: Date
     
-    init(rootViewController: UIViewController, image: UIImage, date: Date) {
+    init(rootViewController: UIViewController, image: UIImage,
+         date: Date, editablePost: PostAnnotation? = nil) {
         self.rootViewController = rootViewController
         postImage = image
         creationDate = date
+        self.editablePost = editablePost
     }
     
     override func start() -> Observable<CoordinatorResult> {
@@ -36,6 +39,7 @@ class PostCoordinator: BaseCoordinator<PostCoordinatorResult> {
         
         viewModel.didSelectedImage.onNext(postImage)
         viewModel.creationDate.onNext(creationDate)
+        viewModel.editablePost.onNext(editablePost)
         
         let navigationController = UINavigationController(rootViewController: postViewController)
         navigationController.isNavigationBarHidden = true

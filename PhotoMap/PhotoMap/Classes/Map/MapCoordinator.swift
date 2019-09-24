@@ -63,6 +63,29 @@ class MapCoordinator: BaseCoordinator<Void> {
             }
             .bind(to: viewModel.categoriesDidSelected)
             .disposed(by: disposeBag)
+        
+        let editedPost = viewModel.editablePost
+            .flatMap { [weak self] post -> Observable<PostAnnotation?> in
+                guard let self = self else { return .empty() }
+                return self.showPostViewController(on: mapViewController, image: post.image!,
+                                                   date: Date(timeIntervalSince1970: TimeInterval(post.date)),
+                                                   editablePost: post)
+            }
+            .compactMap { $0 }
+            .share(replay: 1, scope: .whileConnected)
+        
+        editedPost
+            .bind(to: viewModel.removePostTapped)
+            .disposed(by: disposeBag)
+        
+        editedPost
+            .map { CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude) }
+            .bind(to: viewModel.location)
+            .disposed(by: disposeBag)
+        
+        editedPost
+            .bind(to: viewModel.postCreated)
+            .disposed(by: disposeBag)
 
         return .never()
     }
@@ -97,9 +120,10 @@ class MapCoordinator: BaseCoordinator<Void> {
             })
     }
 
-    private func showPostViewController(on rootViewController: UIViewController,
-                                        image: UIImage, date: Date) -> Observable<PostAnnotation?> {
-        let postCoordinator = PostCoordinator(rootViewController: rootViewController, image: image, date: date)
+    private func showPostViewController(on rootViewController: UIViewController, image: UIImage,
+                                        date: Date, editablePost: PostAnnotation? = nil) -> Observable<PostAnnotation?> {
+        let postCoordinator = PostCoordinator(rootViewController: rootViewController, image: image,
+                                              date: date, editablePost: editablePost)
         return coordinate(to: postCoordinator)
             .take(1)
             .map { result in

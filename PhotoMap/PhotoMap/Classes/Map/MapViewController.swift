@@ -84,6 +84,11 @@ class MapViewController: UIViewController, StoryboardInitializable {
             .bind(to: viewModel.removePostTapped)
             .disposed(by: bag)
         
+        calloutView.editButton.rx.tap
+            .compactMap { [weak self] _ in self?.postAnnotation }
+            .bind(to: viewModel.editablePostTapped)
+            .disposed(by: bag)
+        
         calloutView.detailButton.rx.tap
             .compactMap { [weak self] _ in
                 guard let self = self else { fatalError() }

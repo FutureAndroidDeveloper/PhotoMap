@@ -31,12 +31,16 @@ class TimelineViewController: UIViewController, StoryboardInitializable, UITable
             configureCell: { [weak self] dataSource, tableView, indexPath, item in
                 guard let self = self else { fatalError(#function) }
                 let cell = tableView.dequeueReusableCell(withIdentifier: TimelineTableViewCell.reuseIdentifier, for: indexPath) as! TimelineTableViewCell
-                
+    
                 cell.isUserInteractionEnabled = false
                 let date = self.viewModel.getPostDate(timestamp: item.date)
-                cell.postView.dateLabel.text = "\(date) / \(NSLocalizedString(item.category.lowercased(), comment: "").uppercased())"
+                self.viewModel.getLocalizedCategoryName(engName: item.category)
+                    .subscribe(onNext: { localizedCategoryName in
+                        cell.postView.dateLabel.text = "\(date) / \(localizedCategoryName)"
+                    })
+                    .dispose()
+                
                 cell.postView.descriptionLabel.text = item.postDescription
-
                 let url = URL(string: item.imageUrl!)
                 cell.postView.photoImageView.kf.indicatorType = .activity
                 cell.postView.photoImageView.kf.setImage(with: url, completionHandler: { (image, _, _, _) in

@@ -27,7 +27,7 @@ class MapViewModel {
     let showCategoriesFilter: AnyObserver<Void>
     let categoriesDidSelected: AnyObserver<Void>
     let removePostTapped: AnyObserver<PostAnnotation>
-    
+    let editablePostTapped: AnyObserver<PostAnnotation>
     let createPostAtMapPointTapped: AnyObserver<Void>
     
     // MARK: - Outputs
@@ -40,6 +40,7 @@ class MapViewModel {
     let error: Observable<String>
     let posts: Observable<[PostAnnotation]>
     let categoriesTapped: Observable<Void>
+    let editablePost: Observable<PostAnnotation>
     
     // MARK: - Initialization
     init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
@@ -54,6 +55,10 @@ class MapViewModel {
         
         let _cameraButtopTapped = PublishSubject<Void>()
         cameraButtonTapped = _cameraButtopTapped.asObserver()
+        
+        let _editablePost = PublishSubject<PostAnnotation>()
+        editablePostTapped = _editablePost.asObserver()
+        editablePost = _editablePost.asObservable()
         
         let _showCategories = PublishSubject<Void>()
         showCategoriesFilter = _showCategories.asObserver()
@@ -253,5 +258,11 @@ class MapViewModel {
             .map { _ in R.string.localizable.accessToPhotos() }
             .bind(to: _showPermissionMessage)
             .disposed(by: disposebag)
+        
+        
+        // removeIncorrectPost
+        // upload                       === bind to removePostTapped (remove from CD and FB)
+        
+        // в location прокинуть локацию поста + в пост прокинуть сам пост == добавит ьи сохранить
     }
 }

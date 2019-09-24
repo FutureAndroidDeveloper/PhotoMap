@@ -220,7 +220,6 @@ class FirebaseService {
     }
     
     func removeIncorrectPost(_ post: PostAnnotation) {
-        // remove from FB ---> WORKS
         databaseRef.queryOrdered(byChild: "imageUrl").queryEqual(toValue: post.imageUrl!).rx.observeSingleEvent(.value)
             .map { snapshot -> String in
                 var modelID = ""

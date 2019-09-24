@@ -23,6 +23,7 @@ class PostViewController: UIViewController, StoryboardInitializable {
     private let pickerView = UIPickerView()
     private let searchBar = UISearchBar()
     private var selectedCategory: Category!
+    private var editablePost: PostAnnotation?
     
     private var adapter = PickerViewViewAdapter()
     
@@ -86,6 +87,23 @@ class PostViewController: UIViewController, StoryboardInitializable {
                 return self.createPost()
             }
             .bind(to: viewModel.fullPhotoTapped)
+            .disposed(by: bag)
+        
+        viewModel.editablePostSelected
+            .subscribe(onNext: { [weak self] post in
+                guard let self = self else { return }
+                self.contentView.textView.text = post.postDescription
+                self.editablePost = post
+            })
+            .disposed(by: bag)
+        
+        viewModel.editableCategory
+            .subscribe(onNext: { [weak self] category in
+                guard let self = self else { return }
+                self.contentView.categoryLabel.text = category.description.uppercased()
+                self.contentView.categoryMarkerView.color = UIColor(hex: category.hexColor)!
+                self.selectedCategory = category
+            })
             .disposed(by: bag)
         
         viewModel.date
@@ -159,12 +177,25 @@ class PostViewController: UIViewController, StoryboardInitializable {
             self.viewModel.timestamp
                 .map { [weak self] timestamp -> PostAnnotation in
                     guard let self = self else { fatalError("Post View Controller. createPost()") }
-                    return PostAnnotation(image: self.contentView.photoImageView.image!,
-                                          date: timestamp,
-                                          hexColor: self.selectedCategory.hexColor,
-                                          category: self.selectedCategory.engName.uppercased(),
-                                          postDescription: self.contentView.textView.text,
-                                          userId: (UIApplication.shared.delegate as! AppDelegate).user.id)
+                    
+                    if self.editablePost != nil {
+                        let updatedPost = PostAnnotation(date: timestamp,
+                                       hexColor: self.selectedCategory.hexColor,
+                                       category: self.selectedCategory.engName.uppercased(),
+                                       postDescription: self.contentView.textView.text,
+                                       imageUrl: self.editablePost!.imageUrl,
+                                       userId: (UIApplication.shared.delegate as! AppDelegate).user.id,
+                                       coordinate: self.editablePost!.coordinate)
+                        updatedPost.image = self.contentView.photoImageView.image!
+                        return updatedPost
+                    } else {
+                        return PostAnnotation(image: self.contentView.photoImageView.image!,
+                                              date: timestamp,
+                                              hexColor: self.selectedCategory.hexColor,
+                                              category: self.selectedCategory.engName.uppercased(),
+                                              postDescription: self.contentView.textView.text,
+                                              userId: (UIApplication.shared.delegate as! AppDelegate).user.id)
+                    }
                 }
                 .subscribe(onNext: { post in
                     observer.onNext(post)

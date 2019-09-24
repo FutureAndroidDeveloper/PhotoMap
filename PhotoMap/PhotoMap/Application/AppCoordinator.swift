@@ -61,7 +61,7 @@ class AppCoordinator: BaseCoordinator<Void> {
             // TODO: - Handle Error
             do {
                 let appUser = try FirebaseDecoder().decode(ApplicationUser.self, from: value)
-                // set user privilege to AppDelegate
+                // set user info to AppDelegate
                 (UIApplication.shared.delegate as! AppDelegate).user = appUser
             } catch let error {
                 print(error)

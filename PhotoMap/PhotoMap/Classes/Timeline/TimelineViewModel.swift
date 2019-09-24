@@ -16,6 +16,7 @@ class TimelineViewModel {
     private var sectionData = [String: [PostAnnotation]]()
     private let defaults = UserDefaults.standard
     private let dateService: DateService
+    private let coreDataService: CoreDataService
     
     // MARK: - Input
     let showCategories: AnyObserver<Void>
@@ -31,8 +32,11 @@ class TimelineViewModel {
     let selectedPost: Observable<PostAnnotation>
     
     init(firebaseService: FirebaseService = FirebaseService(),
-         dateService: DateService = DateService()) {
+         dateService: DateService = DateService(),
+         coreDataService: CoreDataService = CoreDataService(appDelegate:
+        UIApplication.shared.delegate as! AppDelegate)) {
         self.dateService = dateService
+        self.coreDataService = coreDataService
         
         let _categories = PublishSubject<Void>()
         showCategories = _categories.asObserver()
@@ -106,6 +110,15 @@ class TimelineViewModel {
     
     func getPostDate(timestamp: Int) -> String {
         return dateService.getShortDate(timestamp: timestamp, yearLength: .short)
+    }
+    
+    func getLocalizedCategoryName(engName: String) -> Observable<String> {
+        return coreDataService.fetch()
+            .compactMap { $0.first(where: { category -> Bool in
+                category.engName.uppercased() == engName.uppercased()
+            })}
+            .map { $0.description.uppercased() }
+            .take(1)
     }
     
     private func filter() -> [PostAnnotation] {
