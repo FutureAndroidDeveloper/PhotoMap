@@ -141,9 +141,7 @@ class SignUpViewModel {
             .disposed(by: bag)
         
         _repeatPasswordEditingDidEnd
-            .filter { password in
-                return password.isEmpty
-            }
+            .filter { $0.isEmpty}
             .map { _ in String() }
             .bind(to: _repeatPasswordError)
             .disposed(by: bag)

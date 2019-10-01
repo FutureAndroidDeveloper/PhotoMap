@@ -10,8 +10,7 @@ import Foundation
 import RxSwift
 
 class TimelineViewModel {
-    
-    //MARK: - Private Properies
+    // MARK: - Private Properies
     private var savedsectionModels = [SectionOfPostAnnotation]()
     private var sectionData = [String: [PostAnnotation]]()
     private let defaults = UserDefaults.standard

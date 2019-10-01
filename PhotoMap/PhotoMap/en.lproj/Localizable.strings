@@ -27,6 +27,8 @@
 
 // Categories
 "Categories" = "Categories";
+"Add new categoty" = "Add New Category";
+"Category already exists" = "This category already exists!";
 
 // Post View
 "Choose category" = "Choose A Photo Category";

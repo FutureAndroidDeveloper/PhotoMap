@@ -46,10 +46,7 @@ class PostViewModel {
         let _editablePost = ReplaySubject<PostAnnotation?>.create(bufferSize: 1)
         editablePost = _editablePost.asObserver()
         editablePostSelected = _editablePost.asObservable().compactMap { $0 }
-        
-//        let _editableCategory = PublishSubject<Category>()
-//        editableCategory = _editableCategory.asObservable()
-        
+
         let _cancel = PublishSubject<Void>()
         cancel = _cancel.asObserver()
         didCancel = _cancel.asObservable()
@@ -73,15 +70,12 @@ class PostViewModel {
 
         let _creationDate = ReplaySubject<Date>.create(bufferSize: 1)
         creationDate = _creationDate.asObserver()
+        
         date = _creationDate.asObservable()
             .map { dateService.getLongDate(timestamp: Int($0.timeIntervalSince1970), modifier: .dash) }
         
         timestamp = _creationDate.asObservable()
             .map { Int($0.timeIntervalSince1970) }
-        
-//        firebaseService.getCategories()
-//            .bind(to: _categories)
-//            .disposed(by: bag)
         
         var allCategories = [Category]()
         
@@ -91,18 +85,12 @@ class PostViewModel {
             .bind(to: _categories)
             .disposed(by: bag)
         
-        
         editableCategory = editablePostSelected
             .compactMap { post in
                 allCategories.first(where: { (category) -> Bool in
                     category.hexColor == post.hexColor
                 })
             }.take(1)
-        
-//            .map { $0.sorted(by: <) }
-//            .do(onNext: { allCategories = $0 })
-//            .bind(to: _categories)
-//            .disposed(by: bag)
         
         _searchText
             .compactMap { $0 }

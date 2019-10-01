@@ -117,6 +117,53 @@ class SignupTest: XCTestCase {
             ])
     }
     
+    func testEmptyRepeatPasswordChangesErrorMessage() {
+        let errorMessage = scheduler.createObserver(String.self)
+        let expectedErrorMessage = String()
+        
+        viewModel.repeatPasswordError
+            .bind(to: errorMessage)
+            .disposed(by: bag)
+        
+        scheduler.createColdObservable([.next(10, "")])
+            .bind(to: viewModel.repeatPasswordEditingDidEnd)
+            .disposed(by: bag)
+        
+        scheduler.start()
+        
+        XCTAssertEqual(errorMessage.events, [.next(10, expectedErrorMessage)])
+    }
+    
+    func testDifferentPasswordsChangesErrorMessage() {
+        let errorMessage = scheduler.createObserver(String.self)
+        var expectedErrorMessage = String()
+        
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru":
+                expectedErrorMessage = "Пароли не совпадают"
+            default:
+                expectedErrorMessage = "Passwords do not match"
+            }
+        }
+        
+        viewModel.repeatPasswordError
+            .bind(to: errorMessage)
+            .disposed(by: bag)
+        
+        scheduler.createColdObservable([.next(10, "123456Qwerty")])
+            .bind(to: viewModel.password)
+            .disposed(by: bag)
+        
+        scheduler.createColdObservable([.next(20, "Qwerty123456")])
+            .bind(to: viewModel.repeatPasswordEditingDidEnd)
+            .disposed(by: bag)
+        
+        scheduler.start()
+        
+        XCTAssertEqual(errorMessage.events, [.next(20, expectedErrorMessage)])
+    }
+    
     func testSignUpError() throws {
         let errorMessage = scheduler.createObserver(String.self)
         let expectedErrorMessage = "The email address is already in use by another account."
@@ -126,7 +173,7 @@ class SignupTest: XCTestCase {
             .disposed(by: bag)
         
         scheduler.createColdObservable([
-            .next(10, "aa@mail.com")                                      // replace to NORMAL EMAIL
+            .next(10, "user@mail.com")
             ])
             .bind(to: viewModel.email)
             .disposed(by: bag)
@@ -154,43 +201,43 @@ class SignupTest: XCTestCase {
         XCTAssertEqual(try viewModel.error.toBlocking().first(), expectedErrorMessage)
     }
     
-    // DISABLED
-    func testCorrectSignUp() throws {
-        let errorMessage = scheduler.createObserver(String.self)
-        let expectedStatusCode = 200
-        
-        viewModel.error
-            .bind(to: errorMessage)
-            .disposed(by: bag)
-        
-        scheduler.createColdObservable([
-            .next(10, "newEmail2@gmail.com")                                     // every test i shoul set new email
-            ])
-            .bind(to: viewModel.email)
-            .disposed(by: bag)
-        
-        scheduler.createColdObservable([
-            .next(15, "12345qwerty"),
-            ])
-            .bind(to: viewModel.password)
-            .disposed(by: bag)
-        
-        scheduler.createColdObservable([
-            .next(20, "12345qwerty"),
-            ])
-            .bind(to: viewModel.repeatPassword)
-            .disposed(by: bag)
-        
-        scheduler.createColdObservable([
-            .next(30, ())
-            ])
-            .bind(to: viewModel.createTapped)
-            .disposed(by: bag)
-        
-        scheduler.start()
-        
-        XCTAssertEqual(try viewModel.create.map { 200 }.toBlocking().first(), expectedStatusCode)
-    }
+//    // DISABLED
+//    func testCorrectSignUp() throws {
+//        let errorMessage = scheduler.createObserver(String.self)
+//        let expectedStatusCode = 200
+//        
+//        viewModel.error
+//            .bind(to: errorMessage)
+//            .disposed(by: bag)
+//        
+//        scheduler.createColdObservable([
+//            .next(10, "newEmail2@gmail.com")                                     // every test i shoul set new email
+//            ])
+//            .bind(to: viewModel.email)
+//            .disposed(by: bag)
+//        
+//        scheduler.createColdObservable([
+//            .next(15, "12345qwerty"),
+//            ])
+//            .bind(to: viewModel.password)
+//            .disposed(by: bag)
+//        
+//        scheduler.createColdObservable([
+//            .next(20, "12345qwerty"),
+//            ])
+//            .bind(to: viewModel.repeatPassword)
+//            .disposed(by: bag)
+//        
+//        scheduler.createColdObservable([
+//            .next(30, ())
+//            ])
+//            .bind(to: viewModel.createTapped)
+//            .disposed(by: bag)
+//        
+//        scheduler.start()
+//        
+//        XCTAssertEqual(try viewModel.create.map { 200 }.toBlocking().first(), expectedStatusCode)
+//    }
     
     func testTappedPasswordIsHiddenChnagesPasswordSecureTextEntry() {
         let isHidden = scheduler.createObserver(Bool.self)

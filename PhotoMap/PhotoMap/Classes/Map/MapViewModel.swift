@@ -258,11 +258,5 @@ class MapViewModel {
             .map { _ in R.string.localizable.accessToPhotos() }
             .bind(to: _showPermissionMessage)
             .disposed(by: disposebag)
-        
-        
-        // removeIncorrectPost
-        // upload                       === bind to removePostTapped (remove from CD and FB)
-        
-        // в location прокинуть локацию поста + в пост прокинуть сам пост == добавит ьи сохранить
     }
 }

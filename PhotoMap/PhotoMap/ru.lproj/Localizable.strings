@@ -27,6 +27,8 @@
 
 // Categories
 "Categories" = "Категории";
+"Add new categoty" = "Добавить Новую Категорию";
+"Category already exists" = "Такая категория уже существует!";
 
 // Post View
 "Choose category" = "Выберите Категорию Фотографии";

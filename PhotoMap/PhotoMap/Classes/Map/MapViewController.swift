@@ -345,21 +345,3 @@ class MapViewController: UIViewController, StoryboardInitializable {
             })
     }
 }
-
-
-//extension MapViewController: MKMapViewDelegate {
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        guard let postAnnotation = annotation as? PostAnnotation else {
-//            return nil
-//        }
-//        let view = MKMarkerAnnotationView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-//        view.animatesWhenAdded = true
-//        view.glyphTintColor = .red
-//        view.tintColor = .red
-//        view.markerTintColor = .red
-//        view
-//        view.glyphImage = R.image.categoryBack()
-//        
-//        return view
-//    }
-//}

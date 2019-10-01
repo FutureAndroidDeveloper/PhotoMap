@@ -124,7 +124,7 @@ class AuthenticationTest: XCTestCase {
             .disposed(by: bag)
         
         scheduler.createColdObservable([
-            .next(10, "aa@mail.com")                                      // replace to NORMAL EMAIL
+            .next(10, "user@mail.com")                                      // replace to NORMAL EMAIL
             ])
             .bind(to: viewModel.email)
             .disposed(by: bag)
@@ -155,13 +155,13 @@ class AuthenticationTest: XCTestCase {
             .disposed(by: bag)
         
         scheduler.createColdObservable([
-            .next(10, "aa@mail.com")                                      // replace to NORMAL EMAIL
+            .next(10, "user@mail.com")
             ])
             .bind(to: viewModel.email)
             .disposed(by: bag)
         
         scheduler.createColdObservable([
-            .next(15, "12345qwerty"),
+            .next(15, "1029384756gexa"),
             ])
             .bind(to: viewModel.password)
             .disposed(by: bag)

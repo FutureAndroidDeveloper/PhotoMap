@@ -215,7 +215,7 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
     private func setupView() {
         tapGesture = UITapGestureRecognizer()
         view.addGestureRecognizer(tapGesture)
-        addButton = UIBarButtonItem(title: "Add New Category", style: .plain, target: nil, action: nil)
+        addButton = UIBarButtonItem(title: R.string.localizable.addNewCategoty(), style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = addButton
         addButton.isEnabled = false
         containerView.backgroundColor = .clear
