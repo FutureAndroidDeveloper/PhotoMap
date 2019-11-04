@@ -27,7 +27,7 @@ class DateService {
     private let calendar = Calendar.current
     private let numberFormatter = NumberFormatter()
     
-    init () {
+    init() {
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
     }
     

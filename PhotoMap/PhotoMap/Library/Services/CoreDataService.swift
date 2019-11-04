@@ -11,6 +11,10 @@ import CoreData
 import CoreLocation
 import RxSwift
 
+enum CoreDataError: Error {
+    case duplicate
+}
+
 class CoreDataService {
     private let appDelegate: AppDelegate!
     
@@ -56,7 +60,8 @@ class CoreDataService {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
             if !self.isUnique(category: category) {
-                completable(.completed)
+                completable(.error(CoreDataError.duplicate))
+//                completable(.completed)
                 return Disposables.create()
             }
             
@@ -176,22 +181,29 @@ class CoreDataService {
         }
     }
     
-    func removePostFromCoredata(_ post: PostAnnotation) {
+    func removePostFromCoredata(_ post: PostAnnotation) -> PostAnnotation? {
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
-        let predicate = NSPredicate(format: "imageUrl == %@", post.imageUrl!)
+        let predicate = NSPredicate(format: "imageUrl == %@", post.imageUrl ?? "")
         fetchRequest.predicate = predicate
+        var removedPost: PostAnnotation?
         
         do {
             let posts = try context.fetch(fetchRequest)
-            for post in posts {
-                context.delete(post)
+            
+            for fetchedPost in posts {
+                context.delete(fetchedPost)
+                removedPost = post
             }
             try context.save()
         } catch {
             // TODO: - Handle error (show in allert)
             print(error)
+            return nil
+            
         }
+        
+        return removedPost
     }
     
     func removeCategoryFromCoredata(_ category: Category) {

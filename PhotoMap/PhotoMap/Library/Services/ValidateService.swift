@@ -40,13 +40,13 @@ class ValidateService {
     
     func isRussian(text: String) -> Bool {
         let inRussianRegEx = "^[а-яА-Я0-9_ ]*$"
-        let redicate = NSPredicate(format:"SELF MATCHES %@", inRussianRegEx)
-        return redicate.evaluate(with: text)
+        let predicate = NSPredicate(format:"SELF MATCHES %@", inRussianRegEx)
+        return predicate.evaluate(with: text)
     }
     
     func isEnglish(text: String) -> Bool {
         let inEnglishRegEx = "^[a-zA-Z0-9_ ]*$"
-        let redicate = NSPredicate(format:"SELF MATCHES %@", inEnglishRegEx)
-        return redicate.evaluate(with: text)
+        let predicate = NSPredicate(format:"SELF MATCHES %@", inEnglishRegEx)
+        return predicate.evaluate(with: text)
     }
 }

@@ -92,7 +92,7 @@ class AddCategoryViewModel {
             .do(onNext: { _ in
                 _isLoading.onNext(false)
             })
-            .map { _ in "This category already exists!" }
+            .map { _ in R.string.localizable.categoryAlreadyExists() }
             .bind(to: _showError)
             .disposed(by: bag)
 

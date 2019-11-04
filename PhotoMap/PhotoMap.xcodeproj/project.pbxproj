@@ -24,6 +24,7 @@
 		5917FD6C22FCBF4200D98225 /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */; };
 		5917FD6E22FCBF6500D98225 /* CustomCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */; };
 		591C6DE22319AB8B00AB00B1 /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */; };
+		591EFB4723706326000062A9 /* DataBaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591EFB4623706326000062A9 /* DataBaseTest.swift */; };
 		5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4522F0B6450089947C /* AppDelegate.swift */; };
 		5929CC4822F0B6450089947C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4722F0B6450089947C /* MapViewController.swift */; };
 		5929CC4B22F0B6450089947C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4922F0B6450089947C /* Main.storyboard */; };
@@ -117,6 +118,7 @@
 		5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
 		5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCalloutView.xib; sourceTree = "<group>"; };
 		591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
+		591EFB4623706326000062A9 /* DataBaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseTest.swift; sourceTree = "<group>"; };
 		5929CC4222F0B6450089947C /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5929CC4522F0B6450089947C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5929CC4722F0B6450089947C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				59CEAC1623231557008D5B06 /* AuthenticationTest.swift */,
 				599F5B4B2327175F000188E0 /* SignupTest.swift */,
 				59FC6E9A2321BA4A00673513 /* Info.plist */,
+				591EFB4623706326000062A9 /* DataBaseTest.swift */,
 			);
 			path = PhotoMapTests;
 			sourceTree = "<group>";
@@ -773,6 +776,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				591EFB4723706326000062A9 /* DataBaseTest.swift in Sources */,
 				59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */,
 				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
 				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
