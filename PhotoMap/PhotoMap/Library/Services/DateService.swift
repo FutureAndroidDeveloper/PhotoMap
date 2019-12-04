@@ -32,19 +32,32 @@ class DateService {
     }
     
     func getLongDate(timestamp: Int, modifier: DateModifier) -> String {
+        if Double(timestamp) > Date().timeIntervalSince1970 {
+            return String()
+        }
+        
+        var ordinalDay: String?
         let date = Date(timeIntervalSince1970: Double(timestamp))
         let components = calendar.dateComponents([.day], from: date)
         numberFormatter.numberStyle = .ordinal
-        numberFormatter.locale = Locale(identifier: R.string.localizable.ordinalNumber())
         
-        let ordinalDay = numberFormatter.string(from: components.day! as NSNumber)
+        if let language = Locale.current.languageCode {
+            switch language {
+            case "ru":
+                ordinalDay = "\(components.day!)" + "е"
+            default:
+                numberFormatter.locale = Locale(identifier: R.string.localizable.ordinalNumber())
+                ordinalDay = numberFormatter.string(from: components.day! as NSNumber)
+            }
+        }
         dateFormatter.amSymbol = "am"
         dateFormatter.pmSymbol = "pm"
         dateFormatter.dateFormat = """
         LLLL '\(ordinalDay!)', yyyy '\(modifier.localizedString())' \(R.string.localizable.timeFormat())
         """
+        
         let dateString = dateFormatter.string(from: date)
-        let month = dateString.split(separator: " ").first!
+        let month = dateString.split(separator: " ").first ?? ""
         return dateString.replacingOccurrences(of: month, with: month.capitalized)
     }
     

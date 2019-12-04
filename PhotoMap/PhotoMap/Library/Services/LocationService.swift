@@ -10,8 +10,7 @@ import Foundation
 import CoreLocation
 import RxSwift
 
-class LocationService {
-    
+class LocationService: Authorizing {
     let locationManager = CLLocationManager()    
     
     var authorized: Observable<Bool> {

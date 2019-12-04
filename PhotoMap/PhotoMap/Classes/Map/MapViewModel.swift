@@ -43,8 +43,8 @@ class MapViewModel {
     let editablePost: Observable<PostAnnotation>
     
     // MARK: - Initialization
-    init(photoLibraryService: PhotoLibraryService = PhotoLibraryService(),
-         locationService: LocationService = LocationService(),
+    init(photoLibraryService: Authorizing = PhotoLibraryService(),
+         locationService: Authorizing = LocationService(),
          dateService: DateService = DateService(),
          firebaseService: FirebaseService = FirebaseService(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:

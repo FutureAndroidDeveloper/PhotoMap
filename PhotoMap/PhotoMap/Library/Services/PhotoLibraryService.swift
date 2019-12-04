@@ -10,8 +10,11 @@ import Foundation
 import Photos
 import RxSwift
 
-class PhotoLibraryService {
-    
+protocol Authorizing {
+    var authorized: Observable<Bool> { get }
+}
+
+class PhotoLibraryService: Authorizing {
     var authorized: Observable<Bool> {
         return Observable.create { observer in
             DispatchQueue.main.async {

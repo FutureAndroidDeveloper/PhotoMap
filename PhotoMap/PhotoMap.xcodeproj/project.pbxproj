@@ -34,6 +34,8 @@
 		593A055822F39F5500FCD118 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593A055722F39F5500FCD118 /* LocationService.swift */; };
 		593D193622FB97FB00B98E07 /* PostAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593D193522FB97FB00B98E07 /* PostAnnotationView.swift */; };
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
+		595A311323955FF0008845C0 /* PhotoLibaryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595A311223955FF0008845C0 /* PhotoLibaryServiceTests.swift */; };
+		595A3115239581F2008845C0 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595A3114239581F2008845C0 /* LocationServiceTests.swift */; };
 		59728E982319962500B3BEF5 /* SectionOfPostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */; };
 		5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024822FE218500A66145 /* FullPhotoCoordinator.swift */; };
 		5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024A22FE219C00A66145 /* FullPhotoViewController.swift */; };
@@ -42,6 +44,7 @@
 		5999CA912319BC7200610BB6 /* TimelineTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */; };
 		5999CA932319BE2200610BB6 /* TimelineTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */; };
 		599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599F5B4B2327175F000188E0 /* SignupTest.swift */; };
+		59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AB5660238EE0BB0076EBE3 /* TimelineTest.swift */; };
 		59ABFBEC231055F000C938AD /* PostClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ABFBEB231055F000C938AD /* PostClusterView.swift */; };
 		59BCB88E231F182F00C1DECA /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BCB88D231F182E00C1DECA /* R.generated.swift */; };
 		59BCB893231F193700C1DECA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59BCB895231F193700C1DECA /* Localizable.strings */; };
@@ -130,6 +133,8 @@
 		593A055722F39F5500FCD118 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		593D193522FB97FB00B98E07 /* PostAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAnnotationView.swift; sourceTree = "<group>"; };
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		595A311223955FF0008845C0 /* PhotoLibaryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibaryServiceTests.swift; sourceTree = "<group>"; };
+		595A3114239581F2008845C0 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfPostAnnotation.swift; sourceTree = "<group>"; };
 		5975024822FE218500A66145 /* FullPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoCoordinator.swift; sourceTree = "<group>"; };
 		5975024A22FE219C00A66145 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +143,7 @@
 		5999CA902319BC7200610BB6 /* TimelineTableHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimelineTableHeader.xib; sourceTree = "<group>"; };
 		5999CA922319BE2200610BB6 /* TimelineTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableHeader.swift; sourceTree = "<group>"; };
 		599F5B4B2327175F000188E0 /* SignupTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTest.swift; sourceTree = "<group>"; };
+		59AB5660238EE0BB0076EBE3 /* TimelineTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTest.swift; sourceTree = "<group>"; };
 		59ABFBEB231055F000C938AD /* PostClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostClusterView.swift; sourceTree = "<group>"; };
 		59BCB88D231F182E00C1DECA /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		59BCB890231F18F400C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -472,6 +478,9 @@
 				599F5B4B2327175F000188E0 /* SignupTest.swift */,
 				59FC6E9A2321BA4A00673513 /* Info.plist */,
 				591EFB4623706326000062A9 /* DataBaseTest.swift */,
+				59AB5660238EE0BB0076EBE3 /* TimelineTest.swift */,
+				595A311223955FF0008845C0 /* PhotoLibaryServiceTests.swift */,
+				595A3114239581F2008845C0 /* LocationServiceTests.swift */,
 			);
 			path = PhotoMapTests;
 			sourceTree = "<group>";
@@ -778,9 +787,12 @@
 			files = (
 				591EFB4723706326000062A9 /* DataBaseTest.swift in Sources */,
 				59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */,
+				595A3115239581F2008845C0 /* LocationServiceTests.swift in Sources */,
+				59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */,
 				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
 				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
 				59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */,
+				595A311323955FF0008845C0 /* PhotoLibaryServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
