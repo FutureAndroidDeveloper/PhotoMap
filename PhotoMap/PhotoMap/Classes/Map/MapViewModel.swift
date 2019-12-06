@@ -51,7 +51,7 @@ class MapViewModel {
          firebaseUploadDelegate: FirebaseUploading = FirebaseUploadDelegate(),
          firebaseDownloadDelegate: FirebaseDownloading = FirebaseDownloadDelegate(),
          firebaseRemoveDelegate: FirebaseRemovable = FirebaseRemoveDelegate(),
-         coreDataService: CoreDataService = CoreDataService(appDelegate:
+         coreDataService: DataBase = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
         
         firebaseService.setNotificationDelegate(firebaseNotificationDelegate)
@@ -142,7 +142,7 @@ class MapViewModel {
         var visiblePosts = [PostAnnotation]()
         
         // remove old posts then user connects to application
-        _ = coreDataService.fetch()
+        _ = coreDataService.fetch(without: [])
             .flatMap { firebaseService.removeOldPost(posts: $0) }
             .do(onNext: { post in
                 coreDataService.removePostFromCoredata(post)

@@ -12,6 +12,7 @@ enum FirebaseError: Error {
     case badImage
     case badJson
     case badCategory
+    case serializationError
 }
 
 extension FirebaseError: LocalizedError {
@@ -23,6 +24,8 @@ extension FirebaseError: LocalizedError {
             return NSLocalizedString("Unkown category", comment: "FirebaseError")
         case .badJson:
             return NSLocalizedString("Unkown JSON", comment: "FirebaseError")
+        case .serializationError:
+            return NSLocalizedString("Serialization Error", comment: "FirebaseError")
         }
     }
 }

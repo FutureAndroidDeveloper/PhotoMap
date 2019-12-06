@@ -69,3 +69,6 @@
 "friends" = "friends";
 "default" = "default";
 "nature" = "nature";
+
+// Error
+"data base duplicate" = "Trying to save duplicate to database";

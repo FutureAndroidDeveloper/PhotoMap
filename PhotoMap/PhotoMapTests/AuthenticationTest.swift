@@ -117,7 +117,7 @@ class AuthenticationTest: XCTestCase {
     
     func testSignInError() throws {
         let errorMessage = scheduler.createObserver(String.self)
-        let expectedErrorMessage = "The password is invalid or the user does not have a password."
+        let expectedErrorMessage = R.string.localizable.signInError()
         
         viewModel.error
             .bind(to: errorMessage)

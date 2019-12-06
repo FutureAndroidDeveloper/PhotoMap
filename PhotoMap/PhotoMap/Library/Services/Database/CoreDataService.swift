@@ -1,8 +1,8 @@
 //
-//  CoreDataService.swift
+//  NewCoreDataService.swift
 //  PhotoMap
 //
-//  Created by Kiryl Klimiankou on 8/27/19.
+//  Created by Kiryl Klimiankou on 12/6/19.
 //  Copyright © 2019 Kiryl Klimiankou. All rights reserved.
 //
 
@@ -11,11 +11,7 @@ import CoreData
 import CoreLocation
 import RxSwift
 
-enum CoreDataError: Error {
-    case duplicate
-}
-
-class CoreDataService {
+class CoreDataService: DataBase {
     private let appDelegate: AppDelegate!
     
     init(appDelegate: AppDelegate) {
@@ -27,8 +23,8 @@ class CoreDataService {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
             if !self.isUnique(postAnnotation: postAnnotation) {
-                completable(.completed)
-                 return Disposables.create()
+                completable(.error(CoreDataError.duplicate(type: PostAnnotation.self)))
+                return Disposables.create()
             }
             let managedContext = self.appDelegate.persistentContainer.viewContext
             let entity = NSEntityDescription.entity(forEntityName: "Post", in: managedContext)!
@@ -48,7 +44,6 @@ class CoreDataService {
                 completable(.completed)
             } catch let error as NSError {
                 completable(.error(error))
-                completable(.completed)
             }
             return Disposables.create()
         }
@@ -59,7 +54,7 @@ class CoreDataService {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
             if !self.isUnique(category: category) {
-                completable(.error(CoreDataError.duplicate))
+                completable(.error(CoreDataError.duplicate(type: PhotoCategory.self)))
                 return Disposables.create()
             }
             
@@ -74,9 +69,7 @@ class CoreDataService {
                 try managedContext.save()
                 completable(.completed)
             } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
                 completable(.error(error))
-                completable(.completed)
             }
             return Disposables.create()
         }
@@ -85,7 +78,6 @@ class CoreDataService {
     func fetch(without categories: [String] = []) -> Observable<[PostAnnotation]> {
         return Observable.create { [weak self] observer  in
             guard let self = self else { return Disposables.create() }
-            
             let managedContext = self.appDelegate.persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
             var subpredicates = [NSPredicate]()
@@ -113,7 +105,6 @@ class CoreDataService {
                 }
             } catch let error as NSError {
                 observer.onError(error)
-                observer.onCompleted()
             }
             observer.onNext(posts)
             observer.onCompleted()
@@ -132,8 +123,8 @@ class CoreDataService {
                 let results = try managedContext.fetch(fetchRequest)
                 for result in results {
                     let category = PhotoCategory(hexColor: result.value(forKey: "hexColor") as! String,
-                                            engName: result.value(forKey: "engName") as! String,
-                                            ruName: result.value(forKey: "ruName") as! String)
+                                                 engName: result.value(forKey: "engName") as! String,
+                                                 ruName: result.value(forKey: "ruName") as! String)
                     categories.append(category)
                 }
             } catch let error as NSError {
@@ -145,17 +136,53 @@ class CoreDataService {
         }
     }
     
-    func isUnique(postAnnotation: PostAnnotation) -> Bool {
-        let context = appDelegate.persistentContainer.viewContext
-        let myRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
-        myRequest.predicate = NSPredicate(format: "imageUrl = %@", postAnnotation.imageUrl!)
-        
-        do {
-            let result = try context.fetch(myRequest)
-            return result.isEmpty
-        } catch let error {
-            print(error)
-            return false
+    func removePostFromCoredata(_ post: PostAnnotation) -> Observable<PostAnnotation?> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            let context = self.appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
+            let predicate = NSPredicate(format: "imageUrl == %@", post.imageUrl ?? "")
+            fetchRequest.predicate = predicate
+            var removedPost: PostAnnotation?
+            
+            do {
+                let posts = try context.fetch(fetchRequest)
+                for fetchedPost in posts {
+                    context.delete(fetchedPost)
+                    removedPost = post
+                }
+                try context.save()
+            } catch {
+                observer.onError(error)
+            }
+            observer.onNext(removedPost)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+    }
+    
+    func removeCategoryFromCoredata(_ category: PhotoCategory) -> Observable<PhotoCategory?> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else { return Disposables.create() }
+            let context = self.appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
+            let predicate = NSPredicate(format: "hexColor == %@", category.hexColor)
+            fetchRequest.predicate = predicate
+            var removedCategory: PhotoCategory?
+            
+            do {
+                let categories = try context.fetch(fetchRequest)
+                for oldCategory in categories {
+                    context.delete(oldCategory)
+                    removedCategory = category
+                }
+                try context.save()
+            } catch {
+                observer.onError(error)
+            }
+            observer.onNext(removedCategory)
+            observer.onCompleted()
+            return Disposables.create()
         }
     }
     
@@ -178,46 +205,17 @@ class CoreDataService {
         }
     }
     
-    func removePostFromCoredata(_ post: PostAnnotation) -> PostAnnotation? {
+    func isUnique(postAnnotation: PostAnnotation) -> Bool {
         let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
-        let predicate = NSPredicate(format: "imageUrl == %@", post.imageUrl ?? "")
-        fetchRequest.predicate = predicate
-        var removedPost: PostAnnotation?
+        let myRequest = NSFetchRequest<NSManagedObject>(entityName: "Post")
+        myRequest.predicate = NSPredicate(format: "imageUrl = %@", postAnnotation.imageUrl!)
         
         do {
-            let posts = try context.fetch(fetchRequest)
-            
-            for fetchedPost in posts {
-                context.delete(fetchedPost)
-                removedPost = post
-            }
-            try context.save()
-        } catch {
-            // TODO: - Handle error (show in allert)
+            let result = try context.fetch(myRequest)
+            return result.isEmpty
+        } catch let error {
             print(error)
-            return nil
-            
-        }
-        
-        return removedPost
-    }
-    
-    func removeCategoryFromCoredata(_ category: PhotoCategory) {
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
-        let predicate = NSPredicate(format: "hexColor == %@", category.hexColor)
-        fetchRequest.predicate = predicate
-        
-        do {
-            let categories = try context.fetch(fetchRequest)
-            for oldCategory in categories {
-                context.delete(oldCategory)
-            }
-            try context.save()
-        } catch {
-            print(error)
+            return false
         }
     }
-
 }

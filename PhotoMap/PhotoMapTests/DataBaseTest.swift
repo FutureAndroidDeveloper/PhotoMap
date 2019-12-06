@@ -39,7 +39,10 @@ class DataBaseTest: XCTestCase {
         // 3
         let testPost = PostAnnotation(date: 0, hexColor: "test", category: "test", postDescription: nil, imageUrl: nil, userId: "test", coordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0))
         
-        XCTAssertNil(dataBase.removePostFromCoredata(testPost))
+         dataBase.removePostFromCoredata(testPost)
+            .subscribe(onNext: { post in
+                XCTAssertNil(post)
+            }).disposed(by: bag)
     }
     
     func testRemovePost() {
@@ -48,9 +51,13 @@ class DataBaseTest: XCTestCase {
         let testPost = PostAnnotation(date: 0, hexColor: "test", category: "test", postDescription: "test", imageUrl: imageURL, userId: "test", coordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0))
         
         dataBase.save(postAnnotation: testPost)
-            .subscribe(onCompleted: { [weak self] in
-                guard let self = self else { return }
-                XCTAssertEqual(self.dataBase.removePostFromCoredata(testPost), testPost)
+            .asObservable()
+            .flatMap { [unowned self] _ in
+                self.dataBase.removePostFromCoredata(testPost)
+            }
+            .compactMap { $0 }
+            .subscribe(onNext: { removedPost in
+                XCTAssertEqual(removedPost, testPost)
             })
             .disposed(by: bag)
     }
@@ -114,7 +121,7 @@ class DataBaseTest: XCTestCase {
         
         // delete all categories
         for category in allCategories {
-            dataBase.removeCategoryFromCoredata(category)
+            dataBase.removeCategoryFromCoredata(category).take(1).subscribe().dispose()
         }
         
         // fetch empty DB
@@ -132,6 +139,7 @@ class DataBaseTest: XCTestCase {
     func testDuplicateCategory() {
         // 2
         var test = PhotoCategory(hexColor: "Test", engName: "Test", ruName: "Test")
+        let expectedErrorMessage = CoreDataError.duplicate(type: PhotoCategory.self).localizedDescription
         
         dataBase.fetch()
             .subscribe(onNext: { categories in
@@ -141,8 +149,8 @@ class DataBaseTest: XCTestCase {
             .disposed(by: bag)
 
         dataBase.save(category: test)
-            .subscribe(onCompleted: {}, onError: { error in 
-                XCTAssertEqual(error.localizedDescription, CoreDataError.duplicate.localizedDescription)
+            .subscribe(onCompleted: {}, onError: { error in
+                XCTAssertEqual(error.localizedDescription, expectedErrorMessage)
             })
             .disposed(by: bag)
     }
