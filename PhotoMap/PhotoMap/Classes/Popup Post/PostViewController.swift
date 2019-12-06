@@ -22,7 +22,7 @@ class PostViewController: UIViewController, StoryboardInitializable {
     private let imageTapGesture = UITapGestureRecognizer()
     private let pickerView = UIPickerView()
     private let searchBar = UISearchBar()
-    private var selectedCategory: Category!
+    private var selectedCategory: PhotoCategory!
     private var editablePost: PostAnnotation?
     
     private var adapter = PickerViewViewAdapter()
@@ -35,7 +35,7 @@ class PostViewController: UIViewController, StoryboardInitializable {
             .bind(to: viewModel.searchText)
             .disposed(by: bag)
         
-        pickerView.rx.modelSelected(Category.self)
+        pickerView.rx.modelSelected(PhotoCategory.self)
             .compactMap { $0.first }
             .subscribe(onNext: { [weak self] category in
                 guard let self = self else { return }

@@ -36,6 +36,13 @@
 		5944D44F22F0C8790049F1D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */; };
 		595A311323955FF0008845C0 /* PhotoLibaryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595A311223955FF0008845C0 /* PhotoLibaryServiceTests.swift */; };
 		595A3115239581F2008845C0 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595A3114239581F2008845C0 /* LocationServiceTests.swift */; };
+		596124202397CB8B00C4EA5B /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5961241F2397CB8B00C4EA5B /* FirebaseError.swift */; };
+		596124232397CFFD00C4EA5B /* FirebaseAuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596124222397CFFD00C4EA5B /* FirebaseAuthDelegate.swift */; };
+		596124252397D6E500C4EA5B /* FirebaseReferencess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596124242397D6E500C4EA5B /* FirebaseReferencess.swift */; };
+		596124272397DA6900C4EA5B /* FirebaseUploadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596124262397DA6900C4EA5B /* FirebaseUploadDelegate.swift */; };
+		596124292397E4FB00C4EA5B /* FirebaseDownloadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596124282397E4FB00C4EA5B /* FirebaseDownloadDelegate.swift */; };
+		5961242B2397E9DB00C4EA5B /* FirebaseNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5961242A2397E9DB00C4EA5B /* FirebaseNotificationDelegate.swift */; };
+		5961242D2397EC5C00C4EA5B /* FirebaseRemoveDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5961242C2397EC5C00C4EA5B /* FirebaseRemoveDelegate.swift */; };
 		59728E982319962500B3BEF5 /* SectionOfPostAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */; };
 		5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024822FE218500A66145 /* FullPhotoCoordinator.swift */; };
 		5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5975024A22FE219C00A66145 /* FullPhotoViewController.swift */; };
@@ -52,6 +59,7 @@
 		59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */; };
 		59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1623231557008D5B06 /* AuthenticationTest.swift */; };
 		59CEAC1923231ABB008D5B06 /* ValidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1823231ABB008D5B06 /* ValidateService.swift */; };
+		59D1450C239A558200ABDF85 /* FirebaseSigInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D1450B239A558200ABDF85 /* FirebaseSigInTests.swift */; };
 		59D74BFC2304BD6700C5E7FD /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */; };
 		59D74BFE2304BD7400C5E7FD /* AuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */; };
 		59D74C002304BD7E00C5E7FD /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */; };
@@ -83,7 +91,7 @@
 		59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FC6E982321BA4A00673513 /* PhotoMapTests.swift */; };
 		59FD131423302F0C00E76BFE /* CategoryMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FD131323302F0C00E76BFE /* CategoryMarker.swift */; };
 		59FD131623302F2B00E76BFE /* CategoryMarker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59FD131523302F2B00E76BFE /* CategoryMarker.xib */; };
-		59FD131823303CC300E76BFE /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FD131723303CC300E76BFE /* Category.swift */; };
+		59FD131823303CC300E76BFE /* PhotoCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FD131723303CC300E76BFE /* PhotoCategory.swift */; };
 		59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */; };
 		59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */; };
 		59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF9122F27BD0004178AC /* MapViewModel.swift */; };
@@ -135,6 +143,13 @@
 		5944D44E22F0C8790049F1D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		595A311223955FF0008845C0 /* PhotoLibaryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibaryServiceTests.swift; sourceTree = "<group>"; };
 		595A3114239581F2008845C0 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
+		5961241F2397CB8B00C4EA5B /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
+		596124222397CFFD00C4EA5B /* FirebaseAuthDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthDelegate.swift; sourceTree = "<group>"; };
+		596124242397D6E500C4EA5B /* FirebaseReferencess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseReferencess.swift; sourceTree = "<group>"; };
+		596124262397DA6900C4EA5B /* FirebaseUploadDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUploadDelegate.swift; sourceTree = "<group>"; };
+		596124282397E4FB00C4EA5B /* FirebaseDownloadDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownloadDelegate.swift; sourceTree = "<group>"; };
+		5961242A2397E9DB00C4EA5B /* FirebaseNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNotificationDelegate.swift; sourceTree = "<group>"; };
+		5961242C2397EC5C00C4EA5B /* FirebaseRemoveDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRemoveDelegate.swift; sourceTree = "<group>"; };
 		59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfPostAnnotation.swift; sourceTree = "<group>"; };
 		5975024822FE218500A66145 /* FullPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoCoordinator.swift; sourceTree = "<group>"; };
 		5975024A22FE219C00A66145 /* FullPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPhotoViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +170,7 @@
 		59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateServiceTest.swift; sourceTree = "<group>"; };
 		59CEAC1623231557008D5B06 /* AuthenticationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTest.swift; sourceTree = "<group>"; };
 		59CEAC1823231ABB008D5B06 /* ValidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateService.swift; sourceTree = "<group>"; };
+		59D1450B239A558200ABDF85 /* FirebaseSigInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSigInTests.swift; sourceTree = "<group>"; };
 		59D74BFB2304BD6700C5E7FD /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		59D74BFD2304BD7400C5E7FD /* AuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		59D74BFF2304BD7E00C5E7FD /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
@@ -188,7 +204,7 @@
 		59FC6E9A2321BA4A00673513 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59FD131323302F0C00E76BFE /* CategoryMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMarker.swift; sourceTree = "<group>"; };
 		59FD131523302F2B00E76BFE /* CategoryMarker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryMarker.xib; sourceTree = "<group>"; };
-		59FD131723303CC300E76BFE /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		59FD131723303CC300E76BFE /* PhotoCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCategory.swift; sourceTree = "<group>"; };
 		59FEEF8D22F26D78004178AC /* UIImagePickerController+RxCreate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+RxCreate.swift"; sourceTree = "<group>"; };
 		59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Rx.swift"; sourceTree = "<group>"; };
 		59FEEF9122F27BD0004178AC /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -349,14 +365,37 @@
 		593A055422F363B500FCD118 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				596124212397CFE300C4EA5B /* Firebase */,
 				593A055722F39F5500FCD118 /* LocationService.swift */,
 				593A055522F363D900FCD118 /* PhotoLibraryService.swift */,
 				59FB8C1022F8C7E800F987EF /* DateService.swift */,
-				59D74C012304C3C600C5E7FD /* FirebaseService.swift */,
 				590A7C042315D1570010BEFC /* CoreDataService.swift */,
 				59CEAC1823231ABB008D5B06 /* ValidateService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		596124212397CFE300C4EA5B /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				596124242397D6E500C4EA5B /* FirebaseReferencess.swift */,
+				5961241F2397CB8B00C4EA5B /* FirebaseError.swift */,
+				59D74C012304C3C600C5E7FD /* FirebaseService.swift */,
+				5961242E2397ECB200C4EA5B /* Delegates */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		5961242E2397ECB200C4EA5B /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				596124222397CFFD00C4EA5B /* FirebaseAuthDelegate.swift */,
+				596124262397DA6900C4EA5B /* FirebaseUploadDelegate.swift */,
+				596124282397E4FB00C4EA5B /* FirebaseDownloadDelegate.swift */,
+				5961242A2397E9DB00C4EA5B /* FirebaseNotificationDelegate.swift */,
+				5961242C2397EC5C00C4EA5B /* FirebaseRemoveDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		5975024722FE216B00A66145 /* Full Photo */ = {
@@ -407,7 +446,7 @@
 			children = (
 				59728E972319962500B3BEF5 /* SectionOfPostAnnotation.swift */,
 				59E920B8232878B300BE7B69 /* ApplicationUser.swift */,
-				59FD131723303CC300E76BFE /* Category.swift */,
+				59FD131723303CC300E76BFE /* PhotoCategory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -481,6 +520,7 @@
 				59AB5660238EE0BB0076EBE3 /* TimelineTest.swift */,
 				595A311223955FF0008845C0 /* PhotoLibaryServiceTests.swift */,
 				595A3114239581F2008845C0 /* LocationServiceTests.swift */,
+				59D1450B239A558200ABDF85 /* FirebaseSigInTests.swift */,
 			);
 			path = PhotoMapTests;
 			sourceTree = "<group>";
@@ -720,6 +760,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				596124252397D6E500C4EA5B /* FirebaseReferencess.swift in Sources */,
 				59FB8C0922F89C5600F987EF /* PostViewModel.swift in Sources */,
 				59E24B9A23076ADC00DDE574 /* SignUpViewModel.swift in Sources */,
 				591C6DE22319AB8B00AB00B1 /* TimelineTableViewCell.swift in Sources */,
@@ -732,6 +773,7 @@
 				59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */,
 				593A055822F39F5500FCD118 /* LocationService.swift in Sources */,
 				59EC38C622F0CDB50034DFF4 /* BaseCoordinator.swift in Sources */,
+				596124232397CFFD00C4EA5B /* FirebaseAuthDelegate.swift in Sources */,
 				59FEEF8E22F26D78004178AC /* UIImagePickerController+RxCreate.swift in Sources */,
 				59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */,
 				59FB8C0D22F89D0D00F987EF /* PostView.swift in Sources */,
@@ -750,6 +792,7 @@
 				59E24B9823076ACF00DDE574 /* SignUpCoordinator.swift in Sources */,
 				590B675C22F0FE9100D439B0 /* TabBarCoordinator.swift in Sources */,
 				59FB8C0722F89C4A00F987EF /* PostViewController.swift in Sources */,
+				5961242B2397E9DB00C4EA5B /* FirebaseNotificationDelegate.swift in Sources */,
 				59E920B9232878B300BE7B69 /* ApplicationUser.swift in Sources */,
 				5975024922FE218500A66145 /* FullPhotoCoordinator.swift in Sources */,
 				59D74C022304C3C600C5E7FD /* FirebaseService.swift in Sources */,
@@ -758,8 +801,10 @@
 				590A7C032315CFB30010BEFC /* PhotoMap.xcdatamodeld in Sources */,
 				59DA4AB82302420B00843954 /* AdaptiveScrollView.swift in Sources */,
 				590B675622F0FD1E00D439B0 /* MoreViewController.swift in Sources */,
+				596124292397E4FB00C4EA5B /* FirebaseDownloadDelegate.swift in Sources */,
 				5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */,
-				59FD131823303CC300E76BFE /* Category.swift in Sources */,
+				596124202397CB8B00C4EA5B /* FirebaseError.swift in Sources */,
+				59FD131823303CC300E76BFE /* PhotoCategory.swift in Sources */,
 				59FB8C0B22F89C6100F987EF /* PostCoordinator.swift in Sources */,
 				59CEAC1923231ABB008D5B06 /* ValidateService.swift in Sources */,
 				590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */,
@@ -776,7 +821,9 @@
 				59FD131423302F0C00E76BFE /* CategoryMarker.swift in Sources */,
 				5975024B22FE219C00A66145 /* FullPhotoViewController.swift in Sources */,
 				590B675422F0FD0B00D439B0 /* TimelineViewController.swift in Sources */,
+				5961242D2397EC5C00C4EA5B /* FirebaseRemoveDelegate.swift in Sources */,
 				590B676022F103C400D439B0 /* TimelineCoordinator.swift in Sources */,
+				596124272397DA6900C4EA5B /* FirebaseUploadDelegate.swift in Sources */,
 				59E24B9623076ABC00DDE574 /* SignUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -789,6 +836,7 @@
 				59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */,
 				595A3115239581F2008845C0 /* LocationServiceTests.swift in Sources */,
 				59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */,
+				59D1450C239A558200ABDF85 /* FirebaseSigInTests.swift in Sources */,
 				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
 				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
 				59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */,

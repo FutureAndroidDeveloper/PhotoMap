@@ -29,9 +29,12 @@ class AuthenticationViewModel {
     let passwordError: Observable<String>
     let isPasswordHidden: Observable<Bool>
     
-    init(firebaseService: FirebaseService = FirebaseService(),
+    init(firebaseService: FirebaseDeleagate = FirebaseService(),
+         firebaseAuthDelegate: FirebaseAuthentication = FirebaseAuthDelegate(),
          validateService: ValidateService = ValidateService(),
          isHidden: Bool = true) {
+        
+        firebaseService.setAuthDelegate(firebaseAuthDelegate)
         
         let _tappedShowPassword = PublishSubject<Void>()
         tappedShowPassword = _tappedShowPassword.asObserver()
@@ -110,16 +113,18 @@ class AuthenticationViewModel {
             .flatMap { (email, password) in
                 firebaseService.signIn(withEmail: email, password: password)
             }
+            .catchErrorJustReturn(.init(id: String(), email: String()))
             .share(replay: 1)
         
         signInResult
-            .compactMap { $0 }
+            .filter { $0.email.isEmpty }
+            .map { _ in R.string.localizable.signInError() }
             .bind(to: _error)
             .disposed(by: bag)
         
         signIn = signInResult
+            .filter { !$0.email.isEmpty }
             .take(1)
-            .filter { $0 == nil }
             .map { _ in Void() }
     }
 }

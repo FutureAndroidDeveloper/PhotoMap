@@ -24,7 +24,7 @@ final class PickerViewViewAdapter
     }
     
     func model(at indexPath: IndexPath) throws -> Any {
-        return items[indexPath.section][indexPath.row] as! Category
+        return items[indexPath.section][indexPath.row] as! PhotoCategory
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -41,8 +41,8 @@ final class PickerViewViewAdapter
         label.numberOfLines = 2
 
         let categoryView = CategoryMarker(frame: CGRect(x: -10, y: 10, width: 50, height: 50))
-        categoryView.color = UIColor(hex: (items[component][row] as! Category).hexColor)!
-        label.text = (items[component][row] as! Category).description.uppercased()
+        categoryView.color = UIColor(hex: (items[component][row] as! PhotoCategory).hexColor)!
+        label.text = (items[component][row] as! PhotoCategory).description.uppercased()
         
         parentView.addSubview(label)
         parentView.addSubview(categoryView)

@@ -86,7 +86,7 @@ class DataBaseTest: XCTestCase {
     
     func testCorrectFetchCategories() {
         // 4
-        let newCategory = Category(hexColor: "Test", engName: "Test", ruName: "Test")
+        let newCategory = PhotoCategory(hexColor: "Test", engName: "Test", ruName: "Test")
         
         dataBase.save(category: newCategory)
             .andThen(dataBase.fetch())
@@ -102,7 +102,7 @@ class DataBaseTest: XCTestCase {
     
     func testEmptyCategoriesDB() {
         // 3
-        var allCategories = [Category(hexColor: "Test", engName: "Test", ruName: "Test")]
+        var allCategories = [PhotoCategory(hexColor: "Test", engName: "Test", ruName: "Test")]
         allCategories.removeAll()
         
         dataBase.fetch()
@@ -131,7 +131,7 @@ class DataBaseTest: XCTestCase {
     
     func testDuplicateCategory() {
         // 2
-        var test = Category(hexColor: "Test", engName: "Test", ruName: "Test")
+        var test = PhotoCategory(hexColor: "Test", engName: "Test", ruName: "Test")
         
         dataBase.fetch()
             .subscribe(onNext: { categories in
@@ -149,7 +149,7 @@ class DataBaseTest: XCTestCase {
     
     func testCorrectCategorySave() {
         // 3
-        var newCategory = Category(hexColor: "Test Temp Category",
+        var newCategory = PhotoCategory(hexColor: "Test Temp Category",
                                    engName: "Test Temp Category",
                                    ruName: "Test Temp Category")
         

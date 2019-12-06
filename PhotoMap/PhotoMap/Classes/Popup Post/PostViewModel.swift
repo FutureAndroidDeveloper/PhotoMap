@@ -27,17 +27,16 @@ class PostViewModel {
     let date: Observable<String>
     let didCancel: Observable<Void>
     let post: Observable<PostAnnotation>
-    let categories: Observable<[Category]>
+    let categories: Observable<[PhotoCategory]>
     let showFullPhoto: Observable<PostAnnotation>
     let timestamp: Observable<Int>
-    let filteredCategories: Observable<[Category]>
+    let filteredCategories: Observable<[PhotoCategory]>
     let editablePostSelected: Observable<PostAnnotation>
-    let editableCategory: Observable<Category>
+    let editableCategory: Observable<PhotoCategory>
     
     init(dateService: DateService = DateService(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:
-        UIApplication.shared.delegate as! AppDelegate),
-         firebaseService: FirebaseService = FirebaseService()) {
+        UIApplication.shared.delegate as! AppDelegate)) {
         
         let _didSelectedImage = ReplaySubject<UIImage>.create(bufferSize: 1)
         didSelectedImage = _didSelectedImage.asObserver()
@@ -59,13 +58,13 @@ class PostViewModel {
         fullPhotoTapped = _fullPhoto.asObserver()
         showFullPhoto = _fullPhoto.asObservable()
 
-        let _categories = ReplaySubject<[Category]>.create(bufferSize: 1)
+        let _categories = ReplaySubject<[PhotoCategory]>.create(bufferSize: 1)
         categories = _categories.asObservable()
         
         let _searchText = PublishSubject<String?>()
         searchText = _searchText.asObserver()
         
-        let _filteredCategories = PublishSubject<[Category]>()
+        let _filteredCategories = PublishSubject<[PhotoCategory]>()
         filteredCategories = _filteredCategories.asObservable()
 
         let _creationDate = ReplaySubject<Date>.create(bufferSize: 1)
@@ -77,7 +76,7 @@ class PostViewModel {
         timestamp = _creationDate.asObservable()
             .map { Int($0.timeIntervalSince1970) }
         
-        var allCategories = [Category]()
+        var allCategories = [PhotoCategory]()
         
         coreDataService.fetch()
             .map { $0.sorted(by: <) }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Category: Codable {
+struct PhotoCategory: Codable {
     let hexColor: String
     let engName: String
     let ruName: String
@@ -20,15 +20,15 @@ struct Category: Codable {
     }
 }
 
-extension Category: Equatable {
-    static func == (lhs: Category, rhs: Category) -> Bool {
+extension PhotoCategory: Equatable {
+    static func == (lhs: PhotoCategory, rhs: PhotoCategory) -> Bool {
         return lhs.engName == rhs.engName &&
             lhs.ruName == rhs.ruName &&
             lhs.hexColor == rhs.hexColor
     }
 }
 
-extension Category: CustomStringConvertible {
+extension PhotoCategory: CustomStringConvertible {
     var description: String {
         if let language = Locale.current.languageCode {
             switch language {
@@ -40,8 +40,8 @@ extension Category: CustomStringConvertible {
     }
 }
 
-extension Category: Comparable {
-    static func < (lhs: Category, rhs: Category) -> Bool {
+extension PhotoCategory: Comparable {
+    static func < (lhs: PhotoCategory, rhs: PhotoCategory) -> Bool {
         var result = false
         
         if let language = Locale.current.languageCode {
@@ -55,7 +55,7 @@ extension Category: Comparable {
     
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than or equal to that of the second argument.
-    static func <= (lhs: Category, rhs: Category) -> Bool {
+    static func <= (lhs: PhotoCategory, rhs: PhotoCategory) -> Bool {
         var result = false
         
         if let language = Locale.current.languageCode {
@@ -69,7 +69,7 @@ extension Category: Comparable {
     
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than or equal to that of the second argument.
-    static func >= (lhs: Category, rhs: Category) -> Bool {
+    static func >= (lhs: PhotoCategory, rhs: PhotoCategory) -> Bool {
         var result = false
         
         if let language = Locale.current.languageCode {
@@ -83,7 +83,7 @@ extension Category: Comparable {
     
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is greater than that of the second argument.
-    static func > (lhs: Category, rhs: Category) -> Bool {
+    static func > (lhs: PhotoCategory, rhs: PhotoCategory) -> Bool {
         var result = false
         
         if let language = Locale.current.languageCode {

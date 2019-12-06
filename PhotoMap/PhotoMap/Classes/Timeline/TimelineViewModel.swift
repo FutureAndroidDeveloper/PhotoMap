@@ -30,10 +30,14 @@ class TimelineViewModel {
     let sections: Observable<[SectionOfPostAnnotation]>
     let selectedPost: Observable<PostAnnotation>
     
-    init(firebaseService: FirebaseService = FirebaseService(),
+    init(firebaseService: FirebaseDeleagate = FirebaseService(),
+         firebaseDownloadDelegate: FirebaseDownloading = FirebaseDownloadDelegate(),
          dateService: DateService = DateService(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
+        
+        firebaseService.setDownloadDelegate(firebaseDownloadDelegate)
+        
         self.dateService = dateService
         self.coreDataService = coreDataService
         

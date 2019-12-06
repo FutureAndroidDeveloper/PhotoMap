@@ -54,14 +54,12 @@ class CoreDataService {
         }
     }
     
-    // WHY????????
-    func save(category: Category) -> Completable {
+    func save(category: PhotoCategory) -> Completable {
         // save new category to Core Data
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
             if !self.isUnique(category: category) {
                 completable(.error(CoreDataError.duplicate))
-//                completable(.completed)
                 return Disposables.create()
             }
             
@@ -123,17 +121,17 @@ class CoreDataService {
         }
     }
     
-    func fetch() -> Observable<[Category]> {
+    func fetch() -> Observable<[PhotoCategory]> {
         return Observable.create { [weak self] observer  in
             guard let self = self else { return Disposables.create() }
             let managedContext = self.appDelegate.persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
-            var categories = [Category]()
+            var categories = [PhotoCategory]()
             
             do {
                 let results = try managedContext.fetch(fetchRequest)
                 for result in results {
-                    let category = Category(hexColor: result.value(forKey: "hexColor") as! String,
+                    let category = PhotoCategory(hexColor: result.value(forKey: "hexColor") as! String,
                                             engName: result.value(forKey: "engName") as! String,
                                             ruName: result.value(forKey: "ruName") as! String)
                     categories.append(category)
@@ -161,8 +159,7 @@ class CoreDataService {
         }
     }
     
-    // WHY????????
-    func isUnique(category: Category) -> Bool {
+    func isUnique(category: PhotoCategory) -> Bool {
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
         var subpredicates = [NSPredicate]()
@@ -206,7 +203,7 @@ class CoreDataService {
         return removedPost
     }
     
-    func removeCategoryFromCoredata(_ category: Category) {
+    func removeCategoryFromCoredata(_ category: PhotoCategory) {
         let context = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Categories")
         let predicate = NSPredicate(format: "hexColor == %@", category.hexColor)

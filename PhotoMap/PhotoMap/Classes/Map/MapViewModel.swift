@@ -46,9 +46,18 @@ class MapViewModel {
     init(photoLibraryService: Authorizing = PhotoLibraryService(),
          locationService: Authorizing = LocationService(),
          dateService: DateService = DateService(),
-         firebaseService: FirebaseService = FirebaseService(),
+         firebaseService: FirebaseDeleagate = FirebaseService(),
+         firebaseNotificationDelegate: FirebaseNotification = FirebaseNotificationDelegate(),
+         firebaseUploadDelegate: FirebaseUploading = FirebaseUploadDelegate(),
+         firebaseDownloadDelegate: FirebaseDownloading = FirebaseDownloadDelegate(),
+         firebaseRemoveDelegate: FirebaseRemovable = FirebaseRemoveDelegate(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
+        
+        firebaseService.setNotificationDelegate(firebaseNotificationDelegate)
+        firebaseService.setUploadDelegate(firebaseUploadDelegate)
+        firebaseService.setDownloadDelegate(firebaseDownloadDelegate)
+        firebaseService.setRemoveDelegate(firebaseRemoveDelegate)
         
         let _locationButtonTapped = PublishSubject<Void>()
         locationButtonTapped = _locationButtonTapped.asObserver()
@@ -102,14 +111,14 @@ class MapViewModel {
         let _removePost = PublishSubject<PostAnnotation>()
         removePostTapped = _removePost.asObserver()
 
-        _ = firebaseService.categoryAdded()
+        _ = firebaseService.categoryDidAdded()
             .flatMap { coreDataService.save(category: $0).andThen(Observable.just($0)) }
             .subscribe(onNext: { category in
                 print(category.engName)
             })
         
         // I can add removed category to ignore list
-        _ = firebaseService.categoryRemoved()
+        _ = firebaseService.categoryDidRemoved()
             .subscribe(onNext: { category in
                 coreDataService.removeCategoryFromCoredata(category)
             })
@@ -123,8 +132,9 @@ class MapViewModel {
             .disposed(by: disposebag)
         
         _removePost
+            .flatMap { firebaseService.removeIncorrectPost($0) }
             .subscribe(onNext: { (post) in
-                firebaseService.removeIncorrectPost(post)
+                //
             })
             .disposed(by: disposebag)
         
@@ -165,12 +175,12 @@ class MapViewModel {
         
         _coordinateInterval
             .flatMapLatest { region in
-                firebaseService.download(region: region,
-                                         uncheckedCategories: defaults.array(forKey: "savedCategories") as? [String] ?? [],
-                                         coreDataService: coreDataService)
+                firebaseService.download(in: region,
+                                         uncheckedCategories: defaults.array(forKey: "savedCategories") as? [String] ?? [])
             }
-            .flatMap { loadedPosts -> Observable<PostAnnotation> in
-                guard let loadedPost = loadedPosts.first else { return .empty() }
+            .compactMap { $0.first }
+            .filter { coreDataService.isUnique(postAnnotation: $0) }
+            .flatMap { loadedPost -> Observable<PostAnnotation> in
                 return coreDataService.save(postAnnotation: loadedPost)
                     .andThen(Observable.just(loadedPost))
             }

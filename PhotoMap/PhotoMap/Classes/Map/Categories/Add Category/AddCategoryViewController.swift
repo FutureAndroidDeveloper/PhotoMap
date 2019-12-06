@@ -119,9 +119,9 @@ class AddCategoryViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
         
         addButton.rx.tap
-            .map { [weak self] _ -> Category? in
+            .map { [weak self] _ -> PhotoCategory? in
                 guard let self = self else { return nil }
-                return Category(hexColor: self.colorPicker.hexLabel.text!,
+                return PhotoCategory(hexColor: self.colorPicker.hexLabel.text!,
                          engName: self.engCategoryTextField.text!,
                          ruName: self.ruCategoryTextField.text!)
             }

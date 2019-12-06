@@ -22,7 +22,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     private var doneButton: UIBarButtonItem!
     private var addCategory: UIBarButtonItem!
     private let defaults = UserDefaults.standard
-    private var categories: [Category]!
+    private var categories: [PhotoCategory]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +91,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
             .disposed(by: bag)
     }
     
-    private func configureCategoriesState(_ categories: [Category]) {
+    private func configureCategoriesState(_ categories: [PhotoCategory]) {
         let uncheckedCategories = defaults.object(forKey: "savedCategories") as? [String] ?? []
         categoriesStackView.subviews
             .compactMap { $0 as? CheckBox}
@@ -110,7 +110,7 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
         selectButton.isSelected = selectButtonState
     }
     
-    private func setupCategories(categories: [Category]) {
+    private func setupCategories(categories: [PhotoCategory]) {
         self.categoriesStackView.subviews.forEach { view in
             view.removeFromSuperview()
         }

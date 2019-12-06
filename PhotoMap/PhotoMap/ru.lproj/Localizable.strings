@@ -58,6 +58,7 @@
 "Not match" = "Пароли не совпадают";
 "Repeat password placeholder" = "Повторите Пароль";
 "Repeat password title" = "Повторите Ваш Пароль";
+"Sign in error" = "Проверьте правильность введенных данных или повторите попытку позже";
 
 // Date Service
 "at" = "в";

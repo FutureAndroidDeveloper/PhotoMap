@@ -19,7 +19,7 @@ class AddCategoryViewModel {
     let ruCategory: AnyObserver<String?>
     let engCategoryEditingDidEnd: AnyObserver<String?>
     let ruCategoryEditingDidEnd: AnyObserver<String?>
-    let addNewCategory: AnyObserver<Category?>
+    let addNewCategory: AnyObserver<PhotoCategory?>
     
     // MARK: - Output
     let newColor: Observable<UIColor>
@@ -32,9 +32,12 @@ class AddCategoryViewModel {
     let showError: Observable<String>
     
     init(validateService: ValidateService = ValidateService(),
-         firebaseService: FirebaseService = FirebaseService(),
+         firebaseService: FirebaseDeleagate = FirebaseService(),
+         firebaseUploadDelegate: FirebaseUploading = FirebaseUploadDelegate(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
+        
+        firebaseService.setUploadDelegate(firebaseUploadDelegate)
         
         let _engCategory = PublishSubject<String?>()
         engCategory = _engCategory.asObserver()
@@ -54,7 +57,7 @@ class AddCategoryViewModel {
         let _ruCategoryEditingDidEnd = PublishSubject<String?>()
         ruCategoryEditingDidEnd = _ruCategoryEditingDidEnd.asObserver()
         
-        let _addNewCategory = PublishSubject<Category?>()
+        let _addNewCategory = PublishSubject<PhotoCategory?>()
         addNewCategory = _addNewCategory.asObserver()
         
         let _isLoading = PublishSubject<Bool>()
@@ -78,7 +81,7 @@ class AddCategoryViewModel {
             .filter { $0 }
             .withLatestFrom(_addNewCategory)
             .compactMap { $0 }
-            .flatMap { firebaseService.addNewCategory($0).take(1) }
+            .flatMap { firebaseService.addNewCategory($0) }
             .subscribe(onNext: { _ in
                 _isLoading.onNext(false)
             }, onError: { error in

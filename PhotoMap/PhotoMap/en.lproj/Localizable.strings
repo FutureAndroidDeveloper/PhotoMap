@@ -58,6 +58,7 @@
 "Not match" = "Passwords do not match";
 "Repeat password placeholder" = "Repeat password";
 "Repeat password title" = "Repeat your password";
+"Sign in error" = "Please check your entries or try again later";
 
 // Date Service
 "at" = "at";

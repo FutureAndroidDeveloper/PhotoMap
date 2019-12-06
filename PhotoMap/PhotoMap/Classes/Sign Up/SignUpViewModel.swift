@@ -32,9 +32,12 @@ class SignUpViewModel {
     let repeatPasswordError: Observable<String>
     let isPasswordHidden: Observable<Bool>
     
-    init(firebaseService: FirebaseService = FirebaseService(),
+    init(firebaseService: FirebaseDeleagate = FirebaseService(),
+         firebaseAuthDelegate: FirebaseAuthentication = FirebaseAuthDelegate(),
          validateService: ValidateService = ValidateService(),
          isHidden: Bool = true) {
+        
+        firebaseService.setAuthDelegate(firebaseAuthDelegate)
         
         let _tappedShowPassword = PublishSubject<Void>()
         tappedShowPassword = _tappedShowPassword.asObserver()
@@ -166,12 +169,15 @@ class SignUpViewModel {
             .share(replay: 1)
         
         signUpResult
-            .compactMap { $0 }
+            .catchError { error -> Observable<ApplicationUser> in
+                return Observable.just(ApplicationUser(id: error.localizedDescription,
+                                                       email: error.localizedDescription))
+            }
+            .map { $0.email }
             .bind(to: _error)
             .disposed(by: bag)
         
         create = signUpResult
-            .filter { $0 == nil }
             .take(1)
             .map { _ in Void() }
     }

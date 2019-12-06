@@ -19,15 +19,21 @@ class CategoriesViewModel {
     let removeCategory: AnyObserver<String>
     
     // MARK: - Output
-    let categories: Observable<[Category]>
+    let categories: Observable<[PhotoCategory]>
     let didCancel: Observable<Void>
     let addCategoryTapped: Observable<Void>
-    let filteredCategories: Observable<[Category]>
+    let filteredCategories: Observable<[PhotoCategory]>
     
-    init(firebaseService: FirebaseService = FirebaseService(),
+    init(firebaseService: FirebaseDeleagate = FirebaseService(),
+         firebaseNotificationDelegate: FirebaseNotification = FirebaseNotificationDelegate(),
+         firebaseRemoveDelegate: FirebaseRemovable = FirebaseRemoveDelegate(),
          coreDataService: CoreDataService = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
-        let _categories = ReplaySubject<[Category]>.create(bufferSize: 1)
+        
+        firebaseService.setNotificationDelegate(firebaseNotificationDelegate)
+        firebaseService.setRemoveDelegate(firebaseRemoveDelegate)
+        
+        let _categories = ReplaySubject<[PhotoCategory]>.create(bufferSize: 1)
         categories = _categories.asObservable()
         
         let _done = PublishSubject<Void>()
@@ -41,7 +47,7 @@ class CategoriesViewModel {
         let _searchText = PublishSubject<String>()
         searchText = _searchText.asObserver()
         
-        let _filteredCategories = PublishSubject<[Category]>()
+        let _filteredCategories = PublishSubject<[PhotoCategory]>()
         filteredCategories = _filteredCategories.asObservable()
         
         let _removeCategory = PublishSubject<String>()
@@ -51,7 +57,7 @@ class CategoriesViewModel {
             
         search
             .filter { !$0.0.isEmpty }
-            .map { searchText, allCategories -> [Category] in
+            .map { searchText, allCategories -> [PhotoCategory] in
                 allCategories.filter { category in
                     category.engName.lowercased().contains(searchText.lowercased()) ||
                         category.ruName.lowercased().contains(searchText.lowercased())
@@ -66,11 +72,11 @@ class CategoriesViewModel {
             .bind(to: _filteredCategories)
             .disposed(by: bag)
         
-        var fetchedCategories = [Category]()
+        var fetchedCategories = [PhotoCategory]()
         
-        firebaseService.categoryAdded()
+        firebaseService.categoryDidAdded()
             .do(onNext: { fetchedCategories.append($0) })
-            .map { [weak self] _ -> [Category] in
+            .map { [weak self] _ -> [PhotoCategory] in
                 guard let self = self else { return [] }
                 return self.sortCategoriesWithLocale(fetchedCategories)
             }
@@ -78,7 +84,7 @@ class CategoriesViewModel {
             .disposed(by: bag)
         
         _removeCategory
-            .map { categoryName -> Category? in
+            .map { categoryName -> PhotoCategory? in
                 if let language = Locale.current.languageCode {
                     switch language {
                     case "ru": return fetchedCategories.first(where: { category -> Bool in
@@ -96,7 +102,7 @@ class CategoriesViewModel {
             .subscribe()
             .disposed(by: bag)
         
-        firebaseService.categoryRemoved()
+        firebaseService.categoryDidRemoved()
             .do(onNext: { (category) in
                 coreDataService.removeCategoryFromCoredata(category)
             })
@@ -109,7 +115,7 @@ class CategoriesViewModel {
                     }
                 }
             })
-            .map { [weak self] _ -> [Category] in
+            .map { [weak self] _ -> [PhotoCategory] in
                 guard let self = self else { return [] }
                 return self.sortCategoriesWithLocale(fetchedCategories)
             }
@@ -117,7 +123,7 @@ class CategoriesViewModel {
             .disposed(by: bag)
     }
     
-    private func sortCategoriesWithLocale(_ categories: [Category]) -> [Category] {
+    private func sortCategoriesWithLocale(_ categories: [PhotoCategory]) -> [PhotoCategory] {
         var sortedCategories = categories
         
         if let language = Locale.current.languageCode {
