@@ -111,21 +111,22 @@ class MapViewModel {
         let _removePost = PublishSubject<PostAnnotation>()
         removePostTapped = _removePost.asObserver()
 
-        _ = firebaseService.categoryDidAdded()
+        firebaseService.categoryDidAdded()
             .flatMap { coreDataService.save(category: $0).andThen(Observable.just($0)) }
             .subscribe(onNext: { category in
                 print(category.engName)
             })
+            .disposed(by: disposebag)
         
         // I can add removed category to ignore list
-        _ = firebaseService.categoryDidRemoved()
-            .subscribe(onNext: { category in
-                coreDataService.removeCategoryFromCoredata(category)
-            })
+        firebaseService.categoryDidRemoved()
+            .flatMap { coreDataService.removeCategoryFromCoredata($0) }
+            .subscribe()
+            .disposed(by: disposebag)
         
         // Handle Error
         firebaseService.postDidRemoved()
-            .do(onNext: { coreDataService.removePostFromCoredata($0) })
+            .flatMap { coreDataService.removePostFromCoredata($0) }
             .subscribe(onNext: { _ in
                 _categories.onNext(Void())
             })
@@ -140,13 +141,19 @@ class MapViewModel {
         
         let defaults = UserDefaults.standard
         var visiblePosts = [PostAnnotation]()
-        
+
         // remove old posts then user connects to application
         _ = coreDataService.fetch(without: [])
-            .flatMap { firebaseService.removeOldPost(posts: $0) }
-            .do(onNext: { post in
-                coreDataService.removePostFromCoredata(post)
-            })
+            .flatMap { posts -> Observable<([PostAnnotation], [PostAnnotation])> in
+                return Observable.combineLatest(Observable.just(posts),
+                                         firebaseService.removeOldPost(posts: posts))
+            }
+            .map { coreDataPosts, firebasePosts -> [PostAnnotation] in
+                return coreDataPosts.filter { !firebasePosts.contains($0) }
+            }
+            .flatMap { Observable.from($0) }
+            .flatMap { coreDataService.removePostFromCoredata($0) }
+            .compactMap { $0 }
             .subscribe(onNext: { oldPost in
                 if visiblePosts.contains(oldPost) {
                     let index = visiblePosts.firstIndex(of: oldPost)!

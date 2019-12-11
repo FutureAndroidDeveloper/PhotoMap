@@ -25,3 +25,13 @@ struct ApplicationUser: Codable {
         self.email = email
     }
 }
+
+extension ApplicationUser: Equatable {
+    static func ==(lhs: ApplicationUser, rhs: ApplicationUser) -> Bool {
+        return lhs.email == rhs.email
+    }
+    
+    static func != (lhs: ApplicationUser, rhs: ApplicationUser) -> Bool {
+        return lhs.email != rhs.email
+    }
+}

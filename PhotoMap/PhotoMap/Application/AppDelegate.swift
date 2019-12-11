@@ -23,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         window = UIWindow()
         
+        
+        try? Auth.auth().signOut()
+        
 //        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 //        print(urls[urls.count-1] as URL)
         

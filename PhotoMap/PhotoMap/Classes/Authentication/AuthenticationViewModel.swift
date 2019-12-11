@@ -107,6 +107,9 @@ class AuthenticationViewModel {
         
         let accountData = Observable.combineLatest(_email, _password).share(replay: 1)
 
+        // TODO: - signInResult throws COMPLETED.
+        // after one click on the button, requests cease to be sent
+        
         //sing In
         let signInResult = _singIn.asObservable().withLatestFrom(accountData)
             .filter { validateService.isAccaoutDataValid($0.0, $0.1) }

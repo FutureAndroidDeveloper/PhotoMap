@@ -112,7 +112,7 @@ class FirebaseService: FirebaseCore, TestProtocol {
         return firebaseRemove.removeCategory(category)
     }
     
-    func removeOldPost(posts: [PostAnnotation]) -> Observable<PostAnnotation> {
+    func removeOldPost(posts: [PostAnnotation]) -> Observable<[PostAnnotation]> {
         return firebaseRemove.removeOldPost(posts: posts)
     }
     

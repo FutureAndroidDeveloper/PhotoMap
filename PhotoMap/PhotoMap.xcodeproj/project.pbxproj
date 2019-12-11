@@ -25,6 +25,8 @@
 		5917FD6E22FCBF6500D98225 /* CustomCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */; };
 		591C6DE22319AB8B00AB00B1 /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */; };
 		591EFB4723706326000062A9 /* DataBaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591EFB4623706326000062A9 /* DataBaseTest.swift */; };
+		59231EA423A0C8BE00BF7C33 /* FirebaseUploadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59231EA323A0C8BE00BF7C33 /* FirebaseUploadTests.swift */; };
+		59231EA623A0E24E00BF7C33 /* FirebaseDownloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59231EA523A0E24E00BF7C33 /* FirebaseDownloadTests.swift */; };
 		5929CC4622F0B6450089947C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4522F0B6450089947C /* AppDelegate.swift */; };
 		5929CC4822F0B6450089947C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5929CC4722F0B6450089947C /* MapViewController.swift */; };
 		5929CC4B22F0B6450089947C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5929CC4922F0B6450089947C /* Main.storyboard */; };
@@ -81,6 +83,7 @@
 		59ED5E8923173737000B53F6 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E8823173737000B53F6 /* CategoriesViewModel.swift */; };
 		59ED5E8C231737DC000B53F6 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ED5E8B231737DC000B53F6 /* CheckBox.swift */; };
 		59ED5E8E2317381D000B53F6 /* CheckBox.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59ED5E8D2317381D000B53F6 /* CheckBox.xib */; };
+		59EE3665239FB1BE00ED261B /* FirebaseAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EE3664239FB1BE00ED261B /* FirebaseAuthTests.swift */; };
 		59F238B823186DE50057A50C /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F238B723186DE50057A50C /* TimelineViewModel.swift */; };
 		59F44E3E232AF19C00943036 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F44E3D232AF19C00943036 /* AddCategoryViewController.swift */; };
 		59F44E40232AF24A00943036 /* AddCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F44E3F232AF24A00943036 /* AddCategoryViewModel.swift */; };
@@ -133,6 +136,8 @@
 		5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCalloutView.xib; sourceTree = "<group>"; };
 		591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
 		591EFB4623706326000062A9 /* DataBaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseTest.swift; sourceTree = "<group>"; };
+		59231EA323A0C8BE00BF7C33 /* FirebaseUploadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUploadTests.swift; sourceTree = "<group>"; };
+		59231EA523A0E24E00BF7C33 /* FirebaseDownloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownloadTests.swift; sourceTree = "<group>"; };
 		5929CC4222F0B6450089947C /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5929CC4522F0B6450089947C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5929CC4722F0B6450089947C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +200,7 @@
 		59ED5E8823173737000B53F6 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		59ED5E8B231737DC000B53F6 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		59ED5E8D2317381D000B53F6 /* CheckBox.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckBox.xib; sourceTree = "<group>"; };
+		59EE3664239FB1BE00ED261B /* FirebaseAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthTests.swift; sourceTree = "<group>"; };
 		59F238B723186DE50057A50C /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
 		59F44E3D232AF19C00943036 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
 		59F44E3F232AF24A00943036 /* AddCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewModel.swift; sourceTree = "<group>"; };
@@ -501,6 +507,16 @@
 			path = "Category CheckBox";
 			sourceTree = "<group>";
 		};
+		59EE3663239FB15100ED261B /* Integration */ = {
+			isa = PBXGroup;
+			children = (
+				59EE3664239FB1BE00ED261B /* FirebaseAuthTests.swift */,
+				59231EA323A0C8BE00BF7C33 /* FirebaseUploadTests.swift */,
+				59231EA523A0E24E00BF7C33 /* FirebaseDownloadTests.swift */,
+			);
+			path = Integration;
+			sourceTree = "<group>";
+		};
 		59F44E3C232AEC3600943036 /* Add Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,6 +542,7 @@
 		59FC6E972321BA4A00673513 /* PhotoMapTests */ = {
 			isa = PBXGroup;
 			children = (
+				59EE3663239FB15100ED261B /* Integration */,
 				59FC6E982321BA4A00673513 /* PhotoMapTests.swift */,
 				59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */,
 				59CEAC1623231557008D5B06 /* AuthenticationTest.swift */,
@@ -854,13 +871,16 @@
 				59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */,
 				595A3115239581F2008845C0 /* LocationServiceTests.swift in Sources */,
 				59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */,
+				59231EA623A0E24E00BF7C33 /* FirebaseDownloadTests.swift in Sources */,
 				59D1450C239A558200ABDF85 /* FirebaseSigInTests.swift in Sources */,
 				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
 				59D14513239A95C700ABDF85 /* UploadNewPostFirebaseTests.swift in Sources */,
 				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
+				59EE3665239FB1BE00ED261B /* FirebaseAuthTests.swift in Sources */,
 				59D1450E239A73A300ABDF85 /* FirebaseDownloadPostsInRegionTests.swift in Sources */,
 				59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */,
 				595A311323955FF0008845C0 /* PhotoLibaryServiceTests.swift in Sources */,
+				59231EA423A0C8BE00BF7C33 /* FirebaseUploadTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

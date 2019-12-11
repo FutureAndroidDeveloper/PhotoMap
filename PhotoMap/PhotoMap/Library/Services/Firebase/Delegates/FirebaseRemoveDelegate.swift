@@ -15,7 +15,7 @@ import RxFirebaseDatabase
 protocol FirebaseRemovable {
     func removeIncorrectPost(_ post: PostAnnotation) -> Observable<PostAnnotation>
     func removeCategory(_ category: PhotoCategory) -> Observable<PhotoCategory>
-    func removeOldPost(posts: [PostAnnotation]) -> Observable<PostAnnotation>
+    func removeOldPost(posts: [PostAnnotation]) -> Observable<[PostAnnotation]>
 }
 
 class FirebaseRemoveDelegate: FirebaseRemovable {
@@ -62,24 +62,18 @@ class FirebaseRemoveDelegate: FirebaseRemovable {
             .take(1)
     }
     
-    func removeOldPost(posts: [PostAnnotation]) -> Observable<PostAnnotation> {
-        return Observable.create { [weak self] observer in
-            guard let self = self else { return Disposables.create() }
-            
-            for post in posts {
-                _ = self.references.database.queryOrdered(byChild: "imageUrl")
-                    .queryEqual(toValue: post.imageUrl!).rx
-                    .observeSingleEvent(.value)
-                    .compactMap { $0.value as? [String: Any] }
-                    .map { _ in observer.onNext(post) }
+    // returns posts from FB using posts from Core Data for comparison
+    func removeOldPost(posts: [PostAnnotation]) -> Observable<[PostAnnotation]> {
+        return Observable.from(posts)
+            .flatMap { [weak self] post -> Observable<PostAnnotation> in
+                guard let self = self else { return .empty() }
+                return self.searchPostInBase(post: post)
             }
-            observer.onCompleted()
-            return Disposables.create()
-        }
+            .toArray()
+            .asObservable()
     }
     
-    
-    // remove image from FB
+    /// remove image from FB
     private func removeImage(for post: PostAnnotation) -> Completable {
         return Completable.create { [weak self] completable in
             guard let self = self else {
@@ -100,5 +94,15 @@ class FirebaseRemoveDelegate: FirebaseRemovable {
             }
             return Disposables.create()
         }
+    }
+    
+    /// get post from Firebase based on post from Coredata
+    private func searchPostInBase(post: PostAnnotation) -> Observable<PostAnnotation>{
+        return references.database.queryOrdered(byChild: "imageUrl")
+            .queryEqual(toValue: post.imageUrl!).rx
+            .observeSingleEvent(.value)
+            .compactMap { $0.value as? [String: Any] }
+            .map { _ in post }
+            .take(1)
     }
 }

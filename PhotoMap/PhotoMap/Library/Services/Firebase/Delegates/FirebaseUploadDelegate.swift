@@ -28,17 +28,22 @@ class FirebaseUploadDelegate: FirebaseUploading {
     func upload(post: PostAnnotation) -> Completable {
         return uploadImage(post: post, metadata: references.defaultMetadata)
             .flatMap { [weak self] url -> Observable<DatabaseReference> in
-                guard let self = self else { return .error(FirebaseError.badImage) }
-                
+                guard let self = self else { return .empty() }
                 post.imageUrl = url.absoluteString
                 let encoder = FirebaseEncoder()
                 encoder.dataEncodingStrategy = .custom { _, _  in return }
-                let data = try! encoder.encode(post)
-                return self.references.database.childByAutoId().rx
-                    .setValue(data).take(1)
+                
+                do {
+                    let data = try encoder.encode(post)
+                    return self.references.database.childByAutoId().rx
+                        .setValue(data).take(1)
+                } catch let error {
+                    // catch encoding error
+                    return .error(error)
+                }
             }
             .flatMap { [weak self] postReference -> Completable in
-                guard let self = self else { return .error(FirebaseError.badImage) }
+                guard let self = self else { return .empty() }
                 return self.setGeoInfo(for: post, with: postReference)
             }
             .asCompletable()
@@ -46,13 +51,14 @@ class FirebaseUploadDelegate: FirebaseUploading {
     
     /// upload image
     func uploadImage(post: PostAnnotation, metadata: StorageMetadata) -> Observable<URL> {
-        guard let imageData = post.image!.jpegData(compressionQuality: 0.75) else {
+        guard let imageData = post.image?.jpegData(compressionQuality: 0.75) else {
             return .error(FirebaseError.badImage)
         }
         
         let imageID = UUID().uuidString
         let imageRef = references.storage.child(post.category.lowercased()).child("\(imageID).jpg")
-        return imageRef.rx.putData(imageData, metadata: metadata)
+        return imageRef.rx
+            .putData(imageData, metadata: metadata)
             .flatMapLatest { _ in imageRef.rx.downloadURL() }
             .take(1)
     }
@@ -65,7 +71,8 @@ class FirebaseUploadDelegate: FirebaseUploading {
             do {
                 let encoder = FirebaseEncoder()
                 let data = try encoder.encode(category)
-                self.references.database.root.child("categories").childByAutoId().setValue(data)
+                self.references.database.root.child("categories")
+                    .childByAutoId().setValue(data)
                 completable(.completed)
             } catch {
                 completable(.error(error))
