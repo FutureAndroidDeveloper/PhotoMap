@@ -14,7 +14,7 @@ import FirebaseStorage.FIRStorageMetadata
 typealias FirebaseCore = FirebaseAuthentication & FirebaseDownloading
     & FirebaseUploading & FirebaseNotification & FirebaseRemovable
 
-protocol TestProtocol {
+protocol FirebaseDelegate {
     func setAuthDelegate(_ deleagte: FirebaseAuthentication)
     func setDownloadDelegate(_ deleagte: FirebaseDownloading)
     func setUploadDelegate(_ deleagte: FirebaseUploading)
@@ -22,9 +22,9 @@ protocol TestProtocol {
     func setRemoveDelegate(_ deleagte: FirebaseRemovable)
 }
 
-typealias FirebaseDeleagate = FirebaseCore & TestProtocol
+typealias FirebaseDeleagate = FirebaseCore & FirebaseDelegate
 
-class FirebaseService: FirebaseCore, TestProtocol {
+class FirebaseService: FirebaseCore, FirebaseDelegate {
     func setAuthDelegate(_ deleagte: FirebaseAuthentication) {
         firebaseAuth = deleagte
     }

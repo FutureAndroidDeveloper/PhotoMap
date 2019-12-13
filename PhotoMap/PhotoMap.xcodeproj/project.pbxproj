@@ -61,6 +61,21 @@
 		59BCB88E231F182F00C1DECA /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BCB88D231F182E00C1DECA /* R.generated.swift */; };
 		59BCB893231F193700C1DECA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59BCB895231F193700C1DECA /* Localizable.strings */; };
 		59BCB8A0231F666B00C1DECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59BCB8A2231F666B00C1DECA /* InfoPlist.strings */; };
+		59CB818D23A3824A0063C955 /* CategoryMarkerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB818C23A3824A0063C955 /* CategoryMarkerViewTests.swift */; };
+		59CB818F23A386460063C955 /* AddCategoryViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB818E23A386460063C955 /* AddCategoryViewModelTest.swift */; };
+		59CB819223A388F30063C955 /* MockCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB819123A388F30063C955 /* MockCoreData.swift */; };
+		59CB819423A389BC0063C955 /* MockUniquePostAlwaysTrue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB819323A389BC0063C955 /* MockUniquePostAlwaysTrue.swift */; };
+		59CB819723A38AC60063C955 /* MockFBUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB819623A38AC60063C955 /* MockFBUpload.swift */; };
+		59CB819B23A38C5D0063C955 /* FBAddNewCategoryErrorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB819A23A38C5D0063C955 /* FBAddNewCategoryErrorMock.swift */; };
+		59CB819D23A3939F0063C955 /* MockUniqueCategoryAlwaysTrue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB819C23A3939F0063C955 /* MockUniqueCategoryAlwaysTrue.swift */; };
+		59CB819F23A3A8980063C955 /* CheckBoxViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB819E23A3A8980063C955 /* CheckBoxViewTests.swift */; };
+		59CB81A123A3AC040063C955 /* CategoriesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB81A023A3AC040063C955 /* CategoriesViewModelTests.swift */; };
+		59CB81A423A3AE420063C955 /* MockFBNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB81A323A3AE420063C955 /* MockFBNotification.swift */; };
+		59CB81A723A3AEC60063C955 /* FBCategoryDidAddedMockArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB81A623A3AEC60063C955 /* FBCategoryDidAddedMockArray.swift */; };
+		59CB81AA23A3B18F0063C955 /* MockFBRemove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB81A923A3B18F0063C955 /* MockFBRemove.swift */; };
+		59CB81AD23A3C1BB0063C955 /* FBRemoveCategoryMockCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB81AC23A3C1BB0063C955 /* FBRemoveCategoryMockCategory.swift */; };
+		59CB81AF23A3C3B80063C955 /* MockRemoveCategoryFromCoredata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB81AE23A3C3B80063C955 /* MockRemoveCategoryFromCoredata.swift */; };
+		59CB81B223A3C4420063C955 /* FBCategoryDidRemovedMockCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CB81B123A3C4420063C955 /* FBCategoryDidRemovedMockCategory.swift */; };
 		59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */; };
 		59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1623231557008D5B06 /* AuthenticationTest.swift */; };
 		59CEAC1923231ABB008D5B06 /* ValidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CEAC1823231ABB008D5B06 /* ValidateService.swift */; };
@@ -181,6 +196,21 @@
 		59BCB898231F5E3400C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		59BCB8A1231F666B00C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		59BCB8A3231F666C00C1DECA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		59CB818C23A3824A0063C955 /* CategoryMarkerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMarkerViewTests.swift; sourceTree = "<group>"; };
+		59CB818E23A386460063C955 /* AddCategoryViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewModelTest.swift; sourceTree = "<group>"; };
+		59CB819123A388F30063C955 /* MockCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreData.swift; sourceTree = "<group>"; };
+		59CB819323A389BC0063C955 /* MockUniquePostAlwaysTrue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUniquePostAlwaysTrue.swift; sourceTree = "<group>"; };
+		59CB819623A38AC60063C955 /* MockFBUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFBUpload.swift; sourceTree = "<group>"; };
+		59CB819A23A38C5D0063C955 /* FBAddNewCategoryErrorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBAddNewCategoryErrorMock.swift; sourceTree = "<group>"; };
+		59CB819C23A3939F0063C955 /* MockUniqueCategoryAlwaysTrue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUniqueCategoryAlwaysTrue.swift; sourceTree = "<group>"; };
+		59CB819E23A3A8980063C955 /* CheckBoxViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxViewTests.swift; sourceTree = "<group>"; };
+		59CB81A023A3AC040063C955 /* CategoriesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModelTests.swift; sourceTree = "<group>"; };
+		59CB81A323A3AE420063C955 /* MockFBNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFBNotification.swift; sourceTree = "<group>"; };
+		59CB81A623A3AEC60063C955 /* FBCategoryDidAddedMockArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBCategoryDidAddedMockArray.swift; sourceTree = "<group>"; };
+		59CB81A923A3B18F0063C955 /* MockFBRemove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFBRemove.swift; sourceTree = "<group>"; };
+		59CB81AC23A3C1BB0063C955 /* FBRemoveCategoryMockCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBRemoveCategoryMockCategory.swift; sourceTree = "<group>"; };
+		59CB81AE23A3C3B80063C955 /* MockRemoveCategoryFromCoredata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRemoveCategoryFromCoredata.swift; sourceTree = "<group>"; };
+		59CB81B123A3C4420063C955 /* FBCategoryDidRemovedMockCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBCategoryDidRemovedMockCategory.swift; sourceTree = "<group>"; };
 		59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateServiceTest.swift; sourceTree = "<group>"; };
 		59CEAC1623231557008D5B06 /* AuthenticationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTest.swift; sourceTree = "<group>"; };
 		59CEAC1823231ABB008D5B06 /* ValidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateService.swift; sourceTree = "<group>"; };
@@ -439,6 +469,98 @@
 			path = "Custom View";
 			sourceTree = "<group>";
 		};
+		59CB818B23A381EB0063C955 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				59CB818C23A3824A0063C955 /* CategoryMarkerViewTests.swift */,
+				59CB818E23A386460063C955 /* AddCategoryViewModelTest.swift */,
+				59CB819E23A3A8980063C955 /* CheckBoxViewTests.swift */,
+				59CB81A023A3AC040063C955 /* CategoriesViewModelTests.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		59CB819023A388AB0063C955 /* CoreData Mock */ = {
+			isa = PBXGroup;
+			children = (
+				59CB819123A388F30063C955 /* MockCoreData.swift */,
+				59CB81AE23A3C3B80063C955 /* MockRemoveCategoryFromCoredata.swift */,
+				59CB819323A389BC0063C955 /* MockUniquePostAlwaysTrue.swift */,
+				59CB819C23A3939F0063C955 /* MockUniqueCategoryAlwaysTrue.swift */,
+			);
+			path = "CoreData Mock";
+			sourceTree = "<group>";
+		};
+		59CB819523A38A660063C955 /* Firebase Mock */ = {
+			isa = PBXGroup;
+			children = (
+				59CB81A823A3B1730063C955 /* Remove */,
+				59CB81A223A3AE270063C955 /* Notification */,
+				59CB819823A38BE30063C955 /* Upload */,
+			);
+			path = "Firebase Mock";
+			sourceTree = "<group>";
+		};
+		59CB819823A38BE30063C955 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				59CB819623A38AC60063C955 /* MockFBUpload.swift */,
+				59CB819923A38C420063C955 /* addNewCategoryMock */,
+			);
+			path = Upload;
+			sourceTree = "<group>";
+		};
+		59CB819923A38C420063C955 /* addNewCategoryMock */ = {
+			isa = PBXGroup;
+			children = (
+				59CB819A23A38C5D0063C955 /* FBAddNewCategoryErrorMock.swift */,
+			);
+			path = addNewCategoryMock;
+			sourceTree = "<group>";
+		};
+		59CB81A223A3AE270063C955 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				59CB81A323A3AE420063C955 /* MockFBNotification.swift */,
+				59CB81B023A3C4140063C955 /* categoryDidRemoved */,
+				59CB81A523A3AE7B0063C955 /* categoryDidAdded */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		59CB81A523A3AE7B0063C955 /* categoryDidAdded */ = {
+			isa = PBXGroup;
+			children = (
+				59CB81A623A3AEC60063C955 /* FBCategoryDidAddedMockArray.swift */,
+			);
+			path = categoryDidAdded;
+			sourceTree = "<group>";
+		};
+		59CB81A823A3B1730063C955 /* Remove */ = {
+			isa = PBXGroup;
+			children = (
+				59CB81A923A3B18F0063C955 /* MockFBRemove.swift */,
+				59CB81AB23A3C1980063C955 /* removeCategory */,
+			);
+			path = Remove;
+			sourceTree = "<group>";
+		};
+		59CB81AB23A3C1980063C955 /* removeCategory */ = {
+			isa = PBXGroup;
+			children = (
+				59CB81AC23A3C1BB0063C955 /* FBRemoveCategoryMockCategory.swift */,
+			);
+			path = removeCategory;
+			sourceTree = "<group>";
+		};
+		59CB81B023A3C4140063C955 /* categoryDidRemoved */ = {
+			isa = PBXGroup;
+			children = (
+				59CB81B123A3C4420063C955 /* FBCategoryDidRemovedMockCategory.swift */,
+			);
+			path = categoryDidRemoved;
+			sourceTree = "<group>";
+		};
 		59D14511239A88BD00ABDF85 /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -551,6 +673,9 @@
 		59FC6E972321BA4A00673513 /* PhotoMapTests */ = {
 			isa = PBXGroup;
 			children = (
+				59CB819523A38A660063C955 /* Firebase Mock */,
+				59CB819023A388AB0063C955 /* CoreData Mock */,
+				59CB818B23A381EB0063C955 /* Categories */,
 				59EE3663239FB15100ED261B /* Integration */,
 				59FC6E982321BA4A00673513 /* PhotoMapTests.swift */,
 				59CEAC1423230AEA008D5B06 /* DateServiceTest.swift */,
@@ -876,21 +1001,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59CB81AF23A3C3B80063C955 /* MockRemoveCategoryFromCoredata.swift in Sources */,
 				591EFB4723706326000062A9 /* DataBaseTest.swift in Sources */,
+				59CB819B23A38C5D0063C955 /* FBAddNewCategoryErrorMock.swift in Sources */,
+				59CB81A123A3AC040063C955 /* CategoriesViewModelTests.swift in Sources */,
 				59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */,
+				59CB819423A389BC0063C955 /* MockUniquePostAlwaysTrue.swift in Sources */,
+				59CB81AD23A3C1BB0063C955 /* FBRemoveCategoryMockCategory.swift in Sources */,
+				59CB81A423A3AE420063C955 /* MockFBNotification.swift in Sources */,
 				595A3115239581F2008845C0 /* LocationServiceTests.swift in Sources */,
+				59CB819723A38AC60063C955 /* MockFBUpload.swift in Sources */,
 				59B4449723A28FE500C3D118 /* FirebaseNotificationTests.swift in Sources */,
+				59CB81AA23A3B18F0063C955 /* MockFBRemove.swift in Sources */,
 				59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */,
 				59231EA623A0E24E00BF7C33 /* FirebaseDownloadTests.swift in Sources */,
+				59CB819D23A3939F0063C955 /* MockUniqueCategoryAlwaysTrue.swift in Sources */,
 				59B4449B23A2AE5D00C3D118 /* FirebaseRemoveTests.swift in Sources */,
+				59CB818F23A386460063C955 /* AddCategoryViewModelTest.swift in Sources */,
+				59CB81A723A3AEC60063C955 /* FBCategoryDidAddedMockArray.swift in Sources */,
+				59CB81B223A3C4420063C955 /* FBCategoryDidRemovedMockCategory.swift in Sources */,
 				59D1450C239A558200ABDF85 /* FirebaseSigInTests.swift in Sources */,
+				59CB818D23A3824A0063C955 /* CategoryMarkerViewTests.swift in Sources */,
 				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
+				59CB819F23A3A8980063C955 /* CheckBoxViewTests.swift in Sources */,
 				59B4449923A29ED700C3D118 /* FirebaseDownloadSinglePost.swift in Sources */,
 				59D14513239A95C700ABDF85 /* UploadNewPostFirebaseTests.swift in Sources */,
 				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
 				59EE3665239FB1BE00ED261B /* FirebaseAuthTests.swift in Sources */,
 				59D1450E239A73A300ABDF85 /* FirebaseDownloadPostsInRegionTests.swift in Sources */,
 				59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */,
+				59CB819223A388F30063C955 /* MockCoreData.swift in Sources */,
 				595A311323955FF0008845C0 /* PhotoLibaryServiceTests.swift in Sources */,
 				59231EA423A0C8BE00BF7C33 /* FirebaseUploadTests.swift in Sources */,
 			);

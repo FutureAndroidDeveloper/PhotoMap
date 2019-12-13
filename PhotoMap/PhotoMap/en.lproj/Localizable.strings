@@ -72,3 +72,5 @@
 
 // Error
 "data base duplicate" = "Trying to save duplicate to database";
+"invalid hex color" = "Wrong HEX color";
+"invalid name" = "Wrong Name";

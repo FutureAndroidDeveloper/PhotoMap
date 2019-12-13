@@ -69,7 +69,7 @@ class FirebaseDownloadPostsInRegionTests: XCTestCase {
         let expectedResult = [post]
         
         firebaseDownloadDelegate = MockFirebaseDownloadDelegate(mockPost: post)
-        coreDataService = MockCoreData()
+        coreDataService = MockUniquePostAlwaysTrue()
         
         viewModel = MapViewModel(photoLibraryService: photoLibraryService,
                                  locationService: locationService,
@@ -112,33 +112,3 @@ class MockFirebaseDownloadDelegate: FirebaseDownloading {
     }
 }
 
-
-class MockCoreData: DataBase {
-    func save(postAnnotation: PostAnnotation) -> Completable {
-        return .empty()
-    }
-    
-    func save(category: PhotoCategory) -> Completable {
-        return .empty()
-    }
-    
-    func fetch(without categories: [String]) -> Observable<[PostAnnotation]> {
-        return .empty()
-    }
-    
-    func fetch() -> Observable<[PhotoCategory]> {
-        return .empty()
-    }
-    
-    func removePostFromCoredata(_ post: PostAnnotation) -> Observable<PostAnnotation?> {
-        return .empty()
-    }
-    
-    func removeCategoryFromCoredata(_ category: PhotoCategory) -> Observable<PhotoCategory?> {
-        return .empty()
-    }
-    
-    func isUnique(postAnnotation: PostAnnotation) -> Bool {
-        return true
-    }
-}

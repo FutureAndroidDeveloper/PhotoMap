@@ -88,10 +88,6 @@ extension PostAnnotation {
         guard let object = object as? PostAnnotation else { return false }
         return self.imageUrl == object.imageUrl
     }
-    
-    func setLocalizedCategoryKey() {
-        category = category.localizedKey().uppercased()
-    }
 }
 
 extension CLLocationCoordinate2D: Codable {

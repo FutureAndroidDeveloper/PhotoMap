@@ -137,26 +137,6 @@ class CategoriesViewController: UIViewController, StoryboardInitializable {
     }
     
     // TODO: - To service or ViewModel?
-    // I DONT USE THIS METHOD!!!!
-    private func saveCategoriesState() {
-        let categories = categoriesStackView.subviews
-            .compactMap { $0 as? CheckBox}
-            .filter { !$0.isChecked }
-            .map { [weak self] checkBox -> String? in
-                guard let self = self else { return nil }
-                
-                let categoryName = checkBox.categoryLabel.text!.uppercased()
-                let category = self.categories.first { category -> Bool in
-                    category.engName.uppercased() == categoryName
-                        || category.ruName.uppercased() == categoryName
-                }
-                return category?.engName
-            }
-            .compactMap { $0 }
-        self.defaults.set(categories, forKey: "savedCategories")
-    }
-    
-    // TODO: - To service or ViewModel?
     private func updateCategoriesState() {
         var uncheckedCategories = defaults.object(forKey: "savedCategories") as? [String] ?? []
         let categories = categoriesStackView.subviews
@@ -253,21 +233,5 @@ extension CategoriesViewController: CheckBoxDelegate {
             self.present(removeAllert, animated: true, completion: nil)
             return Disposables.create()
         }
-    }
-}
-
-extension String {
-    /// Get key for localized string value
-    func localizedKey() -> String {
-        var resultKey = ""
-        let stringsPath = Bundle.main.path(forResource: "Localizable", ofType: "strings")
-        let dictionary = NSDictionary(contentsOfFile: stringsPath!) as! [String: String]
-        
-        dictionary.forEach { key, value in
-            if value == self.lowercased() {
-                resultKey = key
-            }
-        }
-        return resultKey
     }
 }

@@ -34,7 +34,7 @@ class AddCategoryViewModel {
     init(validateService: ValidateService = ValidateService(),
          firebaseService: FirebaseDeleagate = FirebaseService(),
          firebaseUploadDelegate: FirebaseUploading = FirebaseUploadDelegate(),
-         coreDataService: CoreDataService = CoreDataService(appDelegate:
+         coreDataService: DataBase = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
         
         firebaseService.setUploadDelegate(firebaseUploadDelegate)
@@ -81,7 +81,10 @@ class AddCategoryViewModel {
             .filter { $0 }
             .withLatestFrom(_addNewCategory)
             .compactMap { $0 }
-            .flatMap { firebaseService.addNewCategory($0) }
+            .flatMap { category -> Observable<Void> in
+                return firebaseService.addNewCategory(category)
+                    .andThen(Observable.just(Void()))
+            }
             .subscribe(onNext: { _ in
                 _isLoading.onNext(false)
             }, onError: { error in
@@ -112,7 +115,7 @@ class AddCategoryViewModel {
         
         hexError = isValidHex
             .filter { !$0.1 }
-            .map { _ in "Error" }
+            .map { _ in R.string.localizable.invalidHexColor() }
    
         let isEngCategoryValid = _engCategory
             .compactMap { $0 }
@@ -127,7 +130,7 @@ class AddCategoryViewModel {
         
         isEngCategoryValid
             .filter { !$0 }
-            .map { _ in "Error" }
+            .map { _ in R.string.localizable.invalidName() }
             .bind(to: _engCategoryError)
             .disposed(by: bag)
         
@@ -144,7 +147,7 @@ class AddCategoryViewModel {
         
         isRuCategoryValid
             .filter { !$0 }
-            .map { _ in "Error" }
+            .map { _ in R.string.localizable.invalidName() }
             .bind(to: _ruCategoryError)
             .disposed(by: bag)
         

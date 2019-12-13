@@ -27,7 +27,7 @@ class CategoriesViewModel {
     init(firebaseService: FirebaseDeleagate = FirebaseService(),
          firebaseNotificationDelegate: FirebaseNotification = FirebaseNotificationDelegate(),
          firebaseRemoveDelegate: FirebaseRemovable = FirebaseRemoveDelegate(),
-         coreDataService: CoreDataService = CoreDataService(appDelegate:
+         coreDataService: DataBase = CoreDataService(appDelegate:
         UIApplication.shared.delegate as! AppDelegate)) {
         
         firebaseService.setNotificationDelegate(firebaseNotificationDelegate)
@@ -53,7 +53,8 @@ class CategoriesViewModel {
         let _removeCategory = PublishSubject<String>()
         removeCategory = _removeCategory.asObserver()
         
-        let search = Observable.combineLatest(_searchText, _categories).share(replay: 1, scope: .whileConnected)
+        let search = Observable.combineLatest(_searchText, _categories)
+            .share(replay: 1, scope: .whileConnected)
             
         search
             .filter { !$0.0.isEmpty }
@@ -87,12 +88,10 @@ class CategoriesViewModel {
             .map { categoryName -> PhotoCategory? in
                 if let language = Locale.current.languageCode {
                     switch language {
-                    case "ru": return fetchedCategories.first(where: { category -> Bool in
-                        return category.ruName.uppercased() == categoryName
-                    })
-                    default: return fetchedCategories.first(where: { category -> Bool in
-                        return category.engName.uppercased() == categoryName
-                    })
+                    case "ru":
+                        return fetchedCategories.first() { $0.ruName.uppercased() == categoryName }
+                    default:
+                        return fetchedCategories.first() { $0.engName.uppercased() == categoryName }
                     }
                 }
                 return nil
@@ -103,9 +102,8 @@ class CategoriesViewModel {
             .disposed(by: bag)
         
         firebaseService.categoryDidRemoved()
-            .do(onNext: { (category) in
-                coreDataService.removeCategoryFromCoredata(category)
-            })
+            .flatMap { coreDataService.removeCategoryFromCoredata($0) }
+            .compactMap { $0 }
             .do(onNext: { removedCategory in
                 for category in fetchedCategories {
                     if category == removedCategory {

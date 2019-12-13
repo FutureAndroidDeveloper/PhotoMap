@@ -72,3 +72,5 @@
 
 // Error
 "data base duplicate" = "Попытка сохранить дубликат в базу данных";
+"invalid hex color" = "Неправильный HEX цвета";
+"invalid name" = "Неправильное Название";
