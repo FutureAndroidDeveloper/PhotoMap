@@ -34,10 +34,12 @@ class SignUpViewModel {
     
     init(firebaseService: FirebaseDeleagate = FirebaseService(),
          firebaseAuthDelegate: FirebaseAuthentication = FirebaseAuthDelegate(),
+         firebaseUploadDelegate: FirebaseUploading = FirebaseUploadDelegate(),
          validateService: ValidateService = ValidateService(),
          isHidden: Bool = true) {
         
         firebaseService.setAuthDelegate(firebaseAuthDelegate)
+        firebaseService.setUploadDelegate(firebaseUploadDelegate)
         
         let _tappedShowPassword = PublishSubject<Void>()
         tappedShowPassword = _tappedShowPassword.asObserver()
@@ -82,6 +84,9 @@ class SignUpViewModel {
         
         let _repeatPasswordEditingDidEnd = PublishSubject<String>()
         repeatPasswordEditingDidEnd = _repeatPasswordEditingDidEnd.asObserver()
+        
+        let _created = PublishSubject<Void>()
+        create = _created.asObserver()
         
         _emailEditingDidEnd
             .filter { email in
@@ -166,19 +171,20 @@ class SignUpViewModel {
             .flatMap { email, password, _ in
                 firebaseService.createUser(withEmail: email, password: password)
             }
+            .catchErrorJustReturn(.init(id: String(), email: String()))
             .share(replay: 1)
         
         signUpResult
-            .catchError { error -> Observable<ApplicationUser> in
-                return Observable.just(ApplicationUser(id: error.localizedDescription,
-                                                       email: error.localizedDescription))
-            }
-            .map { $0.email }
+            .filter { $0.email.isEmpty }
+            .map { _ in "Sign Up Error" }
             .bind(to: _error)
             .disposed(by: bag)
         
-        create = signUpResult
-            .take(1)
+        signUpResult
+            .filter { !$0.email.isEmpty }
+            .flatMap { firebaseService.save($0) }
             .map { _ in Void() }
+            .bind(to: _created)
+            .disposed(by: bag)
     }
 }

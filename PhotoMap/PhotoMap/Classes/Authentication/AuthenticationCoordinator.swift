@@ -16,6 +16,11 @@ class AuthenticationCoordinator: BaseCoordinator<Void> {
     
     init(window: UIWindow) {
         self.window = window
+        
+//        guard let nav = window.rootViewController as? UINavigationController else {
+//            navigationController = UINavigationController
+//        }
+        
         navigationController = window.rootViewController as! UINavigationController
         navigationController.isNavigationBarHidden = true
         IQKeyboardManager.shared.enable = true
@@ -29,10 +34,11 @@ class AuthenticationCoordinator: BaseCoordinator<Void> {
         navigationController.pushViewController(authController, animated: true)
         window.makeKeyAndVisible()
 
-        let signUp = viewModel.signUp.flatMap { [weak self] _ -> Observable<Bool?> in
-            guard let self = self else { return .empty() }
-            return self.showSignUpViewController()
-        }
+        let signUp = viewModel.signUp
+            .flatMap { [weak self] _ -> Observable<Bool?> in
+                guard let self = self else { return .empty() }
+                return self.showSignUpViewController()
+            }
             .filter { $0 != nil }
             .map { _ in return Void() }
         

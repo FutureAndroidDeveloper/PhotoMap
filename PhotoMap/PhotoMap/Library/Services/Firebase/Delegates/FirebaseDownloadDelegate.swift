@@ -90,7 +90,9 @@ class FirebaseDownloadDelegate: FirebaseDownloading {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
-            self.references.database.root.child("categories").observeSingleEvent(of: .value, with: { snapshot in
+            self.references.database.root
+                .child("categories")
+                .observeSingleEvent(of: .value, with: { snapshot in
                 guard let value = snapshot.value as? [AnyHashable: [String: Any]] else { return }
                 let jsonCategories = value.map { $1 }
                 do {

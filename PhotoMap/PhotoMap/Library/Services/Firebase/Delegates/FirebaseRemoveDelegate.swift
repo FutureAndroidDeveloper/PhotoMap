@@ -41,7 +41,8 @@ class FirebaseRemoveDelegate: FirebaseRemovable {
                 guard let self = self else { return .empty() }
                 return self.removeImage(for: post)
             }
-            .map { _ in post }
+            .asCompletable()
+            .andThen(Observable.just(post))
             .take(1)
     }
     
@@ -50,6 +51,7 @@ class FirebaseRemoveDelegate: FirebaseRemovable {
             .queryOrdered(byChild: "hexColor")
             .queryEqual(toValue: category.hexColor).rx
             .observeEvent(.value)
+            .take(1)
             .flatMap { [weak self] snapshot -> Observable<DatabaseReference> in
                 guard let self = self else { return .empty() }
                 guard let value = snapshot.value as? [String: Any] else {

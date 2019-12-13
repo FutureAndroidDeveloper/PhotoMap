@@ -23,7 +23,7 @@ class CoreDataService: DataBase {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
             if !self.isUnique(postAnnotation: postAnnotation) {
-                completable(.error(CoreDataError.duplicate(type: PostAnnotation.self)))
+                completable(.completed)
                 return Disposables.create()
             }
             let managedContext = self.appDelegate.persistentContainer.viewContext
@@ -54,7 +54,7 @@ class CoreDataService: DataBase {
         return Completable.create { [weak self] completable in
             guard let self = self else { return Disposables.create() }
             if !self.isUnique(category: category) {
-                completable(.error(CoreDataError.duplicate(type: PhotoCategory.self)))
+                completable(.completed)
                 return Disposables.create()
             }
             

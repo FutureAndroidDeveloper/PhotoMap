@@ -214,6 +214,7 @@ class MapViewModel {
         let lastLocation = _location.sample(_post)
         
         Observable.zip(_post, lastLocation)
+            .distinctUntilChanged { $0.0 }
             .flatMap { (post, location) -> Observable<PostAnnotation> in
                 post.coordinate = location.coordinate
                 return firebaseService.upload(post: post)

@@ -55,6 +55,9 @@
 		599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599F5B4B2327175F000188E0 /* SignupTest.swift */; };
 		59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AB5660238EE0BB0076EBE3 /* TimelineTest.swift */; };
 		59ABFBEC231055F000C938AD /* PostClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59ABFBEB231055F000C938AD /* PostClusterView.swift */; };
+		59B4449723A28FE500C3D118 /* FirebaseNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B4449623A28FE500C3D118 /* FirebaseNotificationTests.swift */; };
+		59B4449923A29ED700C3D118 /* FirebaseDownloadSinglePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B4449823A29ED700C3D118 /* FirebaseDownloadSinglePost.swift */; };
+		59B4449B23A2AE5D00C3D118 /* FirebaseRemoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B4449A23A2AE5D00C3D118 /* FirebaseRemoveTests.swift */; };
 		59BCB88E231F182F00C1DECA /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BCB88D231F182E00C1DECA /* R.generated.swift */; };
 		59BCB893231F193700C1DECA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59BCB895231F193700C1DECA /* Localizable.strings */; };
 		59BCB8A0231F666B00C1DECA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59BCB8A2231F666B00C1DECA /* InfoPlist.strings */; };
@@ -168,6 +171,9 @@
 		599F5B4B2327175F000188E0 /* SignupTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTest.swift; sourceTree = "<group>"; };
 		59AB5660238EE0BB0076EBE3 /* TimelineTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTest.swift; sourceTree = "<group>"; };
 		59ABFBEB231055F000C938AD /* PostClusterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostClusterView.swift; sourceTree = "<group>"; };
+		59B4449623A28FE500C3D118 /* FirebaseNotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseNotificationTests.swift; sourceTree = "<group>"; };
+		59B4449823A29ED700C3D118 /* FirebaseDownloadSinglePost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownloadSinglePost.swift; sourceTree = "<group>"; };
+		59B4449A23A2AE5D00C3D118 /* FirebaseRemoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRemoveTests.swift; sourceTree = "<group>"; };
 		59BCB88D231F182E00C1DECA /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		59BCB890231F18F400C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		59BCB894231F193700C1DECA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -510,9 +516,12 @@
 		59EE3663239FB15100ED261B /* Integration */ = {
 			isa = PBXGroup;
 			children = (
+				59B4449823A29ED700C3D118 /* FirebaseDownloadSinglePost.swift */,
 				59EE3664239FB1BE00ED261B /* FirebaseAuthTests.swift */,
 				59231EA323A0C8BE00BF7C33 /* FirebaseUploadTests.swift */,
 				59231EA523A0E24E00BF7C33 /* FirebaseDownloadTests.swift */,
+				59B4449623A28FE500C3D118 /* FirebaseNotificationTests.swift */,
+				59B4449A23A2AE5D00C3D118 /* FirebaseRemoveTests.swift */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
@@ -870,10 +879,13 @@
 				591EFB4723706326000062A9 /* DataBaseTest.swift in Sources */,
 				59CEAC1723231557008D5B06 /* AuthenticationTest.swift in Sources */,
 				595A3115239581F2008845C0 /* LocationServiceTests.swift in Sources */,
+				59B4449723A28FE500C3D118 /* FirebaseNotificationTests.swift in Sources */,
 				59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */,
 				59231EA623A0E24E00BF7C33 /* FirebaseDownloadTests.swift in Sources */,
+				59B4449B23A2AE5D00C3D118 /* FirebaseRemoveTests.swift in Sources */,
 				59D1450C239A558200ABDF85 /* FirebaseSigInTests.swift in Sources */,
 				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
+				59B4449923A29ED700C3D118 /* FirebaseDownloadSinglePost.swift in Sources */,
 				59D14513239A95C700ABDF85 /* UploadNewPostFirebaseTests.swift in Sources */,
 				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
 				59EE3665239FB1BE00ED261B /* FirebaseAuthTests.swift in Sources */,

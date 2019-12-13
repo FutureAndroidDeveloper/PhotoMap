@@ -155,7 +155,7 @@ class AuthenticationTest: XCTestCase {
             .disposed(by: bag)
         
         scheduler.createColdObservable([
-            .next(10, "user@mail.com")
+            .next(10, "admin@mail.com")
             ])
             .bind(to: viewModel.email)
             .disposed(by: bag)

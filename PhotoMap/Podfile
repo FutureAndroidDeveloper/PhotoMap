@@ -47,6 +47,7 @@ target 'PhotoMap' do
   target 'PhotoMapTests' do
     pod 'RxTest'
     pod 'RxBlocking'
+pod 'Firebase'
   end
 
 end
