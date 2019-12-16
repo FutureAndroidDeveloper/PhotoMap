@@ -19,6 +19,13 @@ class TimelineTest: XCTestCase {
     var scheduler: TestScheduler!
     var bag = DisposeBag()
     
+    // MARK: - MOCK
+    // firebaseService.downloadUserPosts()
+    // firebaseDownloadDelegate: FirebaseDownloading
+    
+    // coreDataService.fetch()
+    
+    
     override func setUp() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let firebaseService = FirebaseService()

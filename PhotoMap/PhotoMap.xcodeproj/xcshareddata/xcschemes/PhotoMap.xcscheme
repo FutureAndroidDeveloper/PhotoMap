@@ -50,31 +50,16 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "AuthenticationTest">
+                  Identifier = "DataBaseTest">
                </Test>
                <Test
-                  Identifier = "FirebaseAuthTests">
-               </Test>
-               <Test
-                  Identifier = "FirebaseDownloadTests">
-               </Test>
-               <Test
-                  Identifier = "LocationServiceTests">
-               </Test>
-               <Test
-                  Identifier = "PhotoLibaryServiceTests">
-               </Test>
-               <Test
-                  Identifier = "PhotoMapTests">
-               </Test>
-               <Test
-                  Identifier = "SignupTest">
+                  Identifier = "FirebaseSigInTests">
                </Test>
                <Test
                   Identifier = "SignupTest/testCorrectSignUp()">
                </Test>
                <Test
-                  Identifier = "UploadNewPostFirebaseTests">
+                  Identifier = "TimelineTest">
                </Test>
             </SkippedTests>
          </TestableReference>

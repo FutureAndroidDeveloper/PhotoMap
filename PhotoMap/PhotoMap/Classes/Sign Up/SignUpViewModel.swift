@@ -164,7 +164,6 @@ class SignUpViewModel {
             .disposed(by: bag)
 
         let accountData = Observable.combineLatest(_email, _password, _repeatPassword).share(replay: 1)
-        
         // Create
         let signUpResult = _create.asObservable().withLatestFrom(accountData)
             .filter { validateService.isAccaoutDataValid($0.0, $0.1, $0.2) }
@@ -176,7 +175,7 @@ class SignUpViewModel {
         
         signUpResult
             .filter { $0.email.isEmpty }
-            .map { _ in "Sign Up Error" }
+            .map { _ in R.string.localizable.duplicateEmail() }
             .bind(to: _error)
             .disposed(by: bag)
         

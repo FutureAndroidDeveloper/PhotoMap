@@ -74,3 +74,4 @@
 "data base duplicate" = "Trying to save duplicate to database";
 "invalid hex color" = "Wrong HEX color";
 "invalid name" = "Wrong Name";
+"duplicate email" = "The email address is already in use by another account.";

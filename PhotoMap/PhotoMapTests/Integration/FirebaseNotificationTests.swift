@@ -110,13 +110,12 @@ class FirebaseNotificationTests: XCTestCase {
         
         let removedCategory = scheduler.createObserver(PhotoCategory.self)
         let expectation = XCTestExpectation(description: "added category")
-        
+                
         firebaseNotification
             .categoryDidAdded()
-            .take(1)
-            .do(onNext: { _ in expectation.fulfill() })
             .bind(to: removedCategory)
             .disposed(by: bag)
+        
         
         firebaseUpload
             .addNewCategory(category)
@@ -125,13 +124,11 @@ class FirebaseNotificationTests: XCTestCase {
                 guard let self = self else { return .empty() }
                 return self.firebaseRemove.removeCategory(category)
             }
+            .do(onNext: { _ in expectation.fulfill() })
             .subscribe()
             .disposed(by: bag)
         
         wait(for: [expectation], timeout: 20)
-        XCTAssertEqual(removedCategory.events, [
-            .next(0, category),
-            .completed(0)
-        ])
+        XCTAssertTrue(removedCategory.events.contains(.next(0, category)))
     }
 }

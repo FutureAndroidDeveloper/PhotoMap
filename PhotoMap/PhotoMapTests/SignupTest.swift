@@ -166,7 +166,7 @@ class SignupTest: XCTestCase {
     
     func testSignUpError() throws {
         let errorMessage = scheduler.createObserver(String.self)
-        let expectedErrorMessage = "The email address is already in use by another account."
+        let expectedErrorMessage = R.string.localizable.duplicateEmail()
         
         viewModel.error
             .bind(to: errorMessage)

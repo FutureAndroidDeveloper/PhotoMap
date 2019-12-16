@@ -18,17 +18,20 @@ import CoreLocation.CLLocation
 
 class FirebaseUploadTests: XCTestCase {
     var firebaseUpload: FirebaseUploading!
+    var firebaseRemove: FirebaseRemovable!
     var scheduler: TestScheduler!
     var bag: DisposeBag!
     
     override func setUp() {
         firebaseUpload = FirebaseUploadDelegate()
+        firebaseRemove = FirebaseRemoveDelegate()
         scheduler = TestScheduler(initialClock: 0)
         bag = DisposeBag()
     }
 
     override func tearDown() {
         firebaseUpload = nil
+        firebaseRemove = nil
         // I have to manually delete the test ones: category, post, user and photo
     }
 
@@ -38,14 +41,28 @@ class FirebaseUploadTests: XCTestCase {
         let image = R.image.authentication.clear()!
         let post = PostAnnotation(image: image, date: 0, hexColor: "test", category: "test", postDescription: "test", userId: "test")
         
+        let savedUmageUrl = scheduler.createObserver(String.self)
         let expectedResult = "https://firebasestorage.googleapis.com/"
-
-        XCTAssertEqual(try firebaseUpload
-            .uploadImage(post: post, metadata: metadata)                // upload image
-            .map { $0.absoluteString.prefix(expectedResult.count) }     // get URL protocol + domain
+        let expectation = XCTestExpectation(description: "remove saved image")
+        
+        firebaseUpload
+            .uploadImage(post: post, metadata: metadata)
+            .flatMap { [weak self] savedImageUrl -> Observable<String> in
+                guard let self = self else { return .empty() }
+                post.imageUrl = savedImageUrl.absoluteString
+                return self.removeImage(for: post)
+            }
+            .map { $0.prefix(expectedResult.count) }     // get URL protocol + domain
             .compactMap { String($0) }
-            .toBlocking()
-            .first(), expectedResult)
+            .do(onNext: { _ in expectation.fulfill() })
+            .bind(to: savedUmageUrl)
+            .disposed(by: bag)
+        
+        wait(for: [expectation], timeout: 20)
+        XCTAssertEqual(savedUmageUrl.events, [
+            .next(0, expectedResult),
+            .completed(0)
+        ])
     }
     
     func testUploadImageWithEmptyPostReturnError() {
@@ -68,22 +85,28 @@ class FirebaseUploadTests: XCTestCase {
     // MARK: - upload Tests
     func testUploadPostIsSuccess() {
         let image = R.image.authentication.clear()!
-        let post = PostAnnotation(image: image, date: 0, hexColor: "test", category: "test", postDescription: "test", userId: "test")
+        let post = PostAnnotation(image: image, date: 0, hexColor: "test",
+                                  category: "test", postDescription: "test", userId: "test")
         
-        let result = scheduler.createObserver(Never.self)
-        let expectation = XCTestExpectation(description: "complited")
+        let savedPost = scheduler.createObserver(PostAnnotation.self)
+        let expectation = XCTestExpectation(description: "remove saved post")
         
         firebaseUpload
             .upload(post: post)
-            .asObservable()
-            .do(onCompleted: {
-                expectation.fulfill()
-            })
-            .bind(to: result)
+            .andThen(Observable.just(post))
+            .flatMap { [weak self] savedPost -> Observable<PostAnnotation> in
+                guard let self = self else { return .empty() }
+                return self.firebaseRemove.removeIncorrectPost(savedPost)
+            }
+            .do(onNext: { _ in expectation.fulfill() })
+            .bind(to: savedPost)
             .disposed(by: bag)
         
         wait(for: [expectation], timeout: 15)
-        XCTAssertEqual(result.events, [.completed(0)])
+        XCTAssertEqual(savedPost.events, [
+            .next(0, post),
+            .completed(0)
+        ])
     }
     
     
@@ -91,29 +114,75 @@ class FirebaseUploadTests: XCTestCase {
     func testAddNewCategoryIsSuccess() {
         let category = PhotoCategory(hexColor: "test", engName: "test", ruName: "test")
         
-        let result = scheduler.createObserver(Never.self)
+        let savedCategory = scheduler.createObserver(PhotoCategory.self)
+        let expectation = XCTestExpectation(description: "remove saved category")
         
         firebaseUpload
             .addNewCategory(category)
-            .asObservable()
-            .bind(to: result)
+            .andThen(Observable.just(category))
+            .flatMap { [weak self] savedCategory -> Observable<PhotoCategory> in
+                guard let self = self else { return .empty() }
+                return self.firebaseRemove.removeCategory(savedCategory)
+            }
+            .do(onNext: { _ in expectation.fulfill() })
+            .bind(to: savedCategory)
             .disposed(by: bag)
         
-        XCTAssertEqual(result.events, [.completed(0)])
+        wait(for: [expectation], timeout: 20)
+        XCTAssertEqual(savedCategory.events, [
+            .next(0, category),
+            .completed(0)
+        ])
     }
     
     
     // MARK: - save Tests
     func testSaveUserIsSuccess() {
         let user = ApplicationUser(id: "test", email: "test")
-        let result = scheduler.createObserver(Never.self)
+        
+        let savedUser = scheduler.createObserver(ApplicationUser.self)
+        let expectation = XCTestExpectation(description: "remove saved user")
         
         firebaseUpload
             .save(user)
-            .asObservable()
-            .bind(to: result)
+            .andThen(Observable.just(user))
+            .flatMap { [weak self] savedUser -> Observable<ApplicationUser> in
+                guard let self = self else { return .empty() }
+                return self.removeUserFromFirebaseDatabase(savedUser)
+            }
+            .do(onNext: { _ in expectation.fulfill() })
+            .bind(to: savedUser)
             .disposed(by: bag)
         
-        XCTAssertEqual(result.events, [.completed(0)])
+        wait(for: [expectation], timeout: 20)
+        XCTAssertEqual(savedUser.events, [
+            .next(0, user),
+            .completed(0)
+        ])
+    }
+    
+    
+    // MARK: - Private Methods
+    private func removeUserFromFirebaseDatabase(_ user: ApplicationUser) -> Observable<ApplicationUser> {
+        return FirebaseReferences.shared.database.root
+            .child("users")
+            .child(user.id).rx
+            .removeValue()
+            .map { _ in user }
+            .take(1)
+    }
+    
+    private func removeImage(for post: PostAnnotation) -> Observable<String> {
+        let mainString = post.imageUrl!.split(separator: "/").last!
+        let startIndex = mainString.index(mainString.startIndex, offsetBy: post.category.count + 3)
+        let endIndex = mainString.firstIndex(of: "?")!
+        let imageName = String(mainString[startIndex..<endIndex])
+            
+        return FirebaseReferences.shared.storage
+            .child(post.category.lowercased())
+            .child(imageName).rx
+            .delete()
+            .compactMap { post.imageUrl }
+            .take(1)
     }
 }
