@@ -32,20 +32,11 @@ class AuthenticationTest: XCTestCase {
     
     func testEnteredEmailChangesErrorMessage() {
         let errorMessage = scheduler.createObserver(String.self)
-        var expectedErrorMessage = String()
+        let expectedErrorMessage = R.string.localizable.invalidEmail()
         
         viewModel.emailError
             .bind(to: errorMessage)
             .disposed(by: bag)
-        
-        if let language = Locale.current.languageCode {
-            switch language {
-            case "ru":
-                expectedErrorMessage = "Неправильная эл.почта"
-            default:
-                expectedErrorMessage = "Invalid email"
-            }
-        }
 
         scheduler.createColdObservable([
             .next(10, "invalidEmail"),
@@ -124,7 +115,7 @@ class AuthenticationTest: XCTestCase {
             .disposed(by: bag)
         
         scheduler.createColdObservable([
-            .next(10, "user@mail.com")                                      // replace to NORMAL EMAIL
+            .next(10, "admin@mail.com")                                      // replace to NORMAL EMAIL
             ])
             .bind(to: viewModel.email)
             .disposed(by: bag)

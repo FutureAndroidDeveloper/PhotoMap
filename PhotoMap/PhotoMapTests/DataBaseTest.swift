@@ -22,7 +22,6 @@ class DataBaseTest: XCTestCase {
     var bag = DisposeBag()
     
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
         appDelegate = (UIApplication.shared.delegate as! AppDelegate)
         dataBase = CoreDataService(appDelegate: appDelegate)
         scheduler = TestScheduler(initialClock: 0)

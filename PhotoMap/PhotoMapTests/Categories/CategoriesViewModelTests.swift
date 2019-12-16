@@ -107,11 +107,10 @@ class CategoriesViewModelTests: XCTestCase {
     }
     
     
-    // MARK: - categories Test
-    
-    // продебажить во viewmodel, как отрабатывают моки
+    // MARK: - categoryDidRemoved Test
     func testRemovedCategoryRemoveFromAllCategories() {
-        let categories = createCategories(count: 4)
+        let categoriesCount = 4
+        let categories = createCategories(count: categoriesCount)
         let removaedCategory = categories.last!
         
         firebaseNotification = FBCategoryDidRemovedMockCategory(categories: categories,
@@ -127,19 +126,83 @@ class CategoriesViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "removed post")
         let expectedResult = Array(categories.dropLast())
         
-        viewModel.categories
+        let fetchedCategories = viewModel.categories
+            .share(replay: 1, scope: .whileConnected)
+        
+        fetchedCategories
+            .take(1)
+            .map { _ in return Void() }
+            .bind(to: (firebaseNotification as! FBCategoryDidRemovedMockCategory)
+                .emmitRemovedCategorySignal)
+            .disposed(by: bag)
+        
+        fetchedCategories
+            .takeLast(1)
             .do(onNext: { _ in
                 expectation.fulfill()
             })
             .bind(to: resultCategories)
             .disposed(by: bag)
         
+        wait(for: [expectation], timeout: 20)
+        XCTAssertEqual(resultCategories.events, [
+            .next(0, expectedResult),
+            .completed(0)
+        ])
+    }
+    
+    // MARK: - removeCategory Test
+    func testRemovedCategoryDidTappedRemoveCategooryFromFB() {
+        let categoriesCount = 4
+        let categories = createCategories(count: categoriesCount)
+        let removaedCategory = categories.last!
+        
+        firebaseNotification = FBCategoryDidRemovedMockCategory(categories: categories,
+                                                                removedCategory: removaedCategory)
+        firebaseRemove = FBRemoveCategoryMockCategory()
+        coreDataService = MockRemoveCategoryFromCoredata()
+        viewModel = CategoriesViewModel(firebaseService: firebaseService,
+                                        firebaseNotificationDelegate: firebaseNotification,
+                                        firebaseRemoveDelegate: firebaseRemove,
+                                        coreDataService: coreDataService)
+        
+        let resultCategories = scheduler.createObserver([PhotoCategory].self)
+        let expectation = XCTestExpectation(description: "removed post")
+        let expectedResult = Array(categories.dropLast())
+        
+        let fetchedCategories = viewModel.categories
+            .share(replay: 1, scope: .whileConnected)
+        
+        fetchedCategories
+            .take(1)
+            .map { _ in return Void() }
+            .bind(to: (firebaseNotification as! FBCategoryDidRemovedMockCategory)
+                .emmitRemovedCategorySignal)
+            .disposed(by: bag)
+        
+        fetchedCategories
+            .takeLast(1)
+            .do(onNext: { _ in
+                expectation.fulfill()
+            })
+            .bind(to: resultCategories)
+            .disposed(by: bag)
+        
+        scheduler.createColdObservable([
+            .next(0, removaedCategory.engName)
+            ])
+            .bind(to: viewModel.removeCategory)
+            .disposed(by: bag)
+        
+        scheduler.start()
         
         wait(for: [expectation], timeout: 20)
         XCTAssertEqual(resultCategories.events, [
-            .next(0, expectedResult)
+            .next(0, expectedResult),
+            .completed(0)
         ])
     }
+    
     
     // MARK: - Private Methods
     private func createCategories(count: Int) -> [PhotoCategory] {

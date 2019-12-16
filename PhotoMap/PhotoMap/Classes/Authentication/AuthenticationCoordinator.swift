@@ -16,12 +16,11 @@ class AuthenticationCoordinator: BaseCoordinator<Void> {
     
     init(window: UIWindow) {
         self.window = window
-        
-//        guard let nav = window.rootViewController as? UINavigationController else {
-//            navigationController = UINavigationController
-//        }
-        
-        navigationController = window.rootViewController as! UINavigationController
+        if let navController = window.rootViewController as? UINavigationController {
+            navigationController = navController
+        } else {
+            navigationController = UINavigationController()
+        }
         navigationController.isNavigationBarHidden = true
         IQKeyboardManager.shared.enable = true
     }

@@ -120,6 +120,7 @@
 		59FEEF9022F26EE6004178AC /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF8F22F26EE6004178AC /* UIImagePickerController+Rx.swift */; };
 		59FEEF9222F27BD0004178AC /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FEEF9122F27BD0004178AC /* MapViewModel.swift */; };
 		6D1EA8D621E01ABA6C7FC786 /* Pods_PhotoMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 236D2E662717BED2B4D9A9EC /* Pods_PhotoMap.framework */; };
+		D1208E8123A68F01000EBDEA /* CoreDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1208E8023A68F01000EBDEA /* CoreDataTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -258,6 +259,7 @@
 		59FEEF9122F27BD0004178AC /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		AF14625D30BD6AF469CB2B55 /* Pods_PhotoMap_PhotoMapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoMap_PhotoMapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD69C4753C329D6D88A1504 /* Pods-PhotoMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.debug.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.debug.xcconfig"; sourceTree = "<group>"; };
+		D1208E8023A68F01000EBDEA /* CoreDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -673,6 +675,8 @@
 		59FC6E972321BA4A00673513 /* PhotoMapTests */ = {
 			isa = PBXGroup;
 			children = (
+				D1208E7F23A68EA6000EBDEA /* CoreData */,
+				D1853E4623A54FCB00445EC7 /* Full Photo */,
 				59CB819523A38A660063C955 /* Firebase Mock */,
 				59CB819023A388AB0063C955 /* CoreData Mock */,
 				59CB818B23A381EB0063C955 /* Categories */,
@@ -709,6 +713,21 @@
 				AF14625D30BD6AF469CB2B55 /* Pods_PhotoMap_PhotoMapTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D1208E7F23A68EA6000EBDEA /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				D1208E8023A68F01000EBDEA /* CoreDataTests.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		D1853E4623A54FCB00445EC7 /* Full Photo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Full Photo";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1030,6 +1049,7 @@
 				59EE3665239FB1BE00ED261B /* FirebaseAuthTests.swift in Sources */,
 				59D1450E239A73A300ABDF85 /* FirebaseDownloadPostsInRegionTests.swift in Sources */,
 				59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */,
+				D1208E8123A68F01000EBDEA /* CoreDataTests.swift in Sources */,
 				59CB819223A388F30063C955 /* MockCoreData.swift in Sources */,
 				595A311323955FF0008845C0 /* PhotoLibaryServiceTests.swift in Sources */,
 				59231EA423A0C8BE00BF7C33 /* FirebaseUploadTests.swift in Sources */,
