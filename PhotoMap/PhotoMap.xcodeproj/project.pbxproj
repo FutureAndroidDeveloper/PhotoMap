@@ -21,8 +21,11 @@
 		590B676222F1040A00D439B0 /* MoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676122F1040A00D439B0 /* MoreCoordinator.swift */; };
 		590B676422F1053400D439B0 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676322F1053400D439B0 /* AppCoordinator.swift */; };
 		590B676722F115EA00D439B0 /* CLLocationManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */; };
+		5914FE7623A7C43800F0705F /* TimeLineIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5914FE7523A7C43800F0705F /* TimeLineIntegrationTests.swift */; };
 		5917FD6C22FCBF4200D98225 /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */; };
 		5917FD6E22FCBF6500D98225 /* CustomCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */; };
+		591B02B723A7E22D0003A52C /* MapIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591B02B623A7E22D0003A52C /* MapIntegrationTests.swift */; };
+		591B02BA23A7E6340003A52C /* MockFBDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591B02B923A7E6340003A52C /* MockFBDownload.swift */; };
 		591C6DE22319AB8B00AB00B1 /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */; };
 		591EFB4723706326000062A9 /* DataBaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591EFB4623706326000062A9 /* DataBaseTest.swift */; };
 		59231EA423A0C8BE00BF7C33 /* FirebaseUploadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59231EA323A0C8BE00BF7C33 /* FirebaseUploadTests.swift */; };
@@ -151,8 +154,11 @@
 		590B676122F1040A00D439B0 /* MoreCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCoordinator.swift; sourceTree = "<group>"; };
 		590B676322F1053400D439B0 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		590B676622F115EA00D439B0 /* CLLocationManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Rx.swift"; sourceTree = "<group>"; };
+		5914FE7523A7C43800F0705F /* TimeLineIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineIntegrationTests.swift; sourceTree = "<group>"; };
 		5917FD6B22FCBF4200D98225 /* CustomCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
 		5917FD6D22FCBF6500D98225 /* CustomCalloutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCalloutView.xib; sourceTree = "<group>"; };
+		591B02B623A7E22D0003A52C /* MapIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapIntegrationTests.swift; sourceTree = "<group>"; };
+		591B02B923A7E6340003A52C /* MockFBDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFBDownload.swift; sourceTree = "<group>"; };
 		591C6DE12319AB8B00AB00B1 /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
 		591EFB4623706326000062A9 /* DataBaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseTest.swift; sourceTree = "<group>"; };
 		59231EA323A0C8BE00BF7C33 /* FirebaseUploadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUploadTests.swift; sourceTree = "<group>"; };
@@ -361,6 +367,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		5914FE7423A7C40E00F0705F /* Integration Tests */ = {
+			isa = PBXGroup;
+			children = (
+				5914FE7523A7C43800F0705F /* TimeLineIntegrationTests.swift */,
+				591B02B623A7E22D0003A52C /* MapIntegrationTests.swift */,
+			);
+			path = "Integration Tests";
+			sourceTree = "<group>";
+		};
 		5917FD6A22FCBD4F00D98225 /* Annotation */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +386,14 @@
 				59ABFBEB231055F000C938AD /* PostClusterView.swift */,
 			);
 			path = Annotation;
+			sourceTree = "<group>";
+		};
+		591B02B823A7E61E0003A52C /* Download */ = {
+			isa = PBXGroup;
+			children = (
+				591B02B923A7E6340003A52C /* MockFBDownload.swift */,
+			);
+			path = Download;
 			sourceTree = "<group>";
 		};
 		5929CC3922F0B6450089947C = {
@@ -496,6 +519,7 @@
 		59CB819523A38A660063C955 /* Firebase Mock */ = {
 			isa = PBXGroup;
 			children = (
+				591B02B823A7E61E0003A52C /* Download */,
 				59CB81A823A3B1730063C955 /* Remove */,
 				59CB81A223A3AE270063C955 /* Notification */,
 				59CB819823A38BE30063C955 /* Upload */,
@@ -675,6 +699,7 @@
 		59FC6E972321BA4A00673513 /* PhotoMapTests */ = {
 			isa = PBXGroup;
 			children = (
+				5914FE7423A7C40E00F0705F /* Integration Tests */,
 				D1208E7F23A68EA6000EBDEA /* CoreData */,
 				D1853E4623A54FCB00445EC7 /* Full Photo */,
 				59CB819523A38A660063C955 /* Firebase Mock */,
@@ -1035,11 +1060,13 @@
 				59AB5661238EE0BB0076EBE3 /* TimelineTest.swift in Sources */,
 				59231EA623A0E24E00BF7C33 /* FirebaseDownloadTests.swift in Sources */,
 				59CB819D23A3939F0063C955 /* MockUniqueCategoryAlwaysTrue.swift in Sources */,
+				5914FE7623A7C43800F0705F /* TimeLineIntegrationTests.swift in Sources */,
 				59B4449B23A2AE5D00C3D118 /* FirebaseRemoveTests.swift in Sources */,
 				59CB818F23A386460063C955 /* AddCategoryViewModelTest.swift in Sources */,
 				59CB81A723A3AEC60063C955 /* FBCategoryDidAddedMockArray.swift in Sources */,
 				59CB81B223A3C4420063C955 /* FBCategoryDidRemovedMockCategory.swift in Sources */,
 				59D1450C239A558200ABDF85 /* FirebaseSigInTests.swift in Sources */,
+				591B02B723A7E22D0003A52C /* MapIntegrationTests.swift in Sources */,
 				59CB818D23A3824A0063C955 /* CategoryMarkerViewTests.swift in Sources */,
 				599F5B4C2327175F000188E0 /* SignupTest.swift in Sources */,
 				59CB819F23A3A8980063C955 /* CheckBoxViewTests.swift in Sources */,
@@ -1047,6 +1074,7 @@
 				59D14513239A95C700ABDF85 /* UploadNewPostFirebaseTests.swift in Sources */,
 				59FC6E992321BA4A00673513 /* PhotoMapTests.swift in Sources */,
 				59EE3665239FB1BE00ED261B /* FirebaseAuthTests.swift in Sources */,
+				591B02BA23A7E6340003A52C /* MockFBDownload.swift in Sources */,
 				59D1450E239A73A300ABDF85 /* FirebaseDownloadPostsInRegionTests.swift in Sources */,
 				59CEAC1523230AEA008D5B06 /* DateServiceTest.swift in Sources */,
 				D1208E8123A68F01000EBDEA /* CoreDataTests.swift in Sources */,

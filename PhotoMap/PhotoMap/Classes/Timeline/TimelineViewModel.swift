@@ -156,7 +156,7 @@ class TimelineViewModel {
         return resultPosts
     }
     
-    private func buildSections(posts: [PostAnnotation]) -> Observable<[SectionOfPostAnnotation]> {
+    public func buildSections(posts: [PostAnnotation]) -> Observable<[SectionOfPostAnnotation]> {
         sectionData.removeAll()
         for post in posts {
             let sectionTitle = dateService.getMonthAndYear(timestamp: post.date)
@@ -166,12 +166,10 @@ class TimelineViewModel {
                 sectionData[sectionTitle] = [post]
             }
         }
-        
-        let sections = sectionData.map { sectionTitle, sectionPosts in
-            SectionOfPostAnnotation(header: sectionTitle, items: sectionPosts)
-        }
         // Sections sorted by date
-        return Observable.just(sections.sorted { $0 > $1 })
+        return Observable.just(sectionData
+            .map(SectionOfPostAnnotation.init)
+            .sorted(by: >))
     }
 }
 
